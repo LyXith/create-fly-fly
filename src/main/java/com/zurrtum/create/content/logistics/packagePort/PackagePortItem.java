@@ -1,5 +1,6 @@
 package com.zurrtum.create.content.logistics.packagePort;
 
+import net.minecraft.world.item.context.BlockPlaceContext;
 import com.zurrtum.create.infrastructure.packet.s2c.PackagePortPlacementRequestPacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
@@ -18,7 +19,17 @@ public class PackagePortItem extends BlockItem {
     }
 
     @Override
-    protected boolean updateCustomBlockEntityTag(
+    protected boolean placeBlock(BlockPlaceContext context, BlockState state) {
+        if (!super.placeBlock(context, state)) {
+            return false;
+        }
+        Level level = context.getLevel();
+        BlockPos pos = context.getClickedPos();
+        onBlockPlaced(pos, level, context.getPlayer(), context.getItemInHand(), level.getBlockState(pos));
+        return true;
+    }
+
+    protected boolean onBlockPlaced(
         BlockPos pos,
         Level world,
         @Nullable Player player,
@@ -28,7 +39,7 @@ public class PackagePortItem extends BlockItem {
         if (!world.isClientSide() && player instanceof ServerPlayer sp) {
             sp.connection.send(new PackagePortPlacementRequestPacket(pos));
         }
-        return super.updateCustomBlockEntityTag(pos, world, player, p_195943_4_, p_195943_5_);
+        return BlockItem.updateCustomBlockEntityTag(world, player, pos, p_195943_4_);
     }
 
 }

@@ -146,13 +146,13 @@ public class PackageEntity extends LivingEntity {
 
         Vec3 clientPos = position().add(motion);
         if (isInterpolating()) {
-            clientPos = VecHelper.lerp(Math.min(1, tickCount / 20.0f), clientPos, getInterpolation().position());
+            clientPos = VecHelper.lerp(Math.min(1, tickCount / 20.0f), clientPos, getInterpolation().target().position());
         }
         if (tickCount < 5) {
             setPos(clientPos.x, clientPos.y, clientPos.z);
         }
         if (tickCount < 20) {
-            getInterpolation().interpolateTo(clientPos, getYRot(), getXRot());
+            getInterpolation().interpolateTo(PositionPath.of(clientPos), getYRot(), getXRot(), false);
         }
     }
 

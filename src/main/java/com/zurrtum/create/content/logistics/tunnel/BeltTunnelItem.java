@@ -36,14 +36,24 @@ public class BeltTunnelItem extends BlockItem {
     }
 
     @Override
-    protected boolean updateCustomBlockEntityTag(
+    protected boolean placeBlock(BlockPlaceContext context, BlockState state) {
+        if (!super.placeBlock(context, state)) {
+            return false;
+        }
+        Level level = context.getLevel();
+        BlockPos pos = context.getClickedPos();
+        onBlockPlaced(pos, level, context.getPlayer(), context.getItemInHand(), level.getBlockState(pos));
+        return true;
+    }
+
+    protected boolean onBlockPlaced(
         BlockPos pos,
         Level world,
         @Nullable Player p_195943_3_,
         ItemStack p_195943_4_,
         BlockState state
     ) {
-        boolean flag = super.updateCustomBlockEntityTag(pos, world, p_195943_3_, p_195943_4_, state);
+        boolean flag = BlockItem.updateCustomBlockEntityTag(world, p_195943_3_, pos, p_195943_4_);
         if (!world.isClientSide()) {
             BeltBlockEntity belt = BeltHelper.getSegmentBE(world, pos.below());
             if (belt != null && belt.casing == CasingType.NONE) {

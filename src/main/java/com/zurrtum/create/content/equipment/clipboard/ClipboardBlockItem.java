@@ -1,5 +1,6 @@
 package com.zurrtum.create.content.equipment.clipboard;
 
+import net.minecraft.world.item.context.BlockPlaceContext;
 import com.zurrtum.create.AllClientHandle;
 import com.zurrtum.create.AllDataComponents;
 import com.zurrtum.create.foundation.recipe.ItemCopyingRecipe.SupportsItemCopying;
@@ -37,7 +38,17 @@ public class ClipboardBlockItem extends BlockItem implements SupportsItemCopying
     }
 
     @Override
-    protected boolean updateCustomBlockEntityTag(
+    protected boolean placeBlock(BlockPlaceContext context, BlockState state) {
+        if (!super.placeBlock(context, state)) {
+            return false;
+        }
+        Level level = context.getLevel();
+        BlockPos pos = context.getClickedPos();
+        onBlockPlaced(pos, level, context.getPlayer(), context.getItemInHand(), level.getBlockState(pos));
+        return true;
+    }
+
+    protected boolean onBlockPlaced(
         BlockPos pPos,
         Level pLevel,
         @Nullable Player pPlayer,

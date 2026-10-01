@@ -424,7 +424,7 @@ public abstract class AbstractContraptionEntity extends Entity {
         if (level().isClientSide()) {
             InterpolationHandler interpolator = living.getInterpolation();
             if (interpolator != null) {
-                interpolator.interpolationData.steps = 0;
+                interpolator.cancel();
             }
             living.lerpHeadTo(0, 0);
             living.setYRot(angle);

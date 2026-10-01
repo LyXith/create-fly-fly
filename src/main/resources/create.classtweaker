@@ -8,7 +8,6 @@ accessible class net/minecraft/client/resources/model/BlockStateModelLoader$Load
 accessible class net/minecraft/client/resources/model/cuboid/CuboidModelElement$Deserializer
 accessible class net/minecraft/client/resources/model/ModelBakery$ModelBakerImpl
 accessible class net/minecraft/client/resources/model/ModelManager$ResolvedModels
-accessible class net/minecraft/world/clock/ServerClockManager$ClockInstance
 accessible class net/minecraft/world/entity/vehicle/minecart/NewMinecartBehavior$TrackIteration
 accessible class net/minecraft/world/item/alchemy/PotionBrewing$Mix
 accessible class net/minecraft/world/item/CreativeModeTab$Output
@@ -94,12 +93,9 @@ accessible field net/minecraft/server/network/ServerGamePacketListenerImpl above
 accessible field net/minecraft/SystemReport JAVA_VERSION Ljava/lang/String;
 accessible field net/minecraft/SystemReport OPERATING_SYSTEM Ljava/lang/String;
 accessible field net/minecraft/util/LightCoordsUtil MAX_SMOOTH_LIGHT_LEVEL I
-accessible field net/minecraft/world/clock/ServerClockManager$ClockInstance timeMarkers Ljava/util/Map;
-accessible field net/minecraft/world/clock/ServerClockManager$ClockInstance totalTicks J
+accessible field net/minecraft/world/clock/ServerClockManager$ServerClockInstance timeMarkers Ljava/util/Map;
 accessible field net/minecraft/world/entity/Entity DATA_POSE Lnet/minecraft/network/syncher/EntityDataAccessor;
 accessible field net/minecraft/world/entity/Entity removalReason Lnet/minecraft/world/entity/Entity$RemovalReason;
-accessible field net/minecraft/world/entity/InterpolationHandler interpolationData Lnet/minecraft/world/entity/InterpolationHandler$InterpolationData;
-accessible field net/minecraft/world/entity/InterpolationHandler$InterpolationData steps I
 accessible field net/minecraft/world/entity/item/ItemEntity age I
 accessible field net/minecraft/world/entity/LivingEntity lastEquipmentItems Ljava/util/Map;
 accessible field net/minecraft/world/entity/Mob targetSelector Lnet/minecraft/world/entity/ai/goal/GoalSelector;
@@ -179,7 +175,6 @@ accessible method net/minecraft/server/level/ServerLevel getEntities ()Lnet/mine
 accessible method net/minecraft/server/level/ServerPlayer initMenu (Lnet/minecraft/world/inventory/AbstractContainerMenu;)V
 accessible method net/minecraft/server/level/ServerPlayer nextContainerCounter ()V
 accessible method net/minecraft/server/level/ServerPlayerGameMode setGameModeForPlayer (Lnet/minecraft/world/level/GameType;Lnet/minecraft/world/level/GameType;)V
-accessible method net/minecraft/world/clock/ServerClockManager getInstance (Lnet/minecraft/core/Holder;)Lnet/minecraft/world/clock/ServerClockManager$ClockInstance;
 accessible method net/minecraft/world/entity/animal/parrot/Parrot setVariant (Lnet/minecraft/world/entity/animal/parrot/Parrot$Variant;)V
 accessible method net/minecraft/world/entity/decoration/ItemFrame getFrameItemStack ()Lnet/minecraft/world/item/ItemStack;
 accessible method net/minecraft/world/entity/Entity markHurt ()V

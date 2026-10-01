@@ -41,7 +41,17 @@ public class ItemVaultItem extends BlockItem {
     }
 
     @Override
-    protected boolean updateCustomBlockEntityTag(
+    protected boolean placeBlock(BlockPlaceContext context, BlockState state) {
+        if (!super.placeBlock(context, state)) {
+            return false;
+        }
+        Level level = context.getLevel();
+        BlockPos pos = context.getClickedPos();
+        onBlockPlaced(pos, level, context.getPlayer(), context.getItemInHand(), level.getBlockState(pos));
+        return true;
+    }
+
+    protected boolean onBlockPlaced(
         BlockPos blockPos,
         Level level,
         @Nullable Player player,
@@ -64,7 +74,7 @@ public class ItemVaultItem extends BlockItem {
                 TypedEntityData.of(((IBE<?>) getBlock()).getBlockEntityType(), nbt)
             );
         }
-        return super.updateCustomBlockEntityTag(blockPos, level, player, itemStack, blockState);
+        return BlockItem.updateCustomBlockEntityTag(level, player, blockPos, itemStack);
     }
 
     private void tryMultiPlace(BlockPlaceContext ctx) {

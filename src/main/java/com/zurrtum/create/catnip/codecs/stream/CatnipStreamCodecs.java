@@ -41,15 +41,16 @@ public interface CatnipStreamCodecs {
         Function.identity(),
         tag -> (CompoundTag) tag
     );
+    StreamCodec<ByteBuf, ListTag> COMPOUND_LIST_TAG_BASE = ByteBufCodecs.collection(size -> new ListTag(), COMPOUND_AS_TAG);
     StreamCodec<FriendlyByteBuf, ListTag> COMPOUND_LIST_TAG = new StreamCodec<>() {
         @Override
         public ListTag decode(FriendlyByteBuf buffer) {
-            return buffer.readCollection(size -> new ListTag(), COMPOUND_AS_TAG);
+            return COMPOUND_LIST_TAG_BASE.decode(buffer);
         }
 
         @Override
         public void encode(FriendlyByteBuf buffer, ListTag value) {
-            buffer.writeCollection(value, COMPOUND_AS_TAG);
+            COMPOUND_LIST_TAG_BASE.encode(buffer, value);
         }
     };
     StreamCodec<ByteBuf, BlockState> BLOCK_STATE = ByteBufCodecs.idMapper(Block.BLOCK_STATE_REGISTRY);

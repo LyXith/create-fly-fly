@@ -46,14 +46,24 @@ public class FactoryPanelBlockItem extends LogisticallyLinkedBlockItem {
     }
 
     @Override
-    protected boolean updateCustomBlockEntityTag(
+    protected boolean placeBlock(BlockPlaceContext context, BlockState state) {
+        if (!super.placeBlock(context, state)) {
+            return false;
+        }
+        Level level = context.getLevel();
+        BlockPos pos = context.getClickedPos();
+        onBlockPlaced(pos, level, context.getPlayer(), context.getItemInHand(), level.getBlockState(pos));
+        return true;
+    }
+
+    protected boolean onBlockPlaced(
         BlockPos pos,
         Level level,
         @Nullable Player player,
         ItemStack stack,
         BlockState state
     ) {
-        return super.updateCustomBlockEntityTag(pos, level, player, fixCtrlCopiedStack(stack), state);
+        return BlockItem.updateCustomBlockEntityTag(level, player, pos, fixCtrlCopiedStack(stack));
     }
 
     public static ItemStack fixCtrlCopiedStack(ItemStack stack) {

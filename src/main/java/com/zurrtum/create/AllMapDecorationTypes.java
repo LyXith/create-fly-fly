@@ -25,8 +25,6 @@ public class AllMapDecorationTypes {
         MapDecorationType mapDecorationType = new MapDecorationType(
             key,
             showOnItemFrame,
-            mapColor,
-            explorationMapElement,
             trackCount
         );
         return Registry.registerForHolder(BuiltInRegistries.MAP_DECORATION_TYPE, registryKey, mapDecorationType);
