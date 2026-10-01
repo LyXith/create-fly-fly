@@ -42,7 +42,8 @@ jobs:
           cp=$(echo "$jars" | paste -sd: -)
           for j in $jars; do unzip -Z1 "$j" | grep '\.class$' ; done | sed 's/\.class$//' | sort -u > /tmp/ci/classes.txt || true
           sed 's#/#.#g' /tmp/ci/classes.txt | grep -v 'package-info' > /tmp/all-classes.txt
-          javap -p -cp "$cp" @/tmp/all-classes.txt 2>/dev/null | gzip -9 > /tmp/ci/javap-all.txt.gz || true
+          (xargs -a /tmp/all-classes.txt -n 300 javap -p -cp "$cp" 2>/tmp/ci/javap-errors.txt || true) | gzip -9 > /tmp/ci/javap-all.txt.gz
+          tail -c 2000 /tmp/ci/javap-errors.txt > /tmp/ci/javap-errors-tail.txt; rm -f /tmp/ci/javap-errors.txt
       - name: Publish build log to the ci-logs branch
         if: always()
         shell: bash
