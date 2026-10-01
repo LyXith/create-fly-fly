@@ -27,7 +27,6 @@ public class ControlsBlock extends HorizontalDirectionalBlock implements IWrench
     public static final BooleanProperty OPEN = BooleanProperty.create("open");
     public static final BooleanProperty VIRTUAL = BooleanProperty.create("virtual");
 
-    public static final MapCodec<ControlsBlock> CODEC = simpleCodec(ControlsBlock::new);
 
     public ControlsBlock(Properties p_54120_) {
         super(p_54120_);
@@ -89,8 +88,4 @@ public class ControlsBlock extends HorizontalDirectionalBlock implements IWrench
         return AllShapes.CONTROLS_COLLISION.get(pState.getValue(FACING));
     }
 
-    @Override
-    protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
-        return CODEC;
-    }
 }

@@ -44,7 +44,6 @@ public class DisplayLinkBlock extends WrenchableDirectionalBlock implements IBE<
 
     public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
 
-    public static final MapCodec<DisplayLinkBlock> CODEC = simpleCodec(DisplayLinkBlock::new);
 
     public DisplayLinkBlock(Properties p_i48415_1_) {
         super(p_i48415_1_);
@@ -217,8 +216,4 @@ public class DisplayLinkBlock extends WrenchableDirectionalBlock implements IBE<
         return AllBlockEntityTypes.DISPLAY_LINK;
     }
 
-    @Override
-    protected MapCodec<? extends DirectionalBlock> codec() {
-        return CODEC;
-    }
 }

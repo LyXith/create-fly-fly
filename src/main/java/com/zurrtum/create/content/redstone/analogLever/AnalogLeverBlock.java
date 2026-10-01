@@ -35,7 +35,6 @@ import java.util.function.Function;
 
 public class AnalogLeverBlock extends FaceAttachedHorizontalDirectionalBlock implements IBE<AnalogLeverBlockEntity> {
 
-    public static final MapCodec<AnalogLeverBlock> CODEC = simpleCodec(AnalogLeverBlock::new);
     private final Function<BlockState, VoxelShape> shapeFunction;
 
     public AnalogLeverBlock(Properties p_i48402_1_) {
@@ -161,8 +160,4 @@ public class AnalogLeverBlock extends FaceAttachedHorizontalDirectionalBlock imp
         return false;
     }
 
-    @Override
-    protected MapCodec<? extends FaceAttachedHorizontalDirectionalBlock> codec() {
-        return CODEC;
-    }
 }

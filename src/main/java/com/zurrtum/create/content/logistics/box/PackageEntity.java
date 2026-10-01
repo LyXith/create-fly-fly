@@ -121,11 +121,6 @@ public class PackageEntity extends LivingEntity {
     }
 
     @Override
-    public boolean canSimulateMovement() {
-        return true;
-    }
-
-    @Override
     public boolean isEffectiveAi() {
         return true;
     }

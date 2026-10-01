@@ -81,7 +81,7 @@ public class PlacementOffset {
             return (BlockPos) pos;
         }
 
-        return new BlockPos(pos);
+        return new BlockPos(pos.getX(), pos.getY(), pos.getZ());
     }
 
     public Function<BlockState, BlockState> getTransform() {
@@ -102,7 +102,7 @@ public class PlacementOffset {
             return false;
         }
 
-        return world.getBlockState(new BlockPos(pos)).canBeReplaced();
+        return world.getBlockState(new BlockPos(pos.getX(), pos.getY(), pos.getZ())).canBeReplaced();
     }
 
     public InteractionResult placeInWorld(Level world, BlockItem blockItem, Player player, InteractionHand hand) {
@@ -115,7 +115,7 @@ public class PlacementOffset {
             return InteractionResult.SUCCESS;
         }
 
-        BlockPos newPos = new BlockPos(pos);
+        BlockPos newPos = new BlockPos(pos.getX(), pos.getY(), pos.getZ());
         ItemStack stackBefore = player.getItemInHand(hand).copy();
 
         if (!world.mayInteract(player, newPos)) {

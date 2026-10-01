@@ -18,6 +18,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Prediction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -49,7 +50,6 @@ public class PlacardBlock extends FaceAttachedHorizontalDirectionalBlock impleme
 
     public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
 
-    public static final MapCodec<PlacardBlock> CODEC = simpleCodec(PlacardBlock::new);
 
     public PlacardBlock(Properties p_53182_) {
         super(p_53182_);
@@ -215,7 +215,7 @@ public class PlacardBlock extends FaceAttachedHorizontalDirectionalBlock impleme
                 if (heldItem.isEmpty()) {
                     return;
                 }
-                pPlayer.getInventory().placeItemBackInInventory(heldItem);
+                pPlayer.getInventory().placeItemBackInInventory(heldItem, Prediction.SERVER_ONLY);
                 pLevel.playSound(null, pPos, SoundEvents.ITEM_FRAME_REMOVE_ITEM, SoundSource.BLOCKS, 1, 1);
                 pte.setHeldItem(ItemStack.EMPTY);
             }
@@ -247,9 +247,5 @@ public class PlacardBlock extends FaceAttachedHorizontalDirectionalBlock impleme
         return AllBlockEntityTypes.PLACARD;
     }
 
-    @Override
-    protected MapCodec<? extends FaceAttachedHorizontalDirectionalBlock> codec() {
-        return CODEC;
-    }
 
 }

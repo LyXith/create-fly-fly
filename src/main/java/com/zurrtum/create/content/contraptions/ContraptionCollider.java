@@ -272,7 +272,7 @@ public class ContraptionCollider {
                 playerType
             );
 
-            entity.hurtMarked = true;
+            entity.markHurt();
             Vec3 contactPointMotion;
 
             if (surfaceCollision) {

@@ -317,7 +317,7 @@ public class FluidFillingBehaviour extends FluidManipulationBehaviour {
             Blocks.SUGAR_CANE) && !pState.is(Blocks.BUBBLE_COLUMN)) {
             if (!pState.is(Blocks.NETHER_PORTAL) && !pState.is(Blocks.END_PORTAL) && !pState.is(Blocks.END_GATEWAY) && !pState.is(
                 Blocks.STRUCTURE_VOID)) {
-                return !pState.blocksMotion();
+                return !pState.isSolid();
             }
             return false;
         }

@@ -46,7 +46,6 @@ public class ElevatorContactBlock extends WrenchableDirectionalBlock implements 
     public static final BooleanProperty CALLING = BooleanProperty.create("calling");
     public static final BooleanProperty POWERING = BrassDiodeBlock.POWERING;
 
-    public static final MapCodec<ElevatorContactBlock> CODEC = simpleCodec(ElevatorContactBlock::new);
 
     public ElevatorContactBlock(Properties pProperties) {
         super(pProperties);
@@ -287,8 +286,4 @@ public class ElevatorContactBlock extends WrenchableDirectionalBlock implements 
         return state.getValue(POWERING) ? 10 : 0;
     }
 
-    @Override
-    protected MapCodec<? extends DirectionalBlock> codec() {
-        return CODEC;
-    }
 }

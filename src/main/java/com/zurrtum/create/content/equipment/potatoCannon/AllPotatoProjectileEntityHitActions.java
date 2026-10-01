@@ -169,7 +169,7 @@ public class AllPotatoProjectileEntityHitActions {
                 //                EntityTeleportEvent.ChorusFruit event = EventHooks.onChorusFruitTeleport(livingEntity, teleportX, teleportY, teleportZ);
                 //                if (event.isCanceled())
                 //                    return false;
-                if (livingEntity.randomTeleport(teleportX, teleportY, teleportZ, true)) {
+                if (livingEntity.randomTeleport(teleportX, teleportY, teleportZ, true, state -> state.isSolid())) {
                     if (livingEntity.isPassenger()) {
                         livingEntity.stopRiding();
                     }

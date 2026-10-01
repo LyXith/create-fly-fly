@@ -52,7 +52,6 @@ public class FluidPipeBlock extends PipeBlock implements SimpleWaterloggedBlock,
 
     private static final VoxelShape OCCLUSION_BOX = box(4, 4, 4, 12, 12, 12);
 
-    public static final MapCodec<FluidPipeBlock> CODEC = simpleCodec(FluidPipeBlock::new);
 
     public FluidPipeBlock(Properties properties) {
         super(8.0f, properties);
@@ -441,8 +440,4 @@ public class FluidPipeBlock extends PipeBlock implements SimpleWaterloggedBlock,
         return FluidPipeBlockRotation.transform(state, transform);
     }
 
-    @Override
-    protected MapCodec<? extends PipeBlock> codec() {
-        return CODEC;
-    }
 }

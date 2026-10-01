@@ -359,7 +359,7 @@ public class BlockHelper {
                 .getLevel(enchantmentRegistry.getOrThrow(Enchantments.SILK_TOUCH)) == 0) {
                 if (!world.environmentAttributes().getValue(EnvironmentAttributes.WATER_EVAPORATES, pos)) {
                     BlockState below = world.getBlockState(pos.below());
-                    if (below.blocksMotion() || below.liquid()) {
+                    if (below.isSolid() || below.liquid()) {
                         fluidState = IceBlock.meltsInto().getFluidState();
                     }
                 }

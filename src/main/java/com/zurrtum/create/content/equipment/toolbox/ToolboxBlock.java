@@ -12,6 +12,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Prediction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.InteractionHand;
@@ -43,7 +44,6 @@ public class ToolboxBlock extends HorizontalDirectionalBlock implements SimpleWa
 
     protected final DyeColor color;
 
-    public static final MapCodec<ToolboxBlock> CODEC = simpleCodec(p -> new ToolboxBlock(DyeColor.WHITE, p));
 
     public ToolboxBlock(DyeColor color, Properties properties) {
         super(properties);
@@ -123,7 +123,7 @@ public class ToolboxBlock extends HorizontalDirectionalBlock implements SimpleWa
             );
             world.destroyBlock(pos, false);
             if (world.getBlockState(pos) != state) {
-                player.getInventory().placeItemBackInInventory(cloneItemStack);
+                player.getInventory().placeItemBackInInventory(cloneItemStack, Prediction.SERVER_ONLY);
             }
         }
     }
@@ -230,8 +230,4 @@ public class ToolboxBlock extends HorizontalDirectionalBlock implements SimpleWa
         return ItemHelper.calcRedstoneFromBlockEntity(this, pLevel, pPos);
     }
 
-    @Override
-    protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
-        return CODEC;
-    }
 }

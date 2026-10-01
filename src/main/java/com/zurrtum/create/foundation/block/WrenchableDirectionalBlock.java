@@ -14,7 +14,6 @@ import org.jspecify.annotations.Nullable;
 
 public class WrenchableDirectionalBlock extends DirectionalBlock implements IWrenchable {
 
-    public static final MapCodec<WrenchableDirectionalBlock> CODEC = simpleCodec(WrenchableDirectionalBlock::new);
 
     public WrenchableDirectionalBlock(Properties properties) {
         super(properties);
@@ -55,9 +54,5 @@ public class WrenchableDirectionalBlock extends DirectionalBlock implements IWre
         return state.rotate(mirrorIn.getRotation(state.getValue(FACING)));
     }
 
-    @Override
-    protected MapCodec<? extends DirectionalBlock> codec() {
-        return CODEC;
-    }
 
 }

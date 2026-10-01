@@ -67,7 +67,6 @@ public class CrushingWheelControllerBlock extends DirectionalBlock implements IB
 
     public static final BooleanProperty VALID = BooleanProperty.create("valid");
 
-    public static final MapCodec<CrushingWheelControllerBlock> CODEC = simpleCodec(CrushingWheelControllerBlock::new);
 
     @Override
     public boolean canBeReplaced(BlockState state, BlockPlaceContext useContext) {
@@ -257,8 +256,4 @@ public class CrushingWheelControllerBlock extends DirectionalBlock implements IB
         return false;
     }
 
-    @Override
-    protected MapCodec<? extends DirectionalBlock> codec() {
-        return CODEC;
-    }
 }

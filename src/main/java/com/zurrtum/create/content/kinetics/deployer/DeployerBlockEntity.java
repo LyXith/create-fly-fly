@@ -1,5 +1,6 @@
 package com.zurrtum.create.content.kinetics.deployer;
 
+import net.minecraft.util.Prediction;
 import com.mojang.serialization.Codec;
 import com.zurrtum.create.*;
 import com.zurrtum.create.api.behaviour.BlockEntityBehaviour;
@@ -502,7 +503,7 @@ public class DeployerBlockEntity extends KineticBlockEntity implements Clearable
         }
         ServerPlayer serverPlayer = player.cast();
         serverPlayer.getInventory().dropAll();
-        overflowItems.forEach(itemstack -> serverPlayer.drop(itemstack, true, false));
+        overflowItems.forEach(itemstack -> serverPlayer.drop(itemstack, true, Prediction.SERVER_ONLY));
         serverPlayer.discard();
         player = null;
     }

@@ -27,17 +27,12 @@ public class ToggleLatchBlock extends AbstractDiodeBlock implements RedStoneConn
 
     public static BooleanProperty POWERING = BooleanProperty.create("powering");
 
-    public static final MapCodec<ToggleLatchBlock> CODEC = simpleCodec(ToggleLatchBlock::new);
 
     public ToggleLatchBlock(Properties properties) {
         super(properties);
         registerDefaultState(defaultBlockState().setValue(POWERING, false).setValue(POWERED, false));
     }
 
-    @Override
-    protected MapCodec<? extends DiodeBlock> codec() {
-        return CODEC;
-    }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {

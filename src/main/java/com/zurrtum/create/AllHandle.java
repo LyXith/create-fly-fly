@@ -1,5 +1,6 @@
 package com.zurrtum.create;
 
+import net.minecraft.world.item.component.SwingAnimation;
 import com.zurrtum.create.api.behaviour.BlockEntityBehaviour;
 import com.zurrtum.create.api.behaviour.display.DisplaySource;
 import com.zurrtum.create.catnip.math.AngleHelper;
@@ -103,6 +104,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Prediction;
 import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.Container;
 import net.minecraft.world.InteractionHand;
@@ -651,7 +653,7 @@ public class AllHandle {
                             int chainCost = ChainConveyorBlockEntity.getChainCost(targetPos.subtract(packet.pos()));
                             while (chainCost > 0) {
                                 player.getInventory()
-                                    .placeItemBackInInventory(new ItemStack(Items.IRON_CHAIN, Math.min(chainCost, 64)));
+                                    .placeItemBackInInventory(new ItemStack(Items.IRON_CHAIN, Math.min(chainCost, 64)), Prediction.SERVER_ONLY);
                                 chainCost -= 64;
                             }
                         }
@@ -743,7 +745,7 @@ public class AllHandle {
                         if (player.getMainHandItem().isEmpty()) {
                             player.setItemInHand(InteractionHand.MAIN_HAND, best.item.copy());
                         } else {
-                            player.getInventory().placeItemBackInInventory(best.item.copy());
+                            player.getInventory().placeItemBackInInventory(best.item.copy(), Prediction.SERVER_ONLY);
                         }
 
                         list.remove(best);
@@ -945,7 +947,7 @@ public class AllHandle {
                 if (blockEntity instanceof StockTickerBlockEntity be) {
                     ItemStack filter = packet.filter();
                     if (!filter.isEmpty() && filter.getItem() instanceof FilterItem) {
-                        listener.player.getInventory().placeItemBackInInventory(filter);
+                        listener.player.getInventory().placeItemBackInInventory(filter, Prediction.SERVER_ONLY);
                     }
                     return true;
                 }
@@ -1121,7 +1123,7 @@ public class AllHandle {
             return;
         }
         if (contraptionEntity.handlePlayerInteraction(sender, packet.localPos(), packet.face(), packet.hand())) {
-            sender.swing(packet.hand(), true);
+            sender.swing(packet.hand(), SwingAnimation.DEFAULT, true);
         }
     }
 

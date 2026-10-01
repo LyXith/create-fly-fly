@@ -8,6 +8,7 @@ import com.zurrtum.create.foundation.block.IBE;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;
+import net.minecraft.util.Prediction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -81,18 +82,6 @@ public class ChainConveyorBlock extends KineticBlock implements IBE<ChainConveyo
     }
 
     @Override
-    public void playerDestroy(
-        Level level,
-        Player player,
-        BlockPos pos,
-        BlockState state,
-        @Nullable BlockEntity blockEntity,
-        ItemStack tool
-    ) {
-        super.playerDestroy(level, player, pos, state, blockEntity, tool);
-    }
-
-    @Override
     public InteractionResult onSneakWrenched(BlockState state, UseOnContext context) {
         Player player = context.getPlayer();
         if (player == null) {
@@ -109,7 +98,7 @@ public class ChainConveyorBlock extends KineticBlock implements IBE<ChainConveyo
                     int chainCost = ChainConveyorBlockEntity.getChainCost(targetPos);
                     while (chainCost > 0) {
                         player.getInventory()
-                            .placeItemBackInInventory(new ItemStack(Items.IRON_CHAIN, Math.min(chainCost, 64)));
+                            .placeItemBackInInventory(new ItemStack(Items.IRON_CHAIN, Math.min(chainCost, 64)), Prediction.SERVER_ONLY);
                         chainCost -= 64;
                     }
                 }

@@ -22,6 +22,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.Prediction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -182,7 +183,7 @@ public abstract class LivingEntityMixin extends Entity {
             case 1 -> AllSynchedDatas.CRUSH_DROP.set(this, false);
             case 2 -> AllSynchedDatas.CAPTURE_DROPS.get(this).ifPresent(drops -> {
                 Inventory inventory = ((DeployerPlayer) source.getEntity()).cast().getInventory();
-                drops.forEach(inventory::placeItemBackInInventory);
+                drops.forEach(stack -> inventory.placeItemBackInInventory(stack, Prediction.SERVER_ONLY));
                 AllSynchedDatas.CAPTURE_DROPS.set(this, Optional.empty());
             });
         }

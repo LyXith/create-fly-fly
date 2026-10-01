@@ -39,7 +39,6 @@ import org.jspecify.annotations.Nullable;
 
 public class SmartFluidPipeBlock extends FaceAttachedHorizontalDirectionalBlock implements IBE<SmartFluidPipeBlockEntity>, IAxisPipe, IWrenchable, ProperWaterloggedBlock, NeighborUpdateListeningBlock {
 
-    public static final MapCodec<SmartFluidPipeBlock> CODEC = simpleCodec(SmartFluidPipeBlock::new);
 
     public SmartFluidPipeBlock(Properties p_i48339_1_) {
         super(p_i48339_1_);
@@ -223,9 +222,5 @@ public class SmartFluidPipeBlock extends FaceAttachedHorizontalDirectionalBlock 
         return AllBlockEntityTypes.SMART_FLUID_PIPE;
     }
 
-    @Override
-    protected MapCodec<? extends FaceAttachedHorizontalDirectionalBlock> codec() {
-        return CODEC;
-    }
 
 }

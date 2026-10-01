@@ -33,11 +33,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jspecify.annotations.Nullable;
 
 public class PostboxBlock extends HorizontalDirectionalBlock implements IBE<PostboxBlockEntity>, IWrenchable, ProperWaterloggedBlock, ItemInventoryProvider<PostboxBlockEntity> {
-    public static MapCodec<PostboxBlock> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-        DyeColor.CODEC.fieldOf(
-            "color").forGetter(PostboxBlock::getColor), propertiesCodec()
-    ).apply(instance, PostboxBlock::new));
-
     public static final BooleanProperty OPEN = BlockStateProperties.OPEN;
 
     protected final DyeColor color;
@@ -136,8 +131,4 @@ public class PostboxBlock extends HorizontalDirectionalBlock implements IBE<Post
         return getBlockEntityOptional(pLevel, pPos).map(PackagePortBlockEntity::getComparatorOutput).orElse(0);
     }
 
-    @Override
-    protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
-        return CODEC;
-    }
 }

@@ -44,7 +44,7 @@ public class BeltMovementHandler {
 
         public void refresh(BlockPos collision, BlockState belt) {
             ticksSinceLastCollision = 0;
-            lastCollidedPos = new BlockPos(collision).immutable();
+            lastCollidedPos = collision.immutable();
             lastCollidedState = belt;
         }
 
@@ -194,7 +194,7 @@ public class BeltMovementHandler {
         }
         if (movedPastEndingSlope) {
             entityIn.setDeltaMovement(movement);
-            entityIn.hurtMarked = true;
+            entityIn.markHurt();
         }
 
     }
@@ -203,7 +203,7 @@ public class BeltMovementHandler {
         if (other instanceof HangingEntity) {
             return true;
         }
-        if (other.getPistonPushReaction() == PushReaction.IGNORE) {
+        if (other.getPistonPushReaction() == PushReaction.IGNORE_ENTITY) {
             return true;
         }
         return isRidingOrBeingRiddenBy(me, other);

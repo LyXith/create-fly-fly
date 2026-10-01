@@ -127,7 +127,7 @@ public class SchematicPrinter {
 
         BlockPos extraBounds = StructureTemplate.calculateRelativePosition(
             settings,
-            new BlockPos(activeTemplate.getSize()).offset(-1, -1, -1)
+            new BlockPos(activeTemplate.getSize().getX(), activeTemplate.getSize().getY(), activeTemplate.getSize().getZ()).offset(-1, -1, -1)
         );
         blockReader.setBounds(BBHelper.encapsulate(blockReader.getBounds(), extraBounds));
 

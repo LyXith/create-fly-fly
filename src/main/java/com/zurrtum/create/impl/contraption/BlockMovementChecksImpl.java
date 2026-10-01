@@ -189,7 +189,7 @@ public class BlockMovementChecksImpl {
         if (state.getBlock() instanceof StationBlock) {
             return false;
         }
-        return state.getPistonPushReaction() != PushReaction.BLOCK;
+        return state.getPistonPushReaction() != PushReaction.IMMOVEABLE;
     }
 
     private static boolean isBrittleFallback(BlockState state) {
@@ -222,7 +222,7 @@ public class BlockMovementChecksImpl {
         if (block instanceof DiodeBlock) {
             return true;
         }
-        if (block instanceof RedStoneWireBlock) {
+        if (block instanceof RedstoneWireBlock) {
             return true;
         }
         if (block instanceof WoolCarpetBlock) {
@@ -284,7 +284,7 @@ public class BlockMovementChecksImpl {
         if (block instanceof DiodeBlock) {
             return direction == Direction.DOWN;
         }
-        if (block instanceof RedStoneWireBlock) {
+        if (block instanceof RedstoneWireBlock) {
             return direction == Direction.DOWN;
         }
         if (block instanceof WoolCarpetBlock) {

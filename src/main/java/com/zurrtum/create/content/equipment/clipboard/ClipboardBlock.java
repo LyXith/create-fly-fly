@@ -11,6 +11,7 @@ import com.zurrtum.create.foundation.block.IBE;
 import com.zurrtum.create.foundation.block.ProperWaterloggedBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.util.Prediction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Inventory;
@@ -44,7 +45,6 @@ public class ClipboardBlock extends FaceAttachedHorizontalDirectionalBlock imple
 
     public static final BooleanProperty WRITTEN = BooleanProperty.create("written");
 
-    public static final MapCodec<ClipboardBlock> CODEC = simpleCodec(ClipboardBlock::new);
 
     public ClipboardBlock(Properties pProperties) {
         super(pProperties);
@@ -129,7 +129,7 @@ public class ClipboardBlock extends FaceAttachedHorizontalDirectionalBlock imple
             if (selected.isEmpty()) {
                 inv.setSelectedItem(cloneItemStack);
             } else {
-                inv.placeItemBackInInventory(cloneItemStack);
+                inv.placeItemBackInInventory(cloneItemStack, Prediction.SERVER_ONLY);
             }
         }
     }
@@ -200,8 +200,4 @@ public class ClipboardBlock extends FaceAttachedHorizontalDirectionalBlock imple
         return AllBlockEntityTypes.CLIPBOARD;
     }
 
-    @Override
-    protected MapCodec<? extends FaceAttachedHorizontalDirectionalBlock> codec() {
-        return CODEC;
-    }
 }

@@ -23,7 +23,6 @@ import org.jspecify.annotations.Nullable;
 
 public class ContraptionControlsBlock extends ControlsBlock implements IBE<ContraptionControlsBlockEntity> {
 
-    public static final MapCodec<ContraptionControlsBlock> CODEC = simpleCodec(ContraptionControlsBlock::new);
 
     public ContraptionControlsBlock(Properties pProperties) {
         super(pProperties);
@@ -94,8 +93,4 @@ public class ContraptionControlsBlock extends ControlsBlock implements IBE<Contr
         return AllBlockEntityTypes.CONTRAPTION_CONTROLS;
     }
 
-    @Override
-    protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
-        return CODEC;
-    }
 }

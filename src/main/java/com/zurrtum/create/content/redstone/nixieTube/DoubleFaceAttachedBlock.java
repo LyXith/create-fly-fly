@@ -14,7 +14,6 @@ import java.util.Locale;
 
 public class DoubleFaceAttachedBlock extends HorizontalDirectionalBlock {
 
-    public static final MapCodec<DoubleFaceAttachedBlock> CODEC = simpleCodec(DoubleFaceAttachedBlock::new);
 
     public enum DoubleAttachFace implements StringRepresentable {
         FLOOR, WALL, WALL_REVERSED, CEILING;
@@ -77,8 +76,4 @@ public class DoubleFaceAttachedBlock extends HorizontalDirectionalBlock {
         };
     }
 
-    @Override
-    protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
-        return CODEC;
-    }
 }
