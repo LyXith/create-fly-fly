@@ -36,15 +36,13 @@ jobs:
         if: always()
         shell: bash
         run: |
-          mkdir -p /tmp/ci/javap
+          mkdir -p /tmp/ci
           jars=$(find ~/.gradle/caches/fabric-loom .gradle/loom-cache -name '*.jar' 2>/dev/null | grep -iE 'minecraft' | grep -v sources || true)
           echo "$jars" > /tmp/ci/jars.txt
           cp=$(echo "$jars" | paste -sd: -)
           for j in $jars; do unzip -Z1 "$j" | grep '\.class$' ; done | sed 's/\.class$//' | sort -u > /tmp/ci/classes.txt || true
-          while read -r c; do
-            [ -z "$c" ] && continue
-            javap -p -cp "$cp" "$c" > "/tmp/ci/javap/$c.txt" 2>&1 || true
-          done < .github/javap-classes.txt
+          sed 's#/#.#g' /tmp/ci/classes.txt | grep -v 'package-info' > /tmp/all-classes.txt
+          javap -p -cp "$cp" @/tmp/all-classes.txt 2>/dev/null | gzip -9 > /tmp/ci/javap-all.txt.gz || true
       - name: Publish build log to the ci-logs branch
         if: always()
         shell: bash
