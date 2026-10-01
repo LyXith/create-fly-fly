@@ -24,12 +24,33 @@ jobs:
         run: |
           set -o pipefail
           chmod +x gradlew
-          ./gradlew build --no-daemon --continue -Dorg.gradle.console=plain 2>&1 | tee build.log
+          cat > /tmp/maxerrs.gradle <<'GRADLE'
+          allprojects {
+            tasks.withType(JavaCompile).configureEach {
+              options.compilerArgs += ["-Xmaxerrs", "20000", "-Xmaxwarns", "0"]
+            }
+          }
+          GRADLE
+          ./gradlew build --no-daemon --continue -Dorg.gradle.console=plain -I /tmp/maxerrs.gradle 2>&1 | tee build.log
+      - name: Dump the game's class index and requested signatures
+        if: always()
+        shell: bash
+        run: |
+          mkdir -p /tmp/ci/javap
+          jars=$(find ~/.gradle/caches/fabric-loom .gradle/loom-cache -name '*.jar' 2>/dev/null | grep -iE 'minecraft' | grep -v sources || true)
+          echo "$jars" > /tmp/ci/jars.txt
+          cp=$(echo "$jars" | paste -sd: -)
+          for j in $jars; do unzip -Z1 "$j" | grep '\.class$' ; done | sed 's/\.class$//' | sort -u > /tmp/ci/classes.txt || true
+          while read -r c; do
+            [ -z "$c" ] && continue
+            javap -p -cp "$cp" "$c" > "/tmp/ci/javap/$c.txt" 2>&1 || true
+          done < .github/javap-classes.txt
       - name: Publish build log to the ci-logs branch
         if: always()
         shell: bash
         run: |
           mkdir -p /tmp/ci && cp build.log /tmp/ci/build.log || echo "no log" > /tmp/ci/build.log
+          sed -i "s#${GITHUB_WORKSPACE}/##g" /tmp/ci/build.log
           echo "${GITHUB_SHA}" > /tmp/ci/commit.txt
           cd /tmp/ci
           git init -q -b ci-logs

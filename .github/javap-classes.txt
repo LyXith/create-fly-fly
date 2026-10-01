@@ -1,0 +1,13 @@
+net.minecraft.client.renderer.RenderPipelines
+net.minecraft.world.item.alchemy.PotionBrewing
+net.minecraft.world.level.block.entity.FuelValues
+net.minecraft.world.entity.InterpolationHandler
+net.minecraft.world.clock.ServerClockManager
+com.mojang.blaze3d.systems.GpuDevice
+com.mojang.blaze3d.opengl.GlStateManager
+net.minecraft.client.renderer.ItemInHandRenderer
+net.minecraft.client.renderer.entity.EntityRenderer
+net.minecraft.world.entity.player.Inventory
+net.minecraft.world.entity.Entity
+net.minecraft.world.entity.LivingEntity
+net.minecraft.world.level.levelgen.feature.Feature
