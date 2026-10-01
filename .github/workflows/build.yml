@@ -5,6 +5,9 @@ on:
     branches: ["26.3"]
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,13 +20,23 @@ jobs:
           java-version: 25
       - uses: gradle/actions/setup-gradle@v4
       - name: Build
-        run: ./gradlew build --no-daemon --continue 2>&1 | tee build.log
-      - name: Upload build log
+        shell: bash
+        run: |
+          set -o pipefail
+          chmod +x gradlew
+          ./gradlew build --no-daemon --continue -Dorg.gradle.console=plain 2>&1 | tee build.log
+      - name: Publish build log to the ci-logs branch
         if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-log
-          path: build.log
+        shell: bash
+        run: |
+          mkdir -p /tmp/ci && cp build.log /tmp/ci/build.log || echo "no log" > /tmp/ci/build.log
+          echo "${GITHUB_SHA}" > /tmp/ci/commit.txt
+          cd /tmp/ci
+          git init -q -b ci-logs
+          git config user.name "github-actions"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A && git commit -q -m "Build log for ${GITHUB_SHA}"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" ci-logs
       - name: Upload jars
         if: success()
         uses: actions/upload-artifact@v4
