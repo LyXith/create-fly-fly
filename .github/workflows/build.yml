@@ -44,3 +44,13 @@ jobs:
         with:
           name: create-fly-26.2
           path: build/libs/*.jar
+      - name: Publish the jar as a release
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          gh release delete pack-26.2-latest -y --cleanup-tag -R "${{ github.repository }}" || true
+          sleep 3
+          cp build/libs/create-fly-26.2-6.0.9-1.jar create-fly-26.2.jar
+          gh release create pack-26.2-latest create-fly-26.2.jar build/libs/create-fly-26.2-6.0.9-1.jar -R "${{ github.repository }}" --target "${GITHUB_SHA}" --title "Create Fly for 26.2 (pack build)" --notes "Built from the pack-26.2 branch at ${GITHUB_SHA}."
