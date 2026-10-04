@@ -184,15 +184,15 @@ public record SequencedAssemblyRecipe(Ingredient ingredient, ItemStackTemplate t
                     }
                     transitionalComponents.put(
                         AllDataComponents.SEQUENCED_ASSEMBLY_PROGRESS,
-                        Optional.of((float) index / size)
+                        (float) index / size
                     );
-                    transitionalComponents.put(DataComponents.LORE, Optional.of(new ItemLore(lore, lore)));
+                    transitionalComponents.put(DataComponents.LORE, new ItemLore(lore, lore));
                     return ItemStackTemplate.CODEC.encodeStart(ops, transitional).getOrThrow();
                 };
                 Supplier<JsonElement> transitionalJsonChanceResult = () -> {
                     transitionalComponents.put(
                         AllDataComponents.SEQUENCED_ASSEMBLY_JUNK,
-                        Optional.of(new SequencedAssemblyJunk(result.chance(), junks))
+                        new SequencedAssemblyJunk(result.chance(), junks)
                     );
                     JsonElement element = transitionalJsonResult.get();
                     transitionalComponents.remove(AllDataComponents.SEQUENCED_ASSEMBLY_JUNK);

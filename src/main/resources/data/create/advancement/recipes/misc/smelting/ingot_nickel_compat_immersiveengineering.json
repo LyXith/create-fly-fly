@@ -19,7 +19,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "create:smelting/ingot_nickel_compat_immersiveengineering"
+        "recipes": "create:smelting/ingot_nickel_compat_immersiveengineering"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

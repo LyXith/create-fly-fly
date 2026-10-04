@@ -19,7 +19,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "create:blasting/ingot_tin_compat_ic2"
+        "recipes": "create:blasting/ingot_tin_compat_ic2"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

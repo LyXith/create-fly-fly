@@ -19,7 +19,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "create:blasting/ingot_uranium_compat_mekanism"
+        "recipes": "create:blasting/ingot_uranium_compat_mekanism"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

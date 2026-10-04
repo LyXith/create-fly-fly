@@ -19,7 +19,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "create:smelting/tin_ingot_compat_thermal"
+        "recipes": "create:smelting/tin_ingot_compat_thermal"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

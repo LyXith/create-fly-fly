@@ -19,7 +19,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "create:blasting/ingot_silver_compat_immersiveengineering"
+        "recipes": "create:blasting/ingot_silver_compat_immersiveengineering"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

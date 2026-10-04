@@ -19,7 +19,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "create:blasting/silver_ingot_compat_oreganized"
+        "recipes": "create:blasting/silver_ingot_compat_oreganized"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

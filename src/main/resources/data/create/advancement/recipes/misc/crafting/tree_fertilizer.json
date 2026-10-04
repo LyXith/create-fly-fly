@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "create:crafting///tree_fertilizer"
+        "recipes": "create:crafting///tree_fertilizer"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

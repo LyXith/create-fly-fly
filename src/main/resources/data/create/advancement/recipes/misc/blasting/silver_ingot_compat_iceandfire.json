@@ -19,7 +19,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "create:blasting/silver_ingot_compat_iceandfire"
+        "recipes": "create:blasting/silver_ingot_compat_iceandfire"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
