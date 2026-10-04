@@ -45,7 +45,8 @@ public class CarriageContraptionEntityRenderer extends OrientedContraptionEntity
         Frustum clippingHelper,
         double cameraX,
         double cameraY,
-        double cameraZ
+        double cameraZ,
+        float partialTick
     ) {
         Carriage carriage = entity.getCarriage();
         if (carriage != null) {
@@ -58,7 +59,7 @@ public class CarriageContraptionEntityRenderer extends OrientedContraptionEntity
         if (!entity.validForRender || entity.firstPositionUpdate) {
             return false;
         }
-        return super.shouldRender(entity, clippingHelper, cameraX, cameraY, cameraZ);
+        return super.shouldRender(entity, clippingHelper, cameraX, cameraY, cameraZ, partialTick);
     }
 
     @Override

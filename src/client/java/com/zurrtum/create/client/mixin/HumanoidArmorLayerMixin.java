@@ -39,13 +39,12 @@ public abstract class HumanoidArmorLayerMixin<S extends HumanoidRenderState, M e
             layer.model = model;
             layer.state = state;
             layer.light = lightCoords;
-            // the glint is part of the armor render type now, not a second pass
-            submitNodeCollector.order(0).submitCustomGeometry(
-                poseStack,
-                itemStack.hasFoil() ? RenderTypes.armorCutoutNoCullGlint(item.getLayerTexture()) : RenderTypes.armorCutoutNoCull(
-                    item.getLayerTexture()),
-                layer
-            );
+            submitNodeCollector.order(0)
+                .submitCustomGeometry(poseStack, RenderTypes.armorCutoutNoCull(item.getLayerTexture()), layer);
+            if (itemStack.hasFoil()) {
+                // the stand-alone armor glint pass (formerly armorEntityGlint)
+                submitNodeCollector.order(1).submitCustomGeometry(poseStack, RenderTypes.trimmedArmorGlint(), layer);
+            }
         }
     }
 }

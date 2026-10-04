@@ -1,5 +1,6 @@
 package com.zurrtum.create.client.infrastructure.model;
 
+import net.minecraft.client.resources.model.geometry.ItemQuads;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -322,7 +323,7 @@ public class LinkedControllerModel implements ItemModel, SpecialModelRenderer<Re
         int overlay,
         List<BakedQuad> quads
     ) {
-        queue.submitItem(matrices, displayContext, light, overlay, 0, tints, quads, FoilType.NONE);
+        queue.submitItem(matrices, displayContext, light, overlay, 0, tints, ItemQuads.split(quads), FoilType.NONE);
     }
 
     public static class RenderData {

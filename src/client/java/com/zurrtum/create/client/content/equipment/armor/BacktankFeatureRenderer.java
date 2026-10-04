@@ -53,7 +53,8 @@ public class BacktankFeatureRenderer<S extends HumanoidRenderState, M extends Hu
         cogs.submit(ms, queue);
         nob.submit(ms, queue);
         if (entityState.chestEquipment.hasFoil()) {
-            RenderType glint = RenderTypes.entityGlint();
+            // the stand-alone entity glint pass (formerly entityGlint)
+            RenderType glint = RenderTypes.patternedShieldGlint();
             backtank.submit(glint, ms, queue);
             cogs.submit(glint, ms, queue);
             nob.submit(glint, ms, queue);

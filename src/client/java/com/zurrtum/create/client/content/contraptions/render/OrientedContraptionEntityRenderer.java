@@ -22,8 +22,8 @@ public class OrientedContraptionEntityRenderer<C extends OrientedContraptionEnti
     }
 
     @Override
-    public boolean shouldRender(C entity, Frustum frustum, double cameraX, double cameraY, double cameraZ) {
-        if (!super.shouldRender(entity, frustum, cameraX, cameraY, cameraZ)) {
+    public boolean shouldRender(C entity, Frustum frustum, double cameraX, double cameraY, double cameraZ, float partialTick) {
+        if (!super.shouldRender(entity, frustum, cameraX, cameraY, cameraZ, partialTick)) {
             return false;
         }
         return entity.getVehicle() != null || !entity.getContraption().getType()
