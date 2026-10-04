@@ -42,7 +42,8 @@ public final class LevelUniforms extends UniformWriter {
         LevelInfoHolder levelInfoHolder = (LevelInfoHolder) levelRenderState;
         SkyRenderState skyRenderState = levelRenderState.skyRenderState;
 
-        int skyColor = ARGB.colorFromVector3f(skyRenderState.skyColor);
+        // 26.3: the sky colour is a vector that stays null until the sky has been extracted once
+        int skyColor = skyRenderState.skyColor == null ? 0 : ARGB.colorFromVector3f(skyRenderState.skyColor);
         int cloudColor = levelRenderState.cloudColor;
         ptr = writeVec4(ptr, ARGB.redFloat(skyColor), ARGB.greenFloat(skyColor), ARGB.blueFloat(skyColor), 1.0f);
         ptr = writeVec4(ptr, ARGB.redFloat(cloudColor), ARGB.greenFloat(cloudColor), ARGB.blueFloat(cloudColor), 1.0f);
@@ -57,7 +58,7 @@ public final class LevelUniforms extends UniformWriter {
 
         ptr = writeFloat(ptr, skyRenderState.sunAngle);
 
-        int moonPhase = skyRenderState.moonPhase.index();
+        int moonPhase = skyRenderState.moonPhase == null ? 0 : skyRenderState.moonPhase.index();
         ptr = writeFloat(ptr, DimensionType.MOON_BRIGHTNESS_PER_PHASE[moonPhase]);
         ptr = writeInt(ptr, moonPhase);
 

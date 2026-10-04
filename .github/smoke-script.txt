@@ -1,7 +1,7 @@
-cmd tp @a 8.5 122 -6.5 0 10
+cmd fill -3 120 -3 12 120 44 minecraft:stone
+cmd tp @a 8.5 122 -1.5 0 10
 sleep 5
-cmd fill -3 120 -3 12 120 42 minecraft:stone
-cmd fill -3 121 -3 12 126 42 minecraft:air
+cmd fill -3 121 -3 12 126 44 minecraft:air
 cmd time set noon
 cmd weather clear
 cmd say == row A: motor, shafts, cogwheel
@@ -72,7 +72,10 @@ cmd setblock 0 121 35 create:creative_motor[facing=south]{ScrollValue:64}
 cmd setblock 0 123 36 minecraft:chest{Items:[{Slot:0b,id:"minecraft:cobblestone",count:4}]}
 cmd setblock 0 122 36 create:andesite_funnel[facing=down,extracting=true]
 cmd setblock 4 122 36 minecraft:chest
-cmd setblock 3 122 36 create:andesite_belt_funnel[facing=west,shape=pushing]
+cmd setblock 3 122 36 create:andesite_belt_funnel[facing=west,shape=retracted]
+cmd say == row K: funnel from chest
+cmd setblock 0 121 40 minecraft:chest{Items:[{Slot:0b,id:"minecraft:diorite",count:2}]}
+cmd setblock 1 121 40 create:andesite_funnel[facing=east,extracting=true]
 sleep 20
 shot
 cmd tp @a 6.5 123 2.5 90 15
@@ -90,6 +93,7 @@ shot
 cmd tp @a 7.5 123 34.5 90 15
 sleep 6
 shot
+sleep 15
 cmd say == checks
 cmd data get block 2 121 0 Speed
 cmd data get block 3 122 0 Speed
@@ -105,6 +109,11 @@ cmd data get block 2 121 24
 cmd execute if entity @e[type=create:stationary_contraption] run say CHECK contraption-ok
 cmd execute if block 2 121 32 minecraft:air run say CHECK deployer-ok
 cmd data get block 4 122 36 Items
+cmd data get block 0 123 36 Items
+cmd data get block 0 122 36
+cmd data get block 0 121 40 Items
+cmd execute if entity @e[type=minecraft:item,nbt={Item:{id:"minecraft:cobblestone"}}] run say CHECK cobble-item-entity
+cmd execute if entity @e[type=minecraft:item,nbt={Item:{id:"minecraft:diorite"}}] run say CHECK funnel-extract-ok
 cmd data get block 0 121 36
 cmd say == zinc ore count in generated chunks
 cmd fill 0 0 0 31 31 31 minecraft:stone replace create:zinc_ore
