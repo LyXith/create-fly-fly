@@ -78,6 +78,8 @@ cmd setblock 0 122 36 create:andesite_belt_funnel[facing=east,shape=retracted]
 cmd say == row K: funnel from chest
 cmd setblock 0 121 40 minecraft:chest{Items:[{Slot:0b,id:"minecraft:diorite",count:2}]}
 cmd setblock 1 121 40 create:andesite_funnel[facing=east,extracting=true]
+cmd say == row M: tracks
+cmd fill 5 121 30 10 121 30 create:track[shape=xo]
 cmd say == row L: water wheel
 cmd fill 9 121 39 11 125 43 minecraft:glass hollow
 cmd setblock 10 123 41 create:water_wheel[facing=east]
@@ -113,7 +115,8 @@ cmd execute if block 0 121 20 minecraft:air run say CHECK pump-drained-source
 cmd execute if entity @e[type=minecraft:item,nbt={Item:{id:"minecraft:oak_planks"}}] run say CHECK crafter-ok
 cmd data get block 2 121 24
 cmd execute if entity @e[type=create:stationary_contraption] run say CHECK contraption-ok
-cmd execute if block 2 121 32 minecraft:air run say CHECK deployer-ok
+cmd execute if block 2 121 32 minecraft:dirt_path run say CHECK deployer-ok
+cmd data get block 2 123 32 HeldItem
 cmd data get block 4 122 36 Items
 cmd data get block 10 123 41 Speed
 cmd data get block -1 122 36 Items

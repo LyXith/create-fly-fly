@@ -82,7 +82,6 @@ public class SceneRenderer extends PictureInPictureRenderer<SceneRenderState> {
         particle.ponder$updateTransforms(RenderSystem.getDynamicUniforms().writeTransform(particleTransforms));
         FeaturePass.render(
             featureRenderDispatcher, submitNodeStorage, texture.textureView(), texture.depthTextureView(), (pass, frame) -> {
-                debugFrame(frame);
                 frame.executeSolid(pass);
                 frame.executeTranslucent(pass);
                 frame.executeOutline(pass);
@@ -115,31 +114,6 @@ public class SceneRenderer extends PictureInPictureRenderer<SceneRenderState> {
             null,
             null
         ));
-    }
-
-    private static final boolean DEBUG = Boolean.getBoolean("create.ponder.debug");
-    private static int debugCounter;
-
-    private static void debugFrame(FeatureRenderDispatcher.PreparedFrame frame) {
-        if (!DEBUG || debugCounter++ % 60 != 0) {
-            return;
-        }
-        try {
-            java.lang.reflect.Field field = FeatureRenderDispatcher.PreparedFrame.class.getDeclaredField("allSubmits");
-            field.setAccessible(true);
-            java.util.List<?> submits = (java.util.List<?>) field.get(frame);
-            java.util.Map<String, Integer> counts = new java.util.TreeMap<>();
-            for (Object submit : submits) {
-                String key = submit.getClass().getSimpleName();
-                if (submit instanceof net.minecraft.client.renderer.feature.CustomFeatureRenderer.Submit custom) {
-                    key += ":" + custom.renderType() + ":" + custom.customGeometryRenderer().getClass().getSimpleName();
-                }
-                counts.merge(key, 1, Integer::sum);
-            }
-            com.zurrtum.create.client.ponder.Ponder.LOGGER.info("[PonderDebug] submits={} {} mv={} proj={}", submits.size(), counts, RenderSystem.getModelViewMatrixCopy(), RenderSystem.getProjectionType());
-        } catch (Throwable t) {
-            com.zurrtum.create.client.ponder.Ponder.LOGGER.error("[PonderDebug]", t);
-        }
     }
 
     private static void renderScene(
