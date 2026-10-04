@@ -77,7 +77,7 @@ public record PotionRecipe(FluidStack result, FluidIngredient fluidIngredient,
             }
             ItemStackTemplate output = recipe.getOutput();
             Item to = output.item().value();
-            PotionContents toContents = output.get(DataComponents.POTION_CONTENTS);
+            PotionContents toContents = output.components().get(net.minecraft.core.component.DataComponentMap.EMPTY, DataComponents.POTION_CONTENTS);
             if (toContents == null || !isSupportedContainer(to)) {
                 continue;
             }
