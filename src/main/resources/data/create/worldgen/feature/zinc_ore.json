@@ -1,0 +1,21 @@
+{
+  "discard_chance_on_air_exposure": 0.0,
+  "size": 12,
+  "targets": [
+    {
+      "state": "create:zinc_ore",
+      "target": {
+        "predicate_type": "minecraft:tag_match",
+        "tag": "minecraft:stone_ore_replaceables"
+      }
+    },
+    {
+      "state": "create:deepslate_zinc_ore",
+      "target": {
+        "predicate_type": "minecraft:tag_match",
+        "tag": "minecraft:deepslate_ore_replaceables"
+      }
+    }
+  ],
+  "type": "minecraft:ore"
+}

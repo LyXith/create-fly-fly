@@ -1,5 +1,6 @@
 package com.zurrtum.create.content.processing.burner;
 
+import com.zurrtum.create.foundation.utility.FuelUtil;
 import com.zurrtum.create.*;
 import com.zurrtum.create.api.behaviour.BlockEntityBehaviour;
 import com.zurrtum.create.catnip.animation.LerpedFloat;
@@ -204,7 +205,7 @@ public class BlazeBurnerBlockEntity extends SmartBlockEntity {
             newBurnTime = 3200;
             newFuel = FuelType.SPECIAL;
         } else {
-            newBurnTime = level.fuelValues().burnDuration(itemStack);
+            newBurnTime = FuelUtil.burnDuration(level, itemStack);
             if (newBurnTime > 0) {
                 newFuel = FuelType.NORMAL;
             } else if (itemStack.is(AllItemTags.BLAZE_BURNER_FUEL_REGULAR)) {

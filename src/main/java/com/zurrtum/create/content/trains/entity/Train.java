@@ -1,5 +1,6 @@
 package com.zurrtum.create.content.trains.entity;
 
+import com.zurrtum.create.foundation.utility.FuelUtil;
 import com.mojang.serialization.*;
 import com.zurrtum.create.AllAdvancements;
 import com.zurrtum.create.Create;
@@ -50,7 +51,6 @@ import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.Level.ExplosionInteraction;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.FuelValues;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
@@ -1222,7 +1222,6 @@ public class Train {
         boolean iterateFromBack = speed < 0;
         int carriageCount = carriages.size();
 
-        FuelValues fuelRegistry = world.fuelValues();
         for (int index = 0; index < carriageCount; index++) {
             int i = iterateFromBack ? carriageCount - 1 - index : index;
             Carriage carriage = carriages.get(i);
@@ -1234,7 +1233,7 @@ public class Train {
             MutableInt burnTime = new MutableInt();
             ItemStack extract = fuelItems.extract(
                 stack -> {
-                    int ticks = fuelRegistry.burnDuration(stack);
+                    int ticks = FuelUtil.burnDuration(world, stack);
                     if (ticks > 0) {
                         burnTime.setValue(ticks);
                         return true;

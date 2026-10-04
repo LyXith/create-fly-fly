@@ -47,8 +47,22 @@ jobs:
             (xargs -a /tmp/all-classes.txt -n 300 javap -p -cp "$cp" 2>/dev/null || true) | gzip -9 > /tmp/ci/javap-all.txt.gz
           fi
           if [ -f .github/dump-bytecode ]; then
+            # a list of classes, or the single word ALL for every game class
             cp=$(echo $mcjars | tr ' ' ':')
-            (xargs -a .github/dump-bytecode javap -p -c -cp "$cp" 2>/dev/null || true) | gzip -9 > /tmp/ci/bytecode.txt.gz
+            if [ "$(head -1 .github/dump-bytecode)" = "ALL" ]; then
+              for j in $mcjars; do unzip -Z1 "$j" | grep '\.class$' ; done | sed 's/\.class$//' | sort -u | sed 's#/#.#g' | grep -v 'package-info\|module-info' > /tmp/bc-classes.txt
+            else
+              cp .github/dump-bytecode /tmp/bc-classes.txt
+            fi
+            (xargs -a /tmp/bc-classes.txt -n 300 javap -p -c -cp "$cp" 2>/dev/null || true) | gzip -9 > /tmp/ci/bytecode.txt.gz
+          fi
+          if [ -f .github/dump-bytecode-old ]; then
+            # same dump for an older (unobfuscated) game version named in the file, straight from the official client jar
+            old=$(head -1 .github/dump-bytecode-old)
+            vurl=$(curl -fsSL https://piston-meta.mojang.com/mc/game/version_manifest_v2.json | python3 -c "import json,sys; print([v['url'] for v in json.load(sys.stdin)['versions'] if v['id']=='$old'][0])")
+            curl -fsSL -o /tmp/old-client.jar "$(curl -fsSL "$vurl" | python3 -c "import json,sys; print(json.load(sys.stdin)['downloads']['client']['url'])")"
+            unzip -Z1 /tmp/old-client.jar | grep '\.class$' | sed 's/\.class$//' | sort -u | sed 's#/#.#g' | grep -E '^(net\.minecraft|com\.mojang)' | grep -v 'package-info\|module-info' > /tmp/old-classes.txt
+            (xargs -a /tmp/old-classes.txt -n 300 javap -p -c -cp /tmp/old-client.jar 2>/dev/null || true) | gzip -9 > /tmp/ci/bytecode-old.txt.gz
           fi
           if [ -f .github/dump-data ]; then
             mkdir -p /tmp/ci-data
