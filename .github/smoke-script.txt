@@ -1,0 +1,142 @@
+cmd tp @a 8.5 122 -6.5 0 10
+sleep 5
+cmd fill -3 120 -3 12 120 42 minecraft:stone
+cmd fill -3 121 -3 12 126 42 minecraft:air
+cmd time set noon
+cmd weather clear
+cmd say == row A: motor, shafts, cogwheel
+cmd setblock 0 121 0 create:creative_motor[facing=east]{ScrollValue:64}
+cmd setblock 1 121 0 create:shaft[axis=x]
+cmd setblock 2 121 0 create:shaft[axis=x]
+cmd setblock 3 121 0 create:cogwheel[axis=x]
+cmd setblock 3 122 0 create:cogwheel[axis=x]
+cmd setblock 4 122 0 create:shaft[axis=x]
+cmd say == row B: press over depot
+cmd setblock 0 123 4 create:creative_motor[facing=east]{ScrollValue:128}
+cmd setblock 1 123 4 create:shaft[axis=x]
+cmd setblock 2 123 4 create:mechanical_press[facing=east]
+cmd setblock 2 121 4 create:depot
+cmd summon minecraft:item 2.5 122.3 4.5 {Item:{id:"minecraft:iron_ingot",count:1}}
+cmd say == row C: mixer over basin
+cmd setblock 1 122 8 create:creative_motor[facing=up]{ScrollValue:128}
+cmd setblock 1 123 8 create:cogwheel[axis=y]
+cmd setblock 2 123 8 create:mechanical_mixer
+cmd setblock 2 121 8 create:basin
+cmd summon minecraft:item 2.5 122.3 8.5 {Item:{id:"minecraft:andesite",count:1}}
+cmd summon minecraft:item 2.5 122.6 8.5 {Item:{id:"minecraft:iron_nugget",count:1}}
+cmd say == row D: fan washing
+cmd fill 1 121 11 8 122 13 minecraft:glass
+cmd fill 1 121 12 7 121 12 minecraft:air
+cmd setblock 0 121 12 create:creative_motor[facing=east]{ScrollValue:256}
+cmd setblock 1 121 12 create:encased_fan[facing=east]
+cmd setblock 3 121 12 minecraft:iron_bars
+cmd setblock 2 121 12 minecraft:water
+cmd summon minecraft:item 5.5 121.3 12.5 {Item:{id:"create:crushed_raw_iron",count:1}}
+cmd say == row E: fan blasting
+cmd fill 1 121 15 8 122 17 minecraft:glass
+cmd fill 1 121 16 7 121 16 minecraft:air
+cmd setblock 0 121 16 create:creative_motor[facing=east]{ScrollValue:256}
+cmd setblock 1 121 16 create:encased_fan[facing=east]
+cmd setblock 3 121 16 minecraft:iron_bars
+cmd setblock 2 121 16 minecraft:lava
+cmd summon minecraft:item 5.5 121.3 16.5 {Item:{id:"minecraft:raw_copper",count:1}}
+cmd say == row F: pipe, pump, tank
+cmd fill -1 121 19 1 122 21 minecraft:glass
+cmd setblock 0 121 20 minecraft:water
+cmd setblock 1 121 20 create:fluid_pipe[west=true,east=true,north=false,south=false,up=false,down=false]
+cmd setblock 2 121 20 create:mechanical_pump[facing=east]
+cmd setblock 3 121 20 create:fluid_pipe[west=true,east=true,north=false,south=false,up=false,down=false]
+cmd setblock 4 121 20 create:fluid_tank
+cmd setblock 1 121 21 create:creative_motor[facing=east]{ScrollValue:128}
+cmd setblock 2 121 21 create:cogwheel[axis=x]
+cmd say == row G: mechanical crafter
+cmd setblock 1 121 23 create:creative_motor[facing=south]{ScrollValue:64}
+cmd setblock 1 121 24 create:cogwheel[axis=z]
+cmd setblock 2 121 24 create:mechanical_crafter[facing=south,pointing=right]
+cmd setblock 2 122 24 minecraft:hopper[facing=down]{Items:[{Slot:0b,id:"minecraft:oak_log",count:1}]}
+cmd say == row H: bearing contraption
+cmd setblock 0 122 28 create:creative_motor[facing=east]{ScrollValue:16}
+cmd setblock 2 122 28 minecraft:oak_planks
+cmd setblock 1 122 28 create:mechanical_bearing[facing=east]
+cmd say == row I: deployer
+cmd setblock 2 121 32 minecraft:dirt
+cmd setblock 0 123 32 create:creative_motor[facing=east]{ScrollValue:128}
+cmd setblock 1 123 32 create:shaft[axis=x]
+cmd setblock 2 123 32 create:deployer[facing=down,axis_along_first=true]
+cmd say == row J: belt with funnels
+cmd setblock 0 121 36 create:belt[facing=east,part=start,slope=horizontal]{Controller:[I;0,121,36],IsController:1b,Length:4,Index:0}
+cmd setblock 1 121 36 create:belt[facing=east,part=middle,slope=horizontal]{Controller:[I;0,121,36],Length:4,Index:1}
+cmd setblock 2 121 36 create:belt[facing=east,part=middle,slope=horizontal]{Controller:[I;0,121,36],Length:4,Index:2}
+cmd setblock 3 121 36 create:belt[facing=east,part=end,slope=horizontal]{Controller:[I;0,121,36],Length:4,Index:3}
+cmd setblock 0 121 35 create:creative_motor[facing=south]{ScrollValue:64}
+cmd setblock 0 123 36 minecraft:chest{Items:[{Slot:0b,id:"minecraft:cobblestone",count:4}]}
+cmd setblock 0 122 36 create:andesite_funnel[facing=down,extracting=true]
+cmd setblock 4 122 36 minecraft:chest
+cmd setblock 3 122 36 create:andesite_belt_funnel[facing=west,shape=pushing]
+sleep 20
+shot
+cmd tp @a 6.5 123 2.5 90 15
+sleep 6
+shot
+cmd tp @a 6.5 123 10.5 90 15
+sleep 6
+shot
+cmd tp @a 8.5 123 18.5 90 15
+sleep 6
+shot
+cmd tp @a 7.5 123 26.5 90 15
+sleep 6
+shot
+cmd tp @a 7.5 123 34.5 90 15
+sleep 6
+shot
+cmd say == checks
+cmd data get block 2 121 0 Speed
+cmd data get block 3 122 0 Speed
+cmd data get block 4 122 0 Speed
+cmd data get block 2 121 4
+cmd data get block 2 121 8
+cmd execute if entity @e[type=minecraft:item,nbt={Item:{id:"minecraft:iron_nugget"}}] run say CHECK washing-ok
+cmd execute if entity @e[type=minecraft:item,nbt={Item:{id:"minecraft:copper_ingot"}}] run say CHECK blasting-ok
+cmd data get block 4 121 20
+cmd execute if block 0 121 20 minecraft:air run say CHECK pump-drained-source
+cmd execute if entity @e[type=minecraft:item,nbt={Item:{id:"minecraft:oak_planks"}}] run say CHECK crafter-ok
+cmd data get block 2 121 24
+cmd execute if entity @e[type=create:stationary_contraption] run say CHECK contraption-ok
+cmd execute if block 2 121 32 minecraft:air run say CHECK deployer-ok
+cmd data get block 4 122 36 Items
+cmd data get block 0 121 36
+cmd say == zinc ore count in generated chunks
+cmd fill 0 0 0 31 31 31 minecraft:stone replace create:zinc_ore
+cmd fill 0 32 0 31 63 31 minecraft:stone replace create:zinc_ore
+cmd fill 0 -32 0 31 -1 31 minecraft:deepslate replace create:deepslate_zinc_ore
+cmd fill 0 -63 0 31 -33 31 minecraft:deepslate replace create:deepslate_zinc_ore
+cmd say == goggles
+cmd item replace entity @a armor.head with create:goggles
+cmd tp @a 2.5 121 -2.2 0 20
+sleep 5
+shot
+cmd tp @a 2.5 121 6.2 180 -20
+sleep 4
+shot
+cmd say == inventory, ponder, creative tabs
+cmd item replace entity @a hotbar.0 with create:mechanical_press
+cmd item replace entity @a hotbar.1 with create:cogwheel
+key e
+sleep 3
+shot
+move 479 464
+sleep 2
+shot
+keydown w
+sleep 4
+keyup w
+sleep 3
+shot
+sleep 3
+shot
+key Escape
+sleep 2
+key Escape
+sleep 2
+shot

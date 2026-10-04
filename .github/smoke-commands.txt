@@ -1,2 +1,4 @@
 say smoke-start
-forceload add 0 0 32 32
+whitelist off
+gamerule spawn_radius 0
+forceload add 0 0 47 47

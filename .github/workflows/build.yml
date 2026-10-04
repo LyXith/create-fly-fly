@@ -111,7 +111,7 @@ jobs:
             cp "$jar" mods/
             ls -l mods
             echo "eula=true" > eula.txt
-            printf 'level-seed=12345\nonline-mode=false\nmax-tick-time=-1\nview-distance=6\ngamemode=creative\ndifficulty=peaceful\nspawn-protection=0\n' > server.properties
+            printf 'level-seed=12345\nwhite-list=false\nenforce-whitelist=false\nonline-mode=false\nmax-tick-time=-1\nview-distance=6\ngamemode=creative\ndifficulty=peaceful\nspawn-protection=0\n' > server.properties
             mkfifo in.fifo
             (java -Xmx3G -Dcreate.mixin.audit=true -jar server.jar --nogui < in.fifo > server.log 2>&1; echo "EXIT $?" >> server.log) &
             exec 3> in.fifo
