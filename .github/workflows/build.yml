@@ -11,7 +11,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 75
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
@@ -32,24 +32,156 @@ jobs:
           }
           GRADLE
           ./gradlew build --no-daemon --continue -Dorg.gradle.console=plain -I /tmp/maxerrs.gradle 2>&1 | tee build.log
-      - name: Dump the game's class index and requested signatures
+      - name: Dump game signatures, bytecode and data on request
         if: always()
         shell: bash
         run: |
           mkdir -p /tmp/ci
-          jars=$(find ~/.gradle/caches/fabric-loom .gradle/loom-cache -name '*.jar' 2>/dev/null | grep -iE 'minecraft' | grep -v sources || true)
-          echo "$jars" > /tmp/ci/jars.txt
-          cp=$(echo "$jars" | paste -sd: -)
-          for j in $jars; do unzip -Z1 "$j" | grep '\.class$' ; done | sed 's/\.class$//' | sort -u > /tmp/ci/classes.txt || true
-          sed 's#/#.#g' /tmp/ci/classes.txt | grep -v 'package-info' > /tmp/all-classes.txt
-          (xargs -a /tmp/all-classes.txt -n 300 javap -p -cp "$cp" 2>/tmp/ci/javap-errors.txt || true) | gzip -9 > /tmp/ci/javap-all.txt.gz
-          tail -c 2000 /tmp/ci/javap-errors.txt > /tmp/ci/javap-errors-tail.txt; rm -f /tmp/ci/javap-errors.txt
+          mcjars=$(find ~/.gradle/caches/fabric-loom .gradle/loom-cache -name '*.jar' 2>/dev/null | grep -iE 'minecraft' | grep -v sources || true)
+          fabricjars=$(find ~/.gradle/caches/modules-2 -name 'fabric-*.jar' 2>/dev/null | grep -v sources | tr '\n' ' ')
+          if [ -f .github/dump-signatures ]; then
+            jars="$mcjars $fabricjars"
+            cp=$(echo $jars | tr ' ' ':')
+            for j in $jars; do unzip -Z1 "$j" | grep '\.class$' ; done | sed 's/\.class$//' | sort -u > /tmp/ci/classes.txt || true
+            sed 's#/#.#g' /tmp/ci/classes.txt | grep -v 'package-info\|module-info' > /tmp/all-classes.txt
+            (xargs -a /tmp/all-classes.txt -n 300 javap -p -cp "$cp" 2>/dev/null || true) | gzip -9 > /tmp/ci/javap-all.txt.gz
+          fi
+          if [ -f .github/dump-bytecode ]; then
+            cp=$(echo $mcjars | tr ' ' ':')
+            (xargs -a .github/dump-bytecode javap -p -c -cp "$cp" 2>/dev/null || true) | gzip -9 > /tmp/ci/bytecode.txt.gz
+          fi
+          if [ -f .github/dump-data ]; then
+            mkdir -p /tmp/ci-data
+            for j in $mcjars; do
+              while read -r pattern; do
+                [ -z "$pattern" ] && continue
+                unzip -o -q "$j" "$pattern" -d /tmp/ci-data 2>/dev/null || true
+              done < .github/dump-data
+            done
+            (cd /tmp/ci-data && tar czf /tmp/ci/data.tar.gz . ) || true
+          fi
+      - name: Smoke test (dedicated server, then a client that joins it)
+        if: always()
+        continue-on-error: true
+        shell: bash
+        run: |
+          # Only runs when .github/smoke-test exists. Starts a production Fabric server with the built jar, feeds it
+          # .github/smoke-commands.txt, and (when .github/smoke-client exists) joins it with a dev client under Xvfb,
+          # driven by .github/smoke-script.txt. Then restarts the server on the saved world
+          # (.github/smoke-commands-restart.txt). Logs and screenshots go to the ci-logs branch.
+          set +e
+          mkdir -p /tmp/ci
+          if [ -f .github/smoke-test ] && ls build/libs/*.jar >/dev/null 2>&1; then
+            exec > >(tee /tmp/ci/smoke.txt) 2>&1
+            root=$PWD
+            mc=$(grep '^minecraft_version' gradle.properties | sed 's/.*= *//')
+            loader=$(grep '^loader_version' gradle.properties | sed 's/.*= *//')
+            fapi=$(grep '^fabric_version' gradle.properties | sed 's/.*= *//')
+            mkdir -p server/mods && cd server
+            inst=$(curl -fsSL https://meta.fabricmc.net/v2/versions/installer | python3 -c "import json,sys; print(json.load(sys.stdin)[0]['version'])")
+            curl -fsSL -o server.jar "https://meta.fabricmc.net/v2/versions/loader/$mc/$loader/$inst/server/jar"
+            fapiurl=$(curl -fsSL "https://api.modrinth.com/v2/project/fabric-api/version" | python3 -c "import json,sys; v=[x for x in json.load(sys.stdin) if x['version_number']=='$fapi']; print(v[0]['files'][0]['url'])")
+            echo "fabric api: $fapiurl"
+            if [ ! -f $root/.github/smoke-no-fabric-api ]; then curl -fsSL -o mods/fabric-api.jar "$fapiurl"; fi
+            jar=$(ls ../build/libs/*.jar | grep -v -e sources -e server | head -1)
+            cp "$jar" mods/
+            ls -l mods
+            echo "eula=true" > eula.txt
+            printf 'level-seed=12345\nonline-mode=false\nmax-tick-time=-1\nview-distance=6\ngamemode=creative\ndifficulty=peaceful\nspawn-protection=0\n' > server.properties
+            mkfifo in.fifo
+            (java -Xmx3G -jar server.jar --nogui < in.fifo > server.log 2>&1; echo "EXIT $?" >> server.log) &
+            exec 3> in.fifo
+            for i in $(seq 1 120); do
+              if grep -q 'Done (' server.log || grep -q '^EXIT' server.log; then break; fi
+              sleep 5
+            done
+            if grep -q 'Done (' server.log; then
+              if [ -f $root/.github/smoke-commands.txt ]; then
+                while read -r line; do echo "$line" >&3; sleep 0.3; done < $root/.github/smoke-commands.txt
+                sleep 10
+              fi
+              if [ -f $root/.github/smoke-client ]; then
+                cd $root
+                sudo apt-get update -q >/dev/null 2>&1
+                sudo apt-get install -y -q xvfb xdotool imagemagick libgl1-mesa-dri >/dev/null 2>&1
+                mkdir -p run/mods
+                if [ ! -f .github/smoke-no-fabric-api ]; then cp server/mods/fabric-api.jar run/mods/; fi
+                printf 'pauseOnLostFocus:false\nonboardAccessibility:false\ntutorialStep:none\nnarrator:0\nrenderDistance:6\nguiScale:2\nmaxFps:30\nsoundCategory_master:0.0\n' > run/options.txt
+                export LIBGL_ALWAYS_SOFTWARE=1
+                Xvfb :99 -screen 0 1280x720x24 >/dev/null 2>&1 &
+                export DISPLAY=:99
+                sleep 2
+                (env -u CI timeout 1500 ./gradlew runClient --no-daemon -Dorg.gradle.console=plain --args="--quickPlayMultiplayer localhost --width 1280 --height 720" > client-gradle.log 2>&1; echo "EXIT $?" >> client-gradle.log) &
+                for i in $(seq 1 130); do
+                  if grep -q 'joined the game' server/server.log || grep -q '^EXIT' client-gradle.log; then break; fi
+                  sleep 5
+                done
+                n=0
+                shot() { n=$((n+1)); import -window root /tmp/ci/client-$(printf '%02d' $n).png; }
+                if grep -q 'joined the game' server/server.log; then
+                  sleep 40
+                  xdotool mousemove 640 360
+                  if [ -f .github/smoke-script.txt ]; then
+                    while read -r kind arg; do
+                      case "$kind" in
+                        cmd) echo "$arg" >&3;;
+                        key) xdotool key "$arg";;
+                        keydown) xdotool keydown "$arg";;
+                        keyup) xdotool keyup "$arg";;
+                        type) xdotool type --delay 40 "$arg";;
+                        sleep) sleep "$arg";;
+                        shot) shot;;
+                        move) xdotool mousemove $arg;;
+                        click) xdotool mousemove $arg; sleep 0.3; xdotool click 1; sleep 0.4;;
+                        rclick) xdotool mousemove $arg; sleep 0.3; xdotool click 3; sleep 0.4;;
+                        scroll) xdotool click --repeat 3 "$arg";;
+                      esac
+                    done < .github/smoke-script.txt
+                  else
+                    shot
+                  fi
+                else
+                  shot
+                fi
+                pkill -f KnotClient; sleep 5
+                tail -c 400000 client-gradle.log > /tmp/ci/client-gradle.log
+                cp run/logs/latest.log /tmp/ci/client.log 2>/dev/null
+                cp -r run/crash-reports /tmp/ci/client-crash-reports 2>/dev/null
+                cd server
+              fi
+              echo "stop" >&3
+              for i in $(seq 1 60); do grep -q '^EXIT' server.log && break; sleep 2; done
+            fi
+            exec 3>&-
+            cp server.log /tmp/ci/server.log
+            if [ -f $root/.github/smoke-commands-restart.txt ] && grep -q 'Done (' server.log; then
+              # second start on the saved world: checks that everything written above loads again
+              rm -f in.fifo; mkfifo in.fifo
+              (java -Xmx3G -jar server.jar --nogui < in.fifo > server2.log 2>&1; echo "EXIT $?" >> server2.log) &
+              exec 3> in.fifo
+              for i in $(seq 1 120); do
+                if grep -q 'Done (' server2.log || grep -q '^EXIT' server2.log; then break; fi
+                sleep 5
+              done
+              if grep -q 'Done (' server2.log; then
+                while read -r line; do echo "$line" >&3; sleep 0.3; done < $root/.github/smoke-commands-restart.txt
+                sleep 10
+                echo "stop" >&3
+                for i in $(seq 1 60); do grep -q '^EXIT' server2.log && break; sleep 2; done
+              fi
+              exec 3>&-
+              cp server2.log /tmp/ci/server2.log
+            fi
+            cp -r crash-reports /tmp/ci/ 2>/dev/null || true
+            cd $root
+          fi
       - name: Publish build log to the ci-logs branch
         if: always()
         shell: bash
         run: |
           mkdir -p /tmp/ci && cp build.log /tmp/ci/build.log || echo "no log" > /tmp/ci/build.log
           sed -i "s#${GITHUB_WORKSPACE}/##g" /tmp/ci/build.log
+          ls -l build/libs > /tmp/ci/jars.txt 2>&1 || true
           echo "${GITHUB_SHA}" > /tmp/ci/commit.txt
           cd /tmp/ci
           git init -q -b ci-logs
@@ -63,3 +195,14 @@ jobs:
         with:
           name: create-fly-26.3
           path: build/libs/*.jar
+      - name: Publish the jar as a release
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          gh release delete pack-26.3-latest -y --cleanup-tag -R "${{ github.repository }}" || true
+          sleep 3
+          jar=$(ls build/libs/*.jar | grep -v -e sources -e server | head -1)
+          cp "$jar" create-fly-26.3.jar
+          gh release create pack-26.3-latest create-fly-26.3.jar "$jar" -R "${{ github.repository }}" --target "${GITHUB_SHA}" --title "Create Fly for 26.3 (pack build)" --notes "Built from the 26.3 branch at ${GITHUB_SHA}."
