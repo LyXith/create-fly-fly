@@ -32,7 +32,8 @@ public class NoiseTextures {
         }
 
         try (var is = optional.get().open()) {
-            var image = NativeImage.read(NativeImage.Format.LUMINANCE, is);
+            // images always decode to RGBA now; the shader only samples the red channel
+            var image = NativeImage.read(is);
             BLUE_NOISE = new NoiseTexture(image);
         } catch (IOException e) {
 
@@ -48,7 +49,7 @@ public class NoiseTextures {
             texture = device.createTexture(
                 () -> "Flywheel Blue Noise",
                 5,
-                GpuFormat.R8_UNORM,
+                GpuFormat.RGBA8_UNORM,
                 pixels.getWidth(),
                 pixels.getHeight(),
                 1,

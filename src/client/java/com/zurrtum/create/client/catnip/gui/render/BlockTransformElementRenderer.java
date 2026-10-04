@@ -78,8 +78,7 @@ public class BlockTransformElementRenderer extends PictureInPictureRenderer<Bloc
             matrices.translate(-0.5F, -0.5F, -0.5F);
             CachedBuffers.block(key.state).submit(matrices, submitNodeStorage);
             matrices.popPose();
-            featureRenderDispatcher.renderAllFeatures(submitNodeStorage);
-            texture.clear();
+            texture.renderAllFeatures(featureRenderDispatcher, submitNodeStorage);
         }
         state.addBlitToCurrentLayer(new BlitRenderState(
             RenderPipelines.GUI_TEXTURED_PREMULTIPLIED_ALPHA,

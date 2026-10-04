@@ -18,7 +18,7 @@ import net.minecraft.util.context.ContextMap;
  */
 @FunctionalInterface
 public interface ExtendedUnbakedGeometry extends UnbakedGeometry {
-    ContextMap EMPTY = new ContextMap.Builder().create(NeoForgeModelProperties.EMPTY_TYPE);
+    ContextMap EMPTY = ContextMap.builder().buildAndValidate(NeoForgeModelProperties.EMPTY_TYPE);
 
     @Override
     default QuadCollection bake(

@@ -63,7 +63,7 @@ public class EjectorItemEntityRenderer extends ItemEntityRenderer {
     }
 
     @Override
-    public AABB getBoundingBoxForCulling(ItemEntity itemEntity) {
+    public AABB getBoundingBoxForCulling(ItemEntity itemEntity, float partialTick) {
         EjectorItemEntity entity = (EjectorItemEntity) itemEntity;
         if (entity.isAlive()) {
             return entity.getBoundingBox();

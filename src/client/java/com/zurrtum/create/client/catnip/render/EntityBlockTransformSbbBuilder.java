@@ -19,7 +19,7 @@ public class EntityBlockTransformSbbBuilder extends EntityBlockSbbBuilder implem
     @Override
     public void put(float x, float y, float z, BakedQuad quad, QuadInstance instance) {
         MaterialInfo info = quad.materialInfo();
-        VertexConsumer buffer = getBuffer(info.shade(), info.layer());
+        VertexConsumer buffer = getBuffer(info.shadeDirectionOverride() == null, info.layer());
         if (x != 0 || y != 0 || z != 0) {
             target.set(origin);
             target.translate(x, y, z);

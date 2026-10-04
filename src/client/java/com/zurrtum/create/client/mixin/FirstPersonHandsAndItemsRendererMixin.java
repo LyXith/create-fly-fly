@@ -7,10 +7,11 @@ import com.zurrtum.create.client.Create;
 import com.zurrtum.create.client.content.equipment.armor.NetheriteBacktankFirstPersonRenderer;
 import com.zurrtum.create.client.content.equipment.extendoGrip.ExtendoGripRenderHandler;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.AbstractClientPlayer;
-import net.minecraft.client.renderer.ItemInHandRenderer;
+import net.minecraft.client.renderer.FirstPersonHandsAndItemsRenderer;
 import net.minecraft.client.renderer.SubmitNodeCollector;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.renderer.item.ItemStackRenderState;
+import net.minecraft.client.renderer.state.level.FirstPersonHandsAndItemsRenderState;
+import net.minecraft.client.renderer.state.level.PlayerRenderState;
 import net.minecraft.core.ClientAsset;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionHand;
@@ -20,20 +21,17 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 
-@Mixin(ItemInHandRenderer.class)
-public class ItemInHandRendererMixin {
+@Mixin(FirstPersonHandsAndItemsRenderer.class)
+public class FirstPersonHandsAndItemsRendererMixin {
     @Shadow
     @Final
     private Minecraft minecraft;
 
-    @Shadow
-    @Final
-    private EntityRenderDispatcher entityRenderDispatcher;
-
-    @WrapOperation(method = "submitHandsWithItems(FLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;Lnet/minecraft/client/player/LocalPlayer;I)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/ItemInHandRenderer;submitArmWithItem(Lnet/minecraft/client/player/AbstractClientPlayer;FFLnet/minecraft/world/InteractionHand;FLnet/minecraft/world/item/ItemStack;FLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;I)V"))
+    @WrapOperation(method = "submitHandsWithItems(FLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;Lnet/minecraft/client/renderer/state/level/PlayerRenderState;Lnet/minecraft/client/renderer/state/level/FirstPersonHandsAndItemsRenderState;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/FirstPersonHandsAndItemsRenderer;submitArmWithItem(Lnet/minecraft/client/renderer/state/level/PlayerRenderState;Lnet/minecraft/client/renderer/state/level/FirstPersonHandsAndItemsRenderState;FFLnet/minecraft/world/InteractionHand;FLnet/minecraft/world/item/ItemStack;FLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;I)V"))
     private void renderItem(
-        ItemInHandRenderer instance,
-        AbstractClientPlayer player,
+        FirstPersonHandsAndItemsRenderer instance,
+        PlayerRenderState playerState,
+        FirstPersonHandsAndItemsRenderState handsState,
         float frameInterp,
         float xRot,
         InteractionHand hand,
@@ -45,11 +43,12 @@ public class ItemInHandRendererMixin {
         int lightCoords,
         Operation<Void> original
     ) {
+        ItemStackRenderState itemState = hand == InteractionHand.MAIN_HAND ? handsState.mainHandRenderState : handsState.offHandRenderState;
         if (Create.ZAPPER_RENDER_HANDLER.onRenderPlayerHand(
             itemStack,
             minecraft,
-            entityRenderDispatcher,
-            instance,
+            playerState,
+            itemState,
             poseStack,
             submitNodeCollector,
             lightCoords,
@@ -60,8 +59,8 @@ public class ItemInHandRendererMixin {
         ) || Create.POTATO_CANNON_RENDER_HANDLER.onRenderPlayerHand(
             itemStack,
             minecraft,
-            entityRenderDispatcher,
-            instance,
+            playerState,
+            itemState,
             poseStack,
             submitNodeCollector,
             lightCoords,
@@ -72,7 +71,7 @@ public class ItemInHandRendererMixin {
         ) || ExtendoGripRenderHandler.onRenderPlayerHand(
             itemStack,
             minecraft,
-            entityRenderDispatcher,
+            playerState,
             poseStack,
             submitNodeCollector,
             lightCoords,
@@ -84,7 +83,8 @@ public class ItemInHandRendererMixin {
         }
         original.call(
             instance,
-            player,
+            playerState,
+            handsState,
             frameInterp,
             xRot,
             hand,
@@ -97,16 +97,8 @@ public class ItemInHandRendererMixin {
         );
     }
 
-    @WrapOperation(method = "renderMapHand(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;ILnet/minecraft/world/entity/HumanoidArm;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/ClientAsset$Texture;texturePath()Lnet/minecraft/resources/Identifier;"))
-    private Identifier getMapHandTexture(ClientAsset.Texture instance, Operation<Identifier> original) {
-        Identifier id = NetheriteBacktankFirstPersonRenderer.getHandTexture(minecraft.player);
-        if (id != null) {
-            return id;
-        }
-        return original.call(instance);
-    }
-
-    @WrapOperation(method = "renderPlayerArm(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;IFFLnet/minecraft/world/entity/HumanoidArm;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/ClientAsset$Texture;texturePath()Lnet/minecraft/resources/Identifier;"))
+    // Both the bare arm and the hands holding a map go through renderPlayerHand
+    @WrapOperation(method = "renderPlayerHand(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;ILnet/minecraft/world/entity/HumanoidArm;Lnet/minecraft/client/renderer/state/level/PlayerRenderState;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/ClientAsset$Texture;texturePath()Lnet/minecraft/resources/Identifier;"))
     private Identifier getHandTexture(ClientAsset.Texture instance, Operation<Identifier> original) {
         Identifier id = NetheriteBacktankFirstPersonRenderer.getHandTexture(minecraft.player);
         if (id != null) {

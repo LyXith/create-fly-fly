@@ -67,6 +67,12 @@ public class TransformingVertexConsumer implements VertexConsumer {
     }
 
     @Override
+    public VertexConsumer setUv3(float u, float v) {
+        delegate.setUv3(u, v);
+        return this;
+    }
+
+    @Override
     public VertexConsumer setNormal(float x, float y, float z) {
         Matrix3f matrix = poseStack.last().normal();
         delegate.setNormal(

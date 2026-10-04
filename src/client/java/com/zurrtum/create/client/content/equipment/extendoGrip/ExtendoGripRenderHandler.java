@@ -1,5 +1,6 @@
 package com.zurrtum.create.client.content.equipment.extendoGrip;
 
+import net.minecraft.client.renderer.state.level.PlayerRenderState;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.zurrtum.create.AllItems;
 import com.zurrtum.create.client.flywheel.lib.transform.TransformStack;
@@ -55,7 +56,7 @@ public class ExtendoGripRenderHandler {
     public static boolean onRenderPlayerHand(
         ItemStack heldItem,
         Minecraft mc,
-        EntityRenderDispatcher entityRenderDispatcher,
+        PlayerRenderState playerState,
         PoseStack ms,
         SubmitNodeCollector queue,
         int light,
@@ -93,7 +94,7 @@ public class ExtendoGripRenderHandler {
             msr.rotateYDegrees(flip * 40.0F);
             ms.translate(flip * 0.05f, -0.3f, -0.3f);
 
-            AvatarRenderer<AbstractClientPlayer> playerrenderer = entityRenderDispatcher.getPlayerRenderer(player);
+            AvatarRenderer<?> playerrenderer = mc.getEntityRenderDispatcher().getRenderer(playerState.avatarRenderState);
             Identifier texture = player.getSkin().body().texturePath();
             if (rightHand) {
                 playerrenderer.renderRightHand(
@@ -139,11 +140,11 @@ public class ExtendoGripRenderHandler {
     }
 
     private static ItemStack getRenderedMainHandStack(Minecraft mc) {
-        return mc.getEntityRenderDispatcher().getItemInHandRenderer().mainHandItem;
+        return mc.player == null ? ItemStack.EMPTY : mc.player.firstPersonHandsAndItems().mainHandItem;
     }
 
     private static ItemStack getRenderedOffHandStack(Minecraft mc) {
-        return mc.getEntityRenderDispatcher().getItemInHandRenderer().offHandItem;
+        return mc.player == null ? ItemStack.EMPTY : mc.player.firstPersonHandsAndItems().offHandItem;
     }
 
 }

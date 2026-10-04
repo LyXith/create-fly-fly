@@ -1,5 +1,6 @@
 package com.zurrtum.create.client.content.schematics.table;
 
+import com.mojang.blaze3d.Blaze3D;
 import com.google.common.collect.ImmutableList;
 import com.zurrtum.create.AllItems;
 import com.zurrtum.create.client.Create;
@@ -141,7 +142,7 @@ public class SchematicTableScreen extends AbstractSimiContainerScreen<SchematicT
 
         folderButton = new IconButton(leftPos + 20, y + 21, AllIcons.I_OPEN_FOLDER);
         folderButton.withCallback(() -> {
-            Util.getPlatform().openFile(CreatePaths.SCHEMATICS_DIR.toFile());
+            Blaze3D.openPath(CreatePaths.SCHEMATICS_DIR);
         });
         folderButton.setToolTip(folder);
         refreshButton = new IconButton(leftPos + 206, y + 21, AllIcons.I_REFRESH);

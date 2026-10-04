@@ -25,7 +25,7 @@ public interface BufferAoPoseEmitterMixin extends FabricEmitterSupplier {
     default @NonNull QuadEmitter quadEmitter() {
         Pose pose = getPose();
         return Renderer.get().quadEmitter(quad -> {
-            VertexConsumer buffer = getBuffer(quad.chunkLayer(), quad.diffuseShade(), quad.ambientOcclusion().get());
+            VertexConsumer buffer = getBuffer(quad.chunkLayer(), quad.shadeDirectionOverride() == null, quad.ambientOcclusion().get());
             if (buffer == null) {
                 return;
             }

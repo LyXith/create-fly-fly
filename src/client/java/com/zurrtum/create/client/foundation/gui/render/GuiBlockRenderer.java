@@ -1,5 +1,7 @@
 package com.zurrtum.create.client.foundation.gui.render;
 
+import com.mojang.renderpearl.api.textures.GpuTextureView;
+import com.zurrtum.create.client.catnip.gui.render.FeaturePass;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -34,8 +36,6 @@ public abstract class GuiBlockRenderer<T extends PictureInPictureRenderState> ex
             blitTexture(renderState, guiRenderState);
         } else {
             prepareTexturesAndProjection(needsAResize, width, height);
-            RenderSystem.outputColorTextureOverride = textureView;
-            RenderSystem.outputDepthTextureOverride = depthTextureView;
             Matrix4fStack modelViewStack = RenderSystem.getModelViewStack();
             modelViewStack.pushMatrix();
             PoseStack poseStack = new PoseStack();
@@ -43,20 +43,22 @@ public abstract class GuiBlockRenderer<T extends PictureInPictureRenderState> ex
             float scale = guiScale * renderState.scale();
             poseStack.scale(scale, scale, -scale);
             renderToTexture(renderState, poseStack, submitNodeStorage);
-            renderAllFeatures(featureRenderDispatcher);
+            renderAllFeatures(featureRenderDispatcher, textureView, depthTextureView);
             modelViewStack.popMatrix();
-            RenderSystem.outputColorTextureOverride = null;
-            RenderSystem.outputDepthTextureOverride = null;
             blitTexture(renderState, guiRenderState);
         }
     }
 
-    protected void renderAllFeatures(FeatureRenderDispatcher featureRenderDispatcher) {
+    protected void renderAllFeatures(
+        FeatureRenderDispatcher featureRenderDispatcher,
+        GpuTextureView color,
+        GpuTextureView depth
+    ) {
         Minecraft mc = Minecraft.getInstance();
         Lighting lighting = mc.gameRenderer.lighting();
         lighting.updateBuffer(Lighting.Entry.LEVEL, getLight0(), getLight1());
         lighting.setupFor(Lighting.Entry.LEVEL);
-        featureRenderDispatcher.renderAllFeatures(submitNodeStorage);
+        FeaturePass.renderAllFeatures(featureRenderDispatcher, submitNodeStorage, color, depth);
         if (mc.level != null) {
             lighting.updateLevel(mc.level.dimensionType().cardinalLightType());
         } else {

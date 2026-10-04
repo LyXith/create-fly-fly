@@ -72,7 +72,7 @@ public class ItemMeshEmitter implements VertexConsumer {
     }
 
     private void prepareForGeometry(BakedQuad quad) {
-        prepareForGeometry(quad.materialInfo().shade());
+        prepareForGeometry(quad.materialInfo().shadeDirectionOverride() == null);
     }
 
     private void emit() {
@@ -219,6 +219,11 @@ public class ItemMeshEmitter implements VertexConsumer {
 
     @Override
     public VertexConsumer setUv2(int u, int v) {
+        throw new UnsupportedOperationException("MeshEmitter only supports putBulkData!");
+    }
+
+    @Override
+    public VertexConsumer setUv3(float u, float v) {
         throw new UnsupportedOperationException("MeshEmitter only supports putBulkData!");
     }
 

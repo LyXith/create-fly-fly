@@ -1,5 +1,7 @@
 package com.zurrtum.create.client.catnip.gui.render;
 
+import net.minecraft.client.renderer.SubmitNodeStorage;
+import net.minecraft.client.renderer.feature.FeatureRenderDispatcher;
 import com.mojang.renderpearl.api.GpuFormat;
 import com.mojang.blaze3d.ProjectionType;
 import com.mojang.renderpearl.api.device.GpuDevice;
@@ -50,13 +52,10 @@ public record GpuTexture(int width, int height, com.mojang.renderpearl.api.textu
             .clearColorAndDepthTextures(texture, GuiRenderer.CLEAR_COLOR, depthTexture, 0);
         projection.setupOrtho(-1000.0F, 1000.0F, width, height, true);
         RenderSystem.setProjectionMatrix(projectionMatrixBuffer.getBuffer(projection), ProjectionType.ORTHOGRAPHIC);
-        RenderSystem.outputColorTextureOverride = textureView;
-        RenderSystem.outputDepthTextureOverride = depthTextureView;
     }
 
-    public void clear() {
-        RenderSystem.outputColorTextureOverride = null;
-        RenderSystem.outputDepthTextureOverride = null;
+    public void renderAllFeatures(FeatureRenderDispatcher dispatcher, SubmitNodeStorage storage) {
+        FeaturePass.renderAllFeatures(dispatcher, storage, textureView, depthTextureView);
     }
 
     public void close() {

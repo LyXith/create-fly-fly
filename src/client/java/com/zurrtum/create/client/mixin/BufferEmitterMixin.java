@@ -20,7 +20,7 @@ public interface BufferEmitterMixin extends FabricEmitterSupplier {
     default @NonNull QuadEmitter quadEmitter() {
         return Renderer.get().quadEmitter(quad -> quad.buffer(
             OverlayTexture.NO_OVERLAY,
-            getBuffer(quad.diffuseShade(), quad.chunkLayer())
+            getBuffer(quad.shadeDirectionOverride() == null, quad.chunkLayer())
         ));
     }
 }

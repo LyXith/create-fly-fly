@@ -1,5 +1,6 @@
 package com.zurrtum.create.client.flywheel.lib.model.baked;
 
+import net.minecraft.client.resources.model.geometry.ItemQuads;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
@@ -35,7 +36,7 @@ public class ItemModelRenderHelper {
     ) {
         LayerRenderState layer = state.newLayer();
         settings.applyToLayer(layer, displayContext);
-        layer.prepareQuadList().addAll(quads);
+        layer.setQuads(ItemQuads.split(quads));
         return layer;
     }
 
@@ -70,9 +71,9 @@ public class ItemModelRenderHelper {
         return layer;
     }
 
-    private record CustomLayer(int light, int[] tints, List<BakedQuad> quads) implements SpecialModelRenderer<Object> {
+    private record CustomLayer(int light, int[] tints, ItemQuads quads) implements SpecialModelRenderer<Object> {
         public static void setup(LayerRenderState layer, int lightCoords, int[] tints, List<BakedQuad> quads) {
-            CustomLayer renderer = new CustomLayer(lightCoords, tints, quads);
+            CustomLayer renderer = new CustomLayer(lightCoords, tints, ItemQuads.split(quads));
             layer.setupSpecialModel(renderer, null);
         }
 

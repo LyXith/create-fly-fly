@@ -1,5 +1,6 @@
 package com.zurrtum.create.client.ponder.foundation.render;
 
+import com.zurrtum.create.client.catnip.gui.render.FeaturePass;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.renderpearl.api.textures.FilterMode;
@@ -79,19 +80,21 @@ public class SceneRenderer extends PictureInPictureRenderer<SceneRenderState> {
             QuadParticleFeatureRenderer.TYPE);
         Matrix4f particleTransforms = RenderSystem.getModelViewMatrixCopy().mul(matrices.last().pose());
         particle.ponder$updateTransforms(RenderSystem.getDynamicUniforms().writeTransform(particleTransforms));
-        try (FeatureRenderDispatcher.PreparedFrame frame = featureRenderDispatcher.prepareFrame(submitNodeStorage)) {
-            frame.executeSolid();
-            frame.executeTranslucent();
-            frame.executeOutline();
-            frame.executeTranslucentAfterTerrain();
-            frame.executeAlwaysOnTop();
-        }
+        FeaturePass.render(
+            featureRenderDispatcher, submitNodeStorage, texture.textureView(), texture.depthTextureView(), (pass, frame) -> {
+                frame.executeSolid(pass);
+                frame.executeTranslucent(pass);
+                frame.executeOutline(pass);
+                frame.executeTranslucentAfterTerrain(pass);
+                frame.executeSeeThrough(pass);
+                frame.executeAlwaysOnTop(pass);
+            }
+        );
         particle.ponder$updateTransforms(null);
         scene.resetParticles();
         lighting.updateLevel(mc.level.dimensionType().cardinalLightType());
         gameRenderer.useUiLightmap = lightOption;
         matrices.popPose();
-        texture.clear();
         state.addBlitToCurrentLayer(new BlitRenderState(
             RenderPipelines.GUI_TEXTURED_PREMULTIPLIED_ALPHA,
             TextureSetup.singleTexture(

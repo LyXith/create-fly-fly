@@ -1,11 +1,13 @@
 package com.zurrtum.create.client.content.equipment.zapper;
 
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.renderer.item.ItemStackRenderState;
+import net.minecraft.client.renderer.state.level.PlayerRenderState;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.renderer.ItemInHandRenderer;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.player.AvatarRenderer;
@@ -70,8 +72,8 @@ public abstract class ShootableGadgetRenderHandler {
     public boolean onRenderPlayerHand(
         ItemStack heldItem,
         Minecraft mc,
-        EntityRenderDispatcher entityRenderDispatcher,
-        ItemInHandRenderer firstPersonRenderer,
+        PlayerRenderState playerState,
+        ItemStackRenderState itemState,
         PoseStack ms,
         SubmitNodeCollector queue,
         int light,
@@ -85,7 +87,7 @@ public abstract class ShootableGadgetRenderHandler {
         }
 
         AbstractClientPlayer player = mc.player;
-        AvatarRenderer<AbstractClientPlayer> playerrenderer = entityRenderDispatcher.getPlayerRenderer(player);
+        AvatarRenderer<?> playerrenderer = mc.getEntityRenderDispatcher().getRenderer(playerState.avatarRenderState);
 
         boolean rightHand = hand == InteractionHand.MAIN_HAND ^ player.getMainArm() == HumanoidArm.LEFT;
         float recoil = rightHand ? Mth.lerp(pt, lastRightHandAnimation, rightHandAnimation) :
@@ -145,14 +147,8 @@ public abstract class ShootableGadgetRenderHandler {
         ms.rotate(Axis.YP.rotationDegrees(flip * f6 * 70.0F));
         ms.rotate(Axis.ZP.rotationDegrees(flip * f5 * -20.0F));
         transformTool(ms, flip, equipProgress, recoil, pt);
-        firstPersonRenderer.renderItem(
-            player,
-            heldItem,
-            rightHand ? ItemDisplayContext.FIRST_PERSON_RIGHT_HAND : ItemDisplayContext.FIRST_PERSON_LEFT_HAND,
-            ms,
-            queue,
-            light
-        );
+        // the hand's item state was extracted for this arm's first person display context
+        itemState.submit(ms, queue, light, OverlayTexture.NO_OVERLAY, 0);
         ms.popPose();
         return true;
     }

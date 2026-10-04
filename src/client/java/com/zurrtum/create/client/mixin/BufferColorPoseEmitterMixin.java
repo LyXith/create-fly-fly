@@ -22,7 +22,7 @@ public interface BufferColorPoseEmitterMixin extends BufferPoseEmitter, FabricEm
         Pose pose = getPose();
         return Renderer.get().quadEmitter(quad -> {
             quad.multiplyColor(color);
-            quad.buffer(OverlayTexture.NO_OVERLAY, pose, getBuffer(quad.diffuseShade(), quad.chunkLayer()));
+            quad.buffer(OverlayTexture.NO_OVERLAY, pose, getBuffer(quad.shadeDirectionOverride() == null, quad.chunkLayer()));
         });
     }
 }

@@ -275,7 +275,7 @@ public class SequencedAssemblyView extends CreateView {
             } else {
                 RegistryOps<JsonElement> ops = Minecraft.getInstance().level.registryAccess()
                     .createSerializationContext(JsonOps.INSTANCE);
-                name = Recipe.CODEC.encodeStart(ops, recipe).result().map(json -> AllAssemblyRecipeNames.get(ops, json))
+                name = Recipe.DIRECT_CODEC.encodeStart(ops, recipe).result().map(json -> AllAssemblyRecipeNames.get(ops, json))
                     .orElse(CommonComponents.EMPTY);
             }
             NAMES.put(recipe, name);

@@ -33,7 +33,7 @@ public class EntityBlockSbbBuilder implements BufferEmitter {
     @Override
     public void put(float x, float y, float z, BakedQuad quad, QuadInstance instance) {
         MaterialInfo info = quad.materialInfo();
-        getBuffer(info.shade(), info.layer()).putBlockBakedQuad(x, y, z, quad, instance);
+        getBuffer(info.shadeDirectionOverride() == null, info.layer()).putBlockBakedQuad(x, y, z, quad, instance);
     }
 
     public SuperByteBuffer build() {
@@ -171,6 +171,11 @@ public class EntityBlockSbbBuilder implements BufferEmitter {
 
         @Override
         public VertexConsumer setUv2(int u, int v) {
+            throw new UnsupportedOperationException("TemplateMeshBuffer only supports addVertex!");
+        }
+
+        @Override
+        public VertexConsumer setUv3(float u, float v) {
             throw new UnsupportedOperationException("TemplateMeshBuffer only supports addVertex!");
         }
 

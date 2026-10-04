@@ -297,10 +297,10 @@ public class ObjGeometry implements ExtendedUnbakedGeometry {
         ModelState state,
         ModelDebugName debugName
     ) {
-        ContextMap.Builder propertiesBuilder = new ContextMap.Builder();
+        ContextMap.Builder propertiesBuilder = ContextMap.builder();
         NeoForgeModelProperties.fillRootTransformProperty(propertiesBuilder, parameters.rootTransform());
         NeoForgeModelProperties.fillPartVisibilityProperty(propertiesBuilder, parameters.partVisibility());
-        return bake(textureSlots, baker, state, debugName, propertiesBuilder.create(NeoForgeModelProperties.TYPE));
+        return bake(textureSlots, baker, state, debugName, propertiesBuilder.buildAndValidate(NeoForgeModelProperties.TYPE));
     }
 
     @Override
@@ -416,7 +416,7 @@ public class ObjGeometry implements ExtendedUnbakedGeometry {
             material,
             computeMaterialTransparency(material, texture, tex),
             tintIndex,
-            shade,
+            shade ? null : Direction.UP,
             lightEmission
         ));
         float nx = norm.x(), ny = norm.y(), nz = norm.z();

@@ -38,7 +38,7 @@ public class VanillinMeshEmitterManager extends MeshEmitterManager<MeshEmitter> 
     @Override
     public void put(float x, float y, float z, BakedQuad quad, QuadInstance instance) {
         MaterialInfo info = quad.materialInfo();
-        BufferBuilder buffer = getBuffer(info.layer(), info.shade(), useAo);
+        BufferBuilder buffer = getBuffer(info.layer(), info.shadeDirectionOverride() == null, useAo);
         if (buffer != null) {
             if (x != 0.0F || y != 0.0F || z != 0.0F) {
                 poseStack.pushPose();

@@ -1,5 +1,6 @@
 package com.zurrtum.create.client.foundation.model;
 
+import net.minecraft.client.renderer.Sheets;
 import com.zurrtum.create.catnip.data.Iterate;
 import com.zurrtum.create.catnip.math.VecHelper;
 import com.zurrtum.create.client.model.NormalsBakedQuad;
@@ -199,6 +200,25 @@ public class BakedModelHelper {
         return model.bakeTopGeometry(model.getTopTextureSlots(), baker, BlockModelRotation.IDENTITY).getAll();
     }
 
+    /**
+     * The glint variant that belongs to one of the item sheets (the glint is baked into the item render type).
+     */
+    private static RenderType glintSheet(RenderType itemRenderType, boolean special, RenderType fallback) {
+        if (itemRenderType == Sheets.cutoutBlockItemSheet()) {
+            return special ? Sheets.cutoutBlockItemGlintSpecialSheet() : Sheets.cutoutBlockItemGlintSheet();
+        }
+        if (itemRenderType == Sheets.translucentBlockItemSheet()) {
+            return special ? Sheets.translucentBlockItemGlintSpecialSheet() : Sheets.translucentBlockItemGlintSheet();
+        }
+        if (itemRenderType == Sheets.cutoutItemSheet()) {
+            return special ? Sheets.cutoutItemGlintSpecialSheet() : Sheets.cutoutItemGlintSheet();
+        }
+        if (itemRenderType == Sheets.translucentItemSheet()) {
+            return special ? Sheets.translucentItemGlintSpecialSheet() : Sheets.translucentItemGlintSheet();
+        }
+        return fallback;
+    }
+
     public static List<BakedQuad> replaceQuadLayer(
         List<BakedQuad> quads,
         ChunkSectionLayer layer,
@@ -225,8 +245,10 @@ public class BakedModelHelper {
                     info.sprite(),
                     layer,
                     itemRenderType,
+                    glintSheet(itemRenderType, false, info.itemGlintRenderType()),
+                    glintSheet(itemRenderType, true, info.itemGlintSpecialRenderType()),
                     info.tintIndex(),
-                    info.shade(),
+                    info.shadeDirectionOverride(),
                     info.lightEmission()
                 )
             );

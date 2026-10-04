@@ -125,7 +125,7 @@ public class ContraptionEntityRenderer<C extends AbstractContraptionEntity, S ex
     }
 
     @Override
-    public boolean shouldRender(C entity, Frustum frustum, double cameraX, double cameraY, double cameraZ) {
+    public boolean shouldRender(C entity, Frustum frustum, double cameraX, double cameraY, double cameraZ, float partialTick) {
         if (entity.getContraption() == null) {
             return false;
         }
@@ -136,7 +136,7 @@ public class ContraptionEntityRenderer<C extends AbstractContraptionEntity, S ex
             return false;
         }
 
-        return super.shouldRender(entity, frustum, cameraX, cameraY, cameraZ);
+        return super.shouldRender(entity, frustum, cameraX, cameraY, cameraZ, partialTick);
     }
 
     @Override

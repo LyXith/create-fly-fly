@@ -81,7 +81,7 @@ public final class NeoForgeModelProperties {
         @Nullable Transformation rootTransform
     ) {
         if (rootTransform != null) {
-            propertiesBuilder.withParameter(TRANSFORM, rootTransform);
+            propertiesBuilder.set(TRANSFORM, rootTransform);
         }
     }
 
@@ -94,7 +94,7 @@ public final class NeoForgeModelProperties {
         Map<String, Boolean> partVisibility
     ) {
         if (!partVisibility.isEmpty()) {
-            Map<String, Boolean> visibility = propertiesBuilder.getOptionalParameter(PART_VISIBILITY);
+            Map<String, Boolean> visibility = propertiesBuilder.get(PART_VISIBILITY);
             if (visibility != null) {
                 visibility = new HashMap<>(visibility);
                 visibility.putAll(partVisibility);
@@ -102,7 +102,7 @@ public final class NeoForgeModelProperties {
                 visibility = partVisibility;
             }
             visibility = Map.copyOf(visibility);
-            propertiesBuilder.withParameter(PART_VISIBILITY, visibility);
+            propertiesBuilder.set(PART_VISIBILITY, visibility);
         }
     }
 }

@@ -163,9 +163,7 @@ public final class FlwCommands {
                         player.getRotationVector(),
                         null,
                         null,
-                        null,
-                        null,
-                        null,
+                        (Component) null,
                         null
                     ));
                     int value = IntegerArgumentType.getInteger(context, "stage");

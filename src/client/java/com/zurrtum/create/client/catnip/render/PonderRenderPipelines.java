@@ -114,7 +114,7 @@ public class PonderRenderPipelines {
     public static final RenderPipeline POSITION_COLOR_TRIANGLES = register(
         "position_color_triangles",
         RenderPipeline.builder(RenderPipelines.GLOBALS_SNIPPET)
-            .withBindGroupLayout(BindGroupLayouts.MATRICES_PROJECTION).withVertexShader("core/position_color")
+            .withBindGroupLayout(BindGroupLayouts.PROJECTION).withBindGroupLayout(BindGroupLayouts.DYNAMIC_TRANSFORMS).withVertexShader("core/position_color")
             .withFragmentShader("core/position_color")
             .withColorTargetState(new ColorTargetState(BlendFunction.TRANSLUCENT))
             .withVertexBinding(0, DefaultVertexFormat.POSITION_COLOR).withPrimitiveTopology(PrimitiveTopology.TRIANGLES)
