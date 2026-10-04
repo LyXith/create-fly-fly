@@ -114,7 +114,7 @@ public class BracketedBlockEntityBehaviour extends BlockEntityBehaviour<SmartBlo
     @Override
     public void write(ValueOutput view, boolean clientPacket) {
         if (isBracketPresent() && isBracketValid(bracket)) {
-            view.store("Bracket", BlockState.CODEC, bracket);
+            view.store("Bracket", com.zurrtum.create.foundation.codec.CreateCodecs.BLOCK_STATE_CODEC, bracket);
         }
         if (clientPacket && reRender) {
             view.putBoolean("Redraw", true);
@@ -125,7 +125,7 @@ public class BracketedBlockEntityBehaviour extends BlockEntityBehaviour<SmartBlo
 
     @Override
     public void read(ValueInput view, boolean clientPacket) {
-        view.read("Bracket", BlockState.CODEC).ifPresent(state -> {
+        view.read("Bracket", com.zurrtum.create.foundation.codec.CreateCodecs.BLOCK_STATE_CODEC).ifPresent(state -> {
             bracket = null;
             if (isBracketValid(state)) {
                 bracket = state;

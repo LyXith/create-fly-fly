@@ -33,8 +33,9 @@ public class SchematicAndQuillItem extends Item {
 
         NBTHelper.iterateCompoundList(
             nbt.getListOrEmpty("palette"), c -> {
-                if (c.getString("Name").map(name -> name.equals(structureVoid)).orElse(false)) {
-                    c.putString("Name", air);
+                // 26.3: block state tags use "id" (was "Name")
+                if (c.getString("id").map(name -> name.equals(structureVoid)).orElse(false)) {
+                    c.putString("id", air);
                 }
             }
         );

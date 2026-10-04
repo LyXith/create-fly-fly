@@ -69,10 +69,12 @@ cmd setblock 1 121 36 create:belt[facing=east,part=middle,slope=horizontal]{Cont
 cmd setblock 2 121 36 create:belt[facing=east,part=middle,slope=horizontal]{Controller:[I;0,121,36],Length:4,Index:2}
 cmd setblock 3 121 36 create:belt[facing=east,part=end,slope=horizontal]{Controller:[I;0,121,36],Length:4,Index:3}
 cmd setblock 0 121 35 create:creative_motor[facing=south]{ScrollValue:64}
-cmd setblock 0 123 36 minecraft:chest{Items:[{Slot:0b,id:"minecraft:cobblestone",count:4}]}
-cmd setblock 0 122 36 create:andesite_funnel[facing=down,extracting=true]
+cmd setblock 1 123 36 minecraft:chest{Items:[{Slot:0b,id:"minecraft:cobblestone",count:4}]}
+cmd setblock 1 122 36 create:andesite_funnel[facing=down,extracting=true]
 cmd setblock 4 122 36 minecraft:chest
 cmd setblock 3 122 36 create:andesite_belt_funnel[facing=west,shape=retracted]
+cmd setblock -1 122 36 minecraft:chest
+cmd setblock 0 122 36 create:andesite_belt_funnel[facing=east,shape=retracted]
 cmd say == row K: funnel from chest
 cmd setblock 0 121 40 minecraft:chest{Items:[{Slot:0b,id:"minecraft:diorite",count:2}]}
 cmd setblock 1 121 40 create:andesite_funnel[facing=east,extracting=true]
@@ -109,8 +111,8 @@ cmd data get block 2 121 24
 cmd execute if entity @e[type=create:stationary_contraption] run say CHECK contraption-ok
 cmd execute if block 2 121 32 minecraft:air run say CHECK deployer-ok
 cmd data get block 4 122 36 Items
-cmd data get block 0 123 36 Items
-cmd data get block 0 122 36
+cmd data get block -1 122 36 Items
+cmd data get block 1 123 36 Items
 cmd data get block 0 121 40 Items
 cmd execute if entity @e[type=minecraft:item,nbt={Item:{id:"minecraft:cobblestone"}}] run say CHECK cobble-item-entity
 cmd execute if entity @e[type=minecraft:item,nbt={Item:{id:"minecraft:diorite"}}] run say CHECK funnel-extract-ok
@@ -133,6 +135,15 @@ cmd item replace entity @a hotbar.0 with create:mechanical_press
 cmd item replace entity @a hotbar.1 with create:cogwheel
 key e
 sleep 3
+shot
+click 816 243
+sleep 2
+shot
+click 470 200
+sleep 2
+shot
+click 524 200
+sleep 2
 shot
 move 479 464
 sleep 2

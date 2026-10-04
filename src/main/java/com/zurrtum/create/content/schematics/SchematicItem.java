@@ -125,7 +125,7 @@ public class SchematicItem extends Item {
             StandardOpenOption.READ
         ))))) {
             CompoundTag nbt = NbtIo.read(stream, NbtAccounter.create(0x20000000L));
-            t.load(level.holderLookup(Registries.BLOCK), nbt);
+            t.load(level.holderLookup(Registries.BLOCK), com.zurrtum.create.catnip.nbt.NBTHelper.upgradeStructure(nbt));
         } catch (IOException e) {
             LOGGER.warn("Failed to read schematic", e);
         }

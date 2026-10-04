@@ -127,7 +127,7 @@ public abstract class LaunchedItem {
         @Override
         public void write(ValueOutput view) {
             super.write(view);
-            view.store("BlockState", BlockState.CODEC, state);
+            view.store("BlockState", com.zurrtum.create.foundation.codec.CreateCodecs.BLOCK_STATE_CODEC, state);
             if (data != null) {
                 data.remove("x");
                 data.remove("y");
@@ -138,7 +138,7 @@ public abstract class LaunchedItem {
         }
 
         public static @Nullable LaunchedItem from(ValueInput view, HolderGetter<Block> holderGetter) {
-            return view.read("BlockState", BlockState.CODEC).map(state -> {
+            return view.read("BlockState", com.zurrtum.create.foundation.codec.CreateCodecs.BLOCK_STATE_CODEC).map(state -> {
                 ForBlockState result = new ForBlockState();
                 result.read(view, holderGetter, state);
                 return result;
@@ -150,7 +150,7 @@ public abstract class LaunchedItem {
             read(
                 view,
                 holderGetter,
-                view.read("BlockState", BlockState.CODEC).orElseGet(Blocks.AIR::defaultBlockState)
+                view.read("BlockState", com.zurrtum.create.foundation.codec.CreateCodecs.BLOCK_STATE_CODEC).orElseGet(Blocks.AIR::defaultBlockState)
             );
         }
 

@@ -78,7 +78,7 @@ public class AllDataComponents {
 
     public static final DataComponentType<BlockState> SHAPER_BLOCK_USED = register(
         "shaper_block_used",
-        builder -> builder.persistent(BlockState.CODEC)
+        builder -> builder.persistent(com.zurrtum.create.foundation.codec.CreateCodecs.BLOCK_STATE_CODEC)
             .networkSynchronized(ByteBufCodecs.idMapper(Block.BLOCK_STATE_REGISTRY))
     );
 

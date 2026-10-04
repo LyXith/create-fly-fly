@@ -68,7 +68,26 @@ public class CreateCodecs {
     public static final Codec<List<ItemStack>> ITEM_LIST_CODEC = ItemStack.OPTIONAL_CODEC.listOf();
     public static final Codec<List<FluidStack>> FLUID_LIST_CODEC = FluidStack.OPTIONAL_CODEC.listOf();
     public static final Codec<List<Direction>> DIRECTION_LIST_CODEC = Direction.CODEC.listOf();
-    public static final Codec<List<BlockState>> BLOCK_STATE_LIST_CODEC = BlockState.CODEC.listOf();
+    /**
+     * Block state codec that also reads the pre-26.3 layout ({@code Name}/{@code Properties} instead of
+     * {@code id}/{@code properties}), so data written by older versions of the mod keeps loading.
+     */
+    public static final Codec<BlockState> BLOCK_STATE_CODEC = new Codec<>() {
+        @Override
+        public <T> DataResult<com.mojang.datafixers.util.Pair<BlockState, T>> decode(com.mojang.serialization.DynamicOps<T> ops, T input) {
+            com.mojang.serialization.Dynamic<T> dynamic = new com.mojang.serialization.Dynamic<>(ops, input);
+            if (dynamic.get("Name").result().isPresent() && dynamic.get("id").result().isEmpty()) {
+                dynamic = dynamic.renameField("Name", "id").renameField("Properties", "properties");
+            }
+            return BlockState.CODEC.decode(ops, dynamic.getValue());
+        }
+
+        @Override
+        public <T> DataResult<T> encode(BlockState input, com.mojang.serialization.DynamicOps<T> ops, T prefix) {
+            return BlockState.CODEC.encode(input, ops, prefix);
+        }
+    };
+    public static final Codec<List<BlockState>> BLOCK_STATE_LIST_CODEC = BLOCK_STATE_CODEC.listOf();
     public static final Codec<List<BlockPos>> BLOCK_POS_LIST_CODEC = BlockPos.CODEC.listOf();
     public static final Codec<Set<BlockPos>> BLOCKPOS_SET_CODEC = BlockPos.CODEC.listOf()
         .xmap(ImmutableSet::copyOf, ImmutableList::copyOf);

@@ -170,7 +170,7 @@ public class PonderSceneRegistry implements SceneRegistryAccess {
         DataInputStream stream = new DataInputStream(new BufferedInputStream(new GZIPInputStream(resourceStream)));
         CompoundTag nbt = NbtIo.read(stream, NbtAccounter.create(0x20000000L));
         //t.load(Minecraft.getInstance().level.holderLookup(Registries.BLOCK), nbt);
-        t.load(BuiltInRegistries.BLOCK, nbt);
+        t.load(BuiltInRegistries.BLOCK, com.zurrtum.create.catnip.nbt.NBTHelper.upgradeStructure(nbt));
         return t;
     }
 }

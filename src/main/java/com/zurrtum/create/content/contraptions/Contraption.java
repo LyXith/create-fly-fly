@@ -1060,7 +1060,7 @@ public abstract class Contraption {
     ) {
         return new StructureBlockInfo(
             NBTHelper.readBlockPos(blockListEntry, "Pos"),
-            NbtUtils.readBlockState(holderGetter, blockListEntry.getCompoundOrEmpty("Block")),
+            NBTHelper.readBlockState(holderGetter, blockListEntry.getCompoundOrEmpty("Block")),
             blockListEntry.contains("Data") ? blockListEntry.getCompoundOrEmpty("Data") : null
         );
     }

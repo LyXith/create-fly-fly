@@ -152,7 +152,7 @@ public class CopycatBlockEntity extends SmartBlockEntity implements SpecialBlock
 
         consumedItem = view.read("Item", ItemStack.CODEC).orElse(ItemStack.EMPTY);
 
-        Optional<BlockState> state = view.read("Material", BlockState.CODEC);
+        Optional<BlockState> state = view.read("Material", com.zurrtum.create.foundation.codec.CreateCodecs.BLOCK_STATE_CODEC);
         if (state.isEmpty()) {
             consumedItem = ItemStack.EMPTY;
             return;
@@ -209,7 +209,7 @@ public class CopycatBlockEntity extends SmartBlockEntity implements SpecialBlock
         if (!stack.isEmpty()) {
             view.store("Item", ItemStack.CODEC, stack);
         }
-        view.store("Material", BlockState.CODEC, material);
+        view.store("Material", com.zurrtum.create.foundation.codec.CreateCodecs.BLOCK_STATE_CODEC, material);
     }
 
     @Override

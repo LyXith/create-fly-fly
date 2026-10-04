@@ -134,4 +134,42 @@ public class NBTHelper {
         return Identifier.parse(nbt.getStringOr(key, ""));
     }
 
+
+    /**
+     * {@link net.minecraft.nbt.NbtUtils#readBlockState} that also accepts the pre-26.3 keys
+     * ({@code Name}/{@code Properties}).
+     */
+    public static net.minecraft.world.level.block.state.BlockState readBlockState(
+        net.minecraft.core.HolderGetter<net.minecraft.world.level.block.Block> blocks,
+        CompoundTag tag
+    ) {
+        if (tag.contains("Name") && !tag.contains("id")) {
+            CompoundTag upgraded = tag.copy();
+            upgraded.put("id", upgraded.get("Name"));
+            upgraded.remove("Name");
+            net.minecraft.nbt.Tag properties = upgraded.get("Properties");
+            if (properties != null) {
+                upgraded.put("properties", properties);
+                upgraded.remove("Properties");
+            }
+            tag = upgraded;
+        }
+        return net.minecraft.nbt.NbtUtils.readBlockState(blocks, tag);
+    }
+
+    /**
+     * Runs the vanilla structure data fixers over a structure template tag (schematics and ponder scenes are
+     * read straight from disk / the resource pack, so nothing else upgrades them).
+     */
+    public static CompoundTag upgradeStructure(CompoundTag nbt) {
+        int version = net.minecraft.nbt.NbtUtils.getDataVersion(nbt, 500);
+        if (version >= net.minecraft.SharedConstants.getCurrentVersion().dataVersion().version()) {
+            return nbt;
+        }
+        return net.minecraft.util.datafix.DataFixTypes.STRUCTURE.updateToCurrentVersion(
+            net.minecraft.util.datafix.DataFixers.getDataFixer(),
+            nbt,
+            version
+        );
+    }
 }
