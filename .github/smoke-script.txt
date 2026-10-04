@@ -62,7 +62,8 @@ cmd say == row I: deployer
 cmd setblock 2 121 32 minecraft:dirt
 cmd setblock 0 123 32 create:creative_motor[facing=east]{ScrollValue:128}
 cmd setblock 1 123 32 create:shaft[axis=x]
-cmd setblock 2 123 32 create:deployer[facing=down,axis_along_first=true]{HeldItem:{id:"minecraft:iron_shovel",count:1}}
+cmd setblock 2 123 32 create:deployer[facing=down,axis_along_first=true]
+cmd setblock 2 124 32 minecraft:hopper[facing=down]{Items:[{Slot:0b,id:"minecraft:iron_shovel",count:1}]}
 cmd say == row J: belt with funnels
 cmd setblock 0 121 36 create:belt[facing=east,part=start,slope=horizontal]{Controller:[I;0,121,36],IsController:1b,Length:4,Index:0}
 cmd setblock 1 121 36 create:belt[facing=east,part=middle,slope=horizontal]{Controller:[I;0,121,36],Length:4,Index:1}
