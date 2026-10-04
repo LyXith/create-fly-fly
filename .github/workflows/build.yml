@@ -191,7 +191,7 @@ jobs:
                 sleep 5
               done
               if grep -q 'Done (' server2.log; then
-                while read -r line; do echo "$line" >&3; sleep 0.3; done < $root/.github/smoke-commands-restart.txt
+                while read -r line; do case "$line" in "#sleep "*) sleep "${line#\#sleep }";; *) echo "$line" >&3; sleep 0.3;; esac; done < $root/.github/smoke-commands-restart.txt
                 sleep 10
                 echo "stop" >&3
                 for i in $(seq 1 60); do grep -q '^EXIT' server2.log && break; sleep 2; done

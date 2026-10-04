@@ -1,1 +1,8 @@
 say restart-ok
+#sleep 10
+data get block 4 121 20 Fluid
+data get block 2 121 4 HeldItem
+data get block 3 122 0 Speed
+data get block 10 123 41 Speed
+data get block -1 122 36 Items
+execute if entity @e[type=create:stationary_contraption] run say CHECK restart-contraption-ok

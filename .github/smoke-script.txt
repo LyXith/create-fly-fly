@@ -62,7 +62,7 @@ cmd say == row I: deployer
 cmd setblock 2 121 32 minecraft:dirt
 cmd setblock 0 123 32 create:creative_motor[facing=east]{ScrollValue:128}
 cmd setblock 1 123 32 create:shaft[axis=x]
-cmd setblock 2 123 32 create:deployer[facing=down,axis_along_first=true]
+cmd setblock 2 123 32 create:deployer[facing=down,axis_along_first=true]{HeldItem:{id:"minecraft:iron_shovel",count:1}}
 cmd say == row J: belt with funnels
 cmd setblock 0 121 36 create:belt[facing=east,part=start,slope=horizontal]{Controller:[I;0,121,36],IsController:1b,Length:4,Index:0}
 cmd setblock 1 121 36 create:belt[facing=east,part=middle,slope=horizontal]{Controller:[I;0,121,36],Length:4,Index:1}
@@ -78,6 +78,10 @@ cmd setblock 0 122 36 create:andesite_belt_funnel[facing=east,shape=retracted]
 cmd say == row K: funnel from chest
 cmd setblock 0 121 40 minecraft:chest{Items:[{Slot:0b,id:"minecraft:diorite",count:2}]}
 cmd setblock 1 121 40 create:andesite_funnel[facing=east,extracting=true]
+cmd say == row L: water wheel
+cmd fill 9 121 39 11 125 43 minecraft:glass hollow
+cmd setblock 10 123 41 create:water_wheel[facing=east]
+cmd setblock 10 124 42 minecraft:water
 sleep 20
 shot
 cmd tp @a 6.5 123 2.5 90 15
@@ -111,6 +115,7 @@ cmd data get block 2 121 24
 cmd execute if entity @e[type=create:stationary_contraption] run say CHECK contraption-ok
 cmd execute if block 2 121 32 minecraft:air run say CHECK deployer-ok
 cmd data get block 4 122 36 Items
+cmd data get block 10 123 41 Speed
 cmd data get block -1 122 36 Items
 cmd data get block 1 123 36 Items
 cmd data get block 0 121 40 Items
