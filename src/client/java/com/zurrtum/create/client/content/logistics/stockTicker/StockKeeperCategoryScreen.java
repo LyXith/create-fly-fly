@@ -471,7 +471,7 @@ public class StockKeeperCategoryScreen extends AbstractSimiContainerScreen<Stock
 
         int pKeyCode = input.key();
         boolean hitEscape = pKeyCode == InputConstants.KEY_ESCAPE;
-        boolean hitEnter = getFocused() instanceof EditBox && (pKeyCode == 257 || pKeyCode == 335);
+        boolean hitEnter = getFocused() instanceof EditBox && (pKeyCode == InputConstants.KEY_RETURN || pKeyCode == InputConstants.KEY_NUMPADENTER);
         boolean hitE = getFocused() == null && minecraft.options.keyInventory.matches(input);
         if (hitE || hitEnter || hitEscape) {
             stopEditing();

@@ -104,7 +104,7 @@ public class SchematicPromptScreen extends AbstractSimiScreen {
             confirm(false);
             return true;
         }
-        if (keyCode == 256 && shouldCloseOnEsc()) {
+        if (keyCode == InputConstants.KEY_ESCAPE && shouldCloseOnEsc()) {
             onClose();
             return true;
         }

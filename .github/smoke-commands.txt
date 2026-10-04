@@ -1,0 +1,2 @@
+say smoke-start
+forceload add 0 0 32 32

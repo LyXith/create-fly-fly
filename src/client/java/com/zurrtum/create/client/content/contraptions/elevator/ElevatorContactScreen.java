@@ -185,7 +185,7 @@ public class ElevatorContactScreen extends AbstractSimiScreen {
             confirm();
             return true;
         }
-        if (keyCode == 256 && shouldCloseOnEsc()) {
+        if (keyCode == InputConstants.KEY_ESCAPE && shouldCloseOnEsc()) {
             onClose();
             return true;
         }

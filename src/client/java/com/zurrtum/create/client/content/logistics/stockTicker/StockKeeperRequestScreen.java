@@ -1572,7 +1572,7 @@ public class StockKeeperRequestScreen extends AbstractSimiContainerScreen<StockK
 
         String s = searchBox.getValue();
         if (!searchBox.keyPressed(input)) {
-            return searchBox.isFocused() && searchBox.isVisible() && pKeyCode != 256 || super.keyPressed(input);
+            return searchBox.isFocused() && searchBox.isVisible() && pKeyCode != InputConstants.KEY_ESCAPE || super.keyPressed(input);
         }
         if (!Objects.equals(s, searchBox.getValue())) {
             refreshSearchNextTick = true;
