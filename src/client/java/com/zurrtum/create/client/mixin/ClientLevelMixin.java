@@ -130,4 +130,16 @@ public abstract class ClientLevelMixin extends Level {
             }
         }
     }
+
+    @com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation(method = "playBreakingSound(Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;getSoundType()Lnet/minecraft/world/level/block/SoundType;"))
+    private net.minecraft.world.level.block.SoundType getHitSound(
+        BlockState state,
+        com.llamalad7.mixinextras.injector.wrapoperation.Operation<net.minecraft.world.level.block.SoundType> original,
+        @Local(argsOnly = true) BlockPos pos
+    ) {
+        if (state.getBlock() instanceof com.zurrtum.create.foundation.block.SoundControlBlock block) {
+            return block.getSoundGroup(this, pos);
+        }
+        return original.call(state);
+    }
 }

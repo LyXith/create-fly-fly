@@ -46,6 +46,7 @@ public abstract class MinecraftServerMixin {
 
     @Inject(method = "tickServer(Ljava/util/function/BooleanSupplier;)V", at = @At("TAIL"))
     void tick(BooleanSupplier haveTime, CallbackInfo ci) {
+        com.zurrtum.create.foundation.utility.MixinAudit.runOnce();
         MinecraftServer server = (MinecraftServer) (Object) this;
         Create.SCHEMATIC_RECEIVER.tick();
         ServerSpeedProvider.serverTick(server);

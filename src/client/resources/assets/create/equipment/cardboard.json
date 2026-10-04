@@ -10,5 +10,115 @@
         "texture": "create:cardboard"
       }
     ]
-  }
+  },
+  "trim_overrides": [
+    {
+      "when": {
+        "pattern": "minecraft:bolt"
+      },
+      "texture": "create:bolt"
+    },
+    {
+      "when": {
+        "pattern": "minecraft:coast"
+      },
+      "texture": "create:coast"
+    },
+    {
+      "when": {
+        "pattern": "minecraft:dune"
+      },
+      "texture": "create:dune"
+    },
+    {
+      "when": {
+        "pattern": "minecraft:eye"
+      },
+      "texture": "create:eye"
+    },
+    {
+      "when": {
+        "pattern": "minecraft:flow"
+      },
+      "texture": "create:flow"
+    },
+    {
+      "when": {
+        "pattern": "minecraft:host"
+      },
+      "texture": "create:host"
+    },
+    {
+      "when": {
+        "pattern": "minecraft:raiser"
+      },
+      "texture": "create:raiser"
+    },
+    {
+      "when": {
+        "pattern": "minecraft:rib"
+      },
+      "texture": "create:rib"
+    },
+    {
+      "when": {
+        "pattern": "minecraft:sentry"
+      },
+      "texture": "create:sentry"
+    },
+    {
+      "when": {
+        "pattern": "minecraft:shaper"
+      },
+      "texture": "create:shaper"
+    },
+    {
+      "when": {
+        "pattern": "minecraft:silence"
+      },
+      "texture": "create:silence"
+    },
+    {
+      "when": {
+        "pattern": "minecraft:snout"
+      },
+      "texture": "create:snout"
+    },
+    {
+      "when": {
+        "pattern": "minecraft:spire"
+      },
+      "texture": "create:spire"
+    },
+    {
+      "when": {
+        "pattern": "minecraft:tide"
+      },
+      "texture": "create:tide"
+    },
+    {
+      "when": {
+        "pattern": "minecraft:vex"
+      },
+      "texture": "create:vex"
+    },
+    {
+      "when": {
+        "pattern": "minecraft:ward"
+      },
+      "texture": "create:ward"
+    },
+    {
+      "when": {
+        "pattern": "minecraft:wayfinder"
+      },
+      "texture": "create:wayfinder"
+    },
+    {
+      "when": {
+        "pattern": "minecraft:wild"
+      },
+      "texture": "create:wild"
+    }
+  ]
 }

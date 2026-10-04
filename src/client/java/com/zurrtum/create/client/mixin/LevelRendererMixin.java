@@ -4,7 +4,10 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.renderpearl.api.buffers.GpuBufferSlice;
-import com.mojang.blaze3d.resource.GraphicsResourceAllocator;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.renderpearl.backend.opengl.GlStateManager;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL30;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.zurrtum.create.client.Create;
 import com.zurrtum.create.client.catnip.animation.AnimationTickHolder;
@@ -21,7 +24,6 @@ import com.zurrtum.create.client.content.trains.track.TrackTargetingClient;
 import com.zurrtum.create.client.flywheel.impl.event.RenderContextHolder;
 import com.zurrtum.create.client.flywheel.impl.event.RenderContextImpl;
 import com.zurrtum.create.client.infrastructure.render.BreakingRenderStateInfo;
-import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.GameRenderer;
@@ -91,28 +93,32 @@ public abstract class LevelRendererMixin implements RenderContextHolder {
         renderContext.updateProjection(projection);
     }
 
-    @Inject(method = "render(Lcom/mojang/blaze3d/resource/GraphicsResourceAllocator;Lnet/minecraft/client/DeltaTracker;ZLnet/minecraft/client/renderer/state/level/CameraRenderState;Lorg/joml/Matrix4fc;Lcom/mojang/renderpearl/api/buffers/GpuBufferSlice;Lorg/joml/Vector4f;Z)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/DeltaTracker;getGameTimeDeltaPartialTick(Z)F"))
-    private void flywheel$beginRender(
-        GraphicsResourceAllocator resourceAllocator,
-        DeltaTracker deltaTracker,
-        boolean renderOutline,
-        CameraRenderState cameraState,
-        Matrix4fc modelViewMatrix,
-        GpuBufferSlice terrainFog,
-        Vector4f fogColor,
-        boolean shouldRenderSky,
-        CallbackInfo ci
-    ) {
+    @Inject(method = "render(Lcom/mojang/blaze3d/resource/GraphicsResourceAllocator;ZLnet/minecraft/client/renderer/state/level/CameraRenderState;Lcom/mojang/renderpearl/api/buffers/GpuBufferSlice;Lorg/joml/Vector4f;ZZ)V", at = @At("HEAD"))
+    private void flywheel$beginRender(CallbackInfo ci) {
         renderContext.onStartLevelRender();
     }
 
-    @Inject(method = "lambda$addMainPass$0", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/feature/FeatureRenderDispatcher$PreparedFrame;executeSolid()V"))
+    // 26.3: the main pass is a single open RenderPass. Solid geometry is drawn by Flywheel right before the pass is
+    // created (raw GL, own framebuffer binding), translucent geometry before vanilla translucents as in 26.2.
+    @Inject(method = "lambda$addMainPass$0", at = @At(value = "INVOKE", target = "Lcom/mojang/renderpearl/api/device/GpuDevice;createCommandEncoder()Lcom/mojang/renderpearl/api/commands/CommandEncoder;"))
     private void flywheel$beforeSolid(CallbackInfo ci) {
         renderContext.beforeSolid();
     }
 
-    @Inject(method = "lambda$addMainPass$0", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/feature/FeatureRenderDispatcher$PreparedFrame;executeTranslucent()V"))
-    private void flywheel$beforeTranslucent(CallbackInfo ci) {
+    @Inject(method = "lambda$addMainPass$0", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/LevelRenderer;executeClassicTransparency(Lnet/minecraft/client/renderer/chunk/ChunkSectionsToRender;Lnet/minecraft/client/renderer/feature/FeatureRenderDispatcher$PreparedFrame;Lcom/mojang/renderpearl/api/commands/RenderPass;)V"))
+    private void flywheel$beforeClassicTranslucent(CallbackInfo ci) {
+        // Inside the open vanilla pass: the GL backend bound its framebuffer when the pass was created and does not
+        // rebind it per draw, so restore the binding after Flywheel has drawn.
+        boolean gl = RenderSystem.getDevice().getDeviceInfo().backendName().equals("OpenGL");
+        int fbo = gl ? GL11.glGetInteger(GL30.GL_DRAW_FRAMEBUFFER_BINDING) : 0;
+        renderContext.beforeTranslucent();
+        if (gl) {
+            GlStateManager._glBindFramebuffer(GL30.GL_FRAMEBUFFER, fbo);
+        }
+    }
+
+    @Inject(method = "lambda$addMainPass$0", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/LevelRenderer;executeOit(Lnet/minecraft/client/renderer/chunk/ChunkSectionsToRender;Lnet/minecraft/client/renderer/feature/FeatureRenderDispatcher$PreparedFrame;)V"))
+    private void flywheel$beforeOitTranslucent(CallbackInfo ci) {
         renderContext.beforeTranslucent();
     }
 

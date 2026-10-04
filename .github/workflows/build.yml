@@ -113,7 +113,7 @@ jobs:
             echo "eula=true" > eula.txt
             printf 'level-seed=12345\nonline-mode=false\nmax-tick-time=-1\nview-distance=6\ngamemode=creative\ndifficulty=peaceful\nspawn-protection=0\n' > server.properties
             mkfifo in.fifo
-            (java -Xmx3G -jar server.jar --nogui < in.fifo > server.log 2>&1; echo "EXIT $?" >> server.log) &
+            (java -Xmx3G -Dcreate.mixin.audit=true -jar server.jar --nogui < in.fifo > server.log 2>&1; echo "EXIT $?" >> server.log) &
             exec 3> in.fifo
             for i in $(seq 1 120); do
               if grep -q 'Done (' server.log || grep -q '^EXIT' server.log; then break; fi
@@ -135,7 +135,7 @@ jobs:
                 Xvfb :99 -screen 0 1280x720x24 >/dev/null 2>&1 &
                 export DISPLAY=:99
                 sleep 2
-                (env -u CI timeout 1500 ./gradlew runClient --no-daemon -Dorg.gradle.console=plain --args="--quickPlayMultiplayer localhost --width 1280 --height 720" > client-gradle.log 2>&1; echo "EXIT $?" >> client-gradle.log) &
+                (env -u CI JAVA_TOOL_OPTIONS=-Dcreate.mixin.audit=true timeout 1500 ./gradlew runClient --no-daemon -Dorg.gradle.console=plain --args="--quickPlayMultiplayer localhost --width 1280 --height 720" > client-gradle.log 2>&1; echo "EXIT $?" >> client-gradle.log) &
                 for i in $(seq 1 130); do
                   if grep -q 'joined the game' server/server.log || grep -q '^EXIT' client-gradle.log; then break; fi
                   sleep 5
@@ -181,7 +181,7 @@ jobs:
             if [ -f $root/.github/smoke-commands-restart.txt ] && grep -q 'Done (' server.log; then
               # second start on the saved world: checks that everything written above loads again
               rm -f in.fifo; mkfifo in.fifo
-              (java -Xmx3G -jar server.jar --nogui < in.fifo > server2.log 2>&1; echo "EXIT $?" >> server2.log) &
+              (java -Xmx3G -Dcreate.mixin.audit=true -jar server.jar --nogui < in.fifo > server2.log 2>&1; echo "EXIT $?" >> server2.log) &
               exec 3> in.fifo
               for i in $(seq 1 120); do
                 if grep -q 'Done (' server2.log || grep -q '^EXIT' server2.log; then break; fi

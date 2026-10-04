@@ -265,16 +265,4 @@ public class MultiPlayerGameModeMixin {
         }
         return original.call(world, pos, blockState, updateFlags);
     }
-
-    @WrapOperation(method = "continueDestroyBlock(Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/Direction;)Z", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;getSoundType()Lnet/minecraft/world/level/block/SoundType;"))
-    private SoundType getHitSound(
-        BlockState state,
-        Operation<SoundType> original,
-        @Local(argsOnly = true) BlockPos pos
-    ) {
-        if (state.getBlock() instanceof SoundControlBlock block) {
-            return block.getSoundGroup(minecraft.level, pos);
-        }
-        return original.call(state);
-    }
 }
