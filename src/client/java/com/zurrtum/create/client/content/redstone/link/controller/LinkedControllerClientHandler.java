@@ -282,7 +282,8 @@ public class LinkedControllerClientHandler {
             x,
             y,
             DefaultTooltipPositioner.INSTANCE,
-            null
+            null,
+            true
         );
 
         poseStack.popMatrix();

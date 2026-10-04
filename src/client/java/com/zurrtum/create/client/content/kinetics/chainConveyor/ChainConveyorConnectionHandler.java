@@ -88,7 +88,7 @@ public class ChainConveyorConnectionHandler {
         if (firstPos == null || firstDim != level.dimension()) {
             firstPos = pos;
             firstDim = level.dimension();
-            player.swing(hand);
+            player.swing(hand, player.getItemInHand(hand).getInteractAnimation(), false);
             return InteractionResult.CONSUME;
         }
 

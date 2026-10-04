@@ -29,6 +29,13 @@ jobs:
             tasks.withType(JavaCompile).configureEach {
               options.compilerArgs += ["-Xmaxerrs", "20000", "-Xmaxwarns", "0"]
             }
+            tasks.register("dumpCompileClasspath") {
+              doLast {
+                def files = new LinkedHashSet()
+                project.sourceSets.each { files.addAll(it.compileClasspath.files) }
+                new File("/tmp/compile-cp.txt").text = files.join("\n")
+              }
+            }
           }
           GRADLE
           ./gradlew build --no-daemon --continue -Dorg.gradle.console=plain -I /tmp/maxerrs.gradle 2>&1 | tee build.log
@@ -38,7 +45,10 @@ jobs:
         run: |
           mkdir -p /tmp/ci
           mcjars=$(find ~/.gradle/caches/fabric-loom .gradle/loom-cache -name '*.jar' 2>/dev/null | grep -iE 'minecraft' | grep -v sources || true)
-          fabricjars=$(find ~/.gradle/caches/modules-2 -name 'fabric-*.jar' 2>/dev/null | grep -v sources | tr '\n' ' ')
+          # exactly the jars the mod compiles against (the gradle cache also holds other versions pulled in by dependencies)
+          ./gradlew dumpCompileClasspath --no-daemon -q -I /tmp/maxerrs.gradle >/dev/null 2>&1 || true
+          fabricjars=$(grep -E '/fabric-[^/]*\.jar$' /tmp/compile-cp.txt 2>/dev/null | grep -v sources | tr '\n' ' ')
+          cp /tmp/compile-cp.txt /tmp/ci/compile-cp.txt 2>/dev/null || true
           if [ -f .github/dump-signatures ]; then
             jars="$mcjars $fabricjars"
             cp=$(echo $jars | tr ' ' ':')

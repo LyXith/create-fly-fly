@@ -1,6 +1,7 @@
 package com.zurrtum.create.client.flywheel.backend.engine.indirect;
 
-import com.mojang.blaze3d.opengl.*;
+import com.mojang.renderpearl.backend.opengl.*;
+import com.mojang.renderpearl.frontend.FrontendGpuDevice;
 import com.mojang.renderpearl.api.pipeline.ColorTargetState;
 import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -50,17 +51,11 @@ public class OitFramebuffer {
      * Set up the framebuffer.
      */
     public void prepare() {
-        RenderTarget renderTarget;
-
+        // The separate translucency targets are gone (the game composites its own translucents itself),
+        // so the main target is always the one to accumulate against.
         Minecraft mc = Minecraft.getInstance();
         GameRenderer gameRenderer = mc.gameRenderer;
-        if (gameRenderer.gameRenderState().useShaderTransparency()) {
-            renderTarget = mc.levelRenderer.itemEntityTarget();
-
-            renderTarget.copyDepthFrom(gameRenderer.mainRenderTarget());
-        } else {
-            renderTarget = gameRenderer.mainRenderTarget();
-        }
+        RenderTarget renderTarget = gameRenderer.mainRenderTarget();
 
         maybeResizeFBO(renderTarget.width, renderTarget.height);
 
@@ -181,17 +176,13 @@ public class OitFramebuffer {
      * Composite the accumulated luminance onto the main framebuffer.
      */
     public void composite() {
-        GlDevice device = (GlDevice) RenderSystem.getDevice().backend;
+        GlDevice device = (GlDevice) ((FrontendGpuDevice) RenderSystem.getDevice()).backend;
         FrameBufferCache frameBufferCache = device.frameBufferCache();
         DirectStateAccess access = device.directStateAccess();
         Minecraft mc = Minecraft.getInstance();
         GameRenderer gameRenderer = mc.gameRenderer;
         RenderTarget mainTarget = gameRenderer.mainRenderTarget();
-        if (gameRenderer.gameRenderState().useShaderTransparency()) {
-            bindRenderTarget(mc.levelRenderer.itemEntityTarget(), frameBufferCache, access);
-        } else {
-            bindRenderTarget(mainTarget, frameBufferCache, access);
-        }
+        bindRenderTarget(mainTarget, frameBufferCache, access);
 
         // The composite shader writes out the closest depth to gl_FragDepth.
         // depthMask = true: OIT stuff renders on top of other transparent stuff.
@@ -238,7 +229,7 @@ public class OitFramebuffer {
     ) {
         int fbo = frameBufferCache.getFbo(
             access,
-            Collections.singletonList((GlTexture) target.getColorTexture()),
+            Collections.<FrameBufferAttachment>singletonList((GlTexture) target.getColorTexture()),
             (GlTexture) target.getDepthTexture()
         );
         GlStateManager._glBindFramebuffer(GL_FRAMEBUFFER, fbo);

@@ -1,6 +1,8 @@
 package com.zurrtum.create.client.flywheel.backend.engine;
 
+import com.mojang.renderpearl.backend.opengl.FrameBufferAttachment;
 import com.mojang.renderpearl.backend.opengl.GlDevice;
+import com.mojang.renderpearl.frontend.FrontendGpuDevice;
 import com.mojang.renderpearl.backend.opengl.GlSampler;
 import com.mojang.renderpearl.backend.opengl.GlStateManager;
 import com.mojang.renderpearl.backend.opengl.GlTexture;
@@ -182,11 +184,11 @@ public final class MaterialRenderState {
 
     public static void setupFrameBuffer() {
         RenderTarget target = Minecraft.getInstance().gameRenderer.mainRenderTarget();
-        GlDevice device = (GlDevice) RenderSystem.getDevice().backend;
+        GlDevice device = (GlDevice) ((FrontendGpuDevice) RenderSystem.getDevice()).backend;
         int fbo = device.frameBufferCache().getFbo(
             device.directStateAccess(),
-            Collections.singletonList((GlTexture) target.getColorTexture()),
-            target.useDepth ? (GlTexture) target.getDepthTexture() : null
+            Collections.<FrameBufferAttachment>singletonList((GlTexture) target.getColorTexture()),
+            target.hasDepth() ? (GlTexture) target.getDepthTexture() : null
         );
         GlStateManager._glBindFramebuffer(GL_FRAMEBUFFER, fbo);
     }

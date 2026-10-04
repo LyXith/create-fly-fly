@@ -98,7 +98,7 @@ public class ValueSettingsClient {
         }
 
         if (interactHeldTicks > 3) {
-            player.swinging = false;
+            player.swingState.currentSwing = null;
         }
         if (interactHeldTicks++ < 5) {
             return;
