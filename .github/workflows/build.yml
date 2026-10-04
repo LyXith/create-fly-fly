@@ -140,7 +140,7 @@ jobs:
                 (glxinfo -B; eglinfo -B 2>/dev/null | head -40; vulkaninfo --summary 2>/dev/null | head -40) > /tmp/ci/gfx.txt 2>&1
                 (env -u CI JAVA_TOOL_OPTIONS=-Dcreate.mixin.audit=true timeout 1500 ./gradlew runClient --no-daemon -Dorg.gradle.console=plain --args="--quickPlayMultiplayer localhost --width 1280 --height 720" > client-gradle.log 2>&1; echo "EXIT $?" >> client-gradle.log) &
                 for i in $(seq 1 130); do
-                  if grep -q 'joined the game' server/server.log || grep -q '^EXIT' client-gradle.log || grep -q 'Failed to create backend Vulkan' run/logs/latest.log 2>/dev/null; then break; fi
+                  if grep -q 'joined the game' server/server.log || grep -q '^EXIT' client-gradle.log || grep -q -e 'Failed to create backend Vulkan' -e 'Caught error loading resourcepacks' run/logs/latest.log 2>/dev/null; then break; fi
                   sleep 5
                 done
                 n=0

@@ -8,23 +8,23 @@
         "create:trims/items/card_helmet_trim",
         "create:trims/items/card_boots_trim"
       ],
-      "palette_key": "minecraft:trims/color_palettes/trim_palette",
+      "palette_key": "minecraft:trim_base",
       "permutations": {
-        "quartz": "minecraft:trims/color_palettes/quartz",
-        "iron": "minecraft:trims/color_palettes/iron",
-        "gold": "minecraft:trims/color_palettes/gold",
-        "diamond": "minecraft:trims/color_palettes/diamond",
-        "netherite": "minecraft:trims/color_palettes/netherite",
-        "redstone": "minecraft:trims/color_palettes/redstone",
-        "copper": "minecraft:trims/color_palettes/copper",
-        "emerald": "minecraft:trims/color_palettes/emerald",
-        "lapis": "minecraft:trims/color_palettes/lapis",
-        "amethyst": "minecraft:trims/color_palettes/amethyst",
-        "iron_darker": "minecraft:trims/color_palettes/iron_darker",
-        "gold_darker": "minecraft:trims/color_palettes/gold_darker",
-        "diamond_darker": "minecraft:trims/color_palettes/diamond_darker",
-        "netherite_darker": "minecraft:trims/color_palettes/netherite_darker",
-        "resin": "minecraft:trims/color_palettes/resin"
+        "quartz": "minecraft:trim/quartz",
+        "iron": "minecraft:trim/iron",
+        "gold": "minecraft:trim/gold",
+        "diamond": "minecraft:trim/diamond",
+        "netherite": "minecraft:trim/netherite",
+        "redstone": "minecraft:trim/redstone",
+        "copper": "minecraft:trim/copper",
+        "emerald": "minecraft:trim/emerald",
+        "lapis": "minecraft:trim/lapis",
+        "amethyst": "minecraft:trim/amethyst",
+        "iron_darker": "minecraft:trim/iron_darker",
+        "gold_darker": "minecraft:trim/gold_darker",
+        "diamond_darker": "minecraft:trim/diamond_darker",
+        "netherite_darker": "minecraft:trim/netherite_darker",
+        "resin": "minecraft:trim/resin"
       }
     }
   ]
