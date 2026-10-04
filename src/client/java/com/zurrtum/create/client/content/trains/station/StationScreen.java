@@ -90,7 +90,7 @@ public class StationScreen extends AbstractStationScreen {
         nameBox.setTextColor(0xFF592424);
         nameBox.setValue(station.name);
         nameBox.setFocused(false);
-        nameBox.mouseClicked(new MouseButtonEvent(0, 0, new MouseButtonInfo(0, 0)), false);
+        nameBox.mouseClicked(new MouseButtonEvent(0, 0, new MouseButtonInfo(InputConstants.MOUSE_BUTTON_LEFT, 0)), false);
         nameBox.setResponder(onTextChanged);
         nameBox.setX(nameBoxX(nameBox.getValue(), nameBox));
         addRenderableWidget(nameBox);
@@ -137,7 +137,7 @@ public class StationScreen extends AbstractStationScreen {
         trainNameBox.setMaxLength(35);
         trainNameBox.setTextColor(0xFFC6C6C6);
         trainNameBox.setFocused(false);
-        trainNameBox.mouseClicked(new MouseButtonEvent(0, 0, new MouseButtonInfo(0, 0)), false);
+        trainNameBox.mouseClicked(new MouseButtonEvent(0, 0, new MouseButtonInfo(InputConstants.MOUSE_BUTTON_LEFT, 0)), false);
         trainNameBox.setResponder(onTextChanged);
         trainNameBox.active = false;
 

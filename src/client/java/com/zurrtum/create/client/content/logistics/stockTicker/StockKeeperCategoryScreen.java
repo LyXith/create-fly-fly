@@ -120,7 +120,7 @@ public class StockKeeperCategoryScreen extends AbstractSimiContainerScreen<Stock
         editorEditBox.setTextColor(0xffeeeeee);
         editorEditBox.setBordered(false);
         editorEditBox.setFocused(false);
-        editorEditBox.mouseClicked(new MouseButtonEvent(0, 0, new MouseButtonInfo(0, 0)), false);
+        editorEditBox.mouseClicked(new MouseButtonEvent(0, 0, new MouseButtonInfo(InputConstants.MOUSE_BUTTON_LEFT, 0)), false);
         editorEditBox.setMaxLength(28);
         editorEditBox.setValue(index == -1 || schedule.get(index).isEmpty() ?
             CreateLang.translate("gui.stock_ticker.new_category").string() :
@@ -326,7 +326,7 @@ public class StockKeeperCategoryScreen extends AbstractSimiContainerScreen<Stock
                     entry.getHoverName());
                 components.add(clickToEdit);
                 renderActionTooltip(graphics, components, mx, my);
-                if (click == 0) {
+                if (click == InputConstants.MOUSE_BUTTON_LEFT) {
                     startEditing(i);
                 }
                 return true;
@@ -339,7 +339,7 @@ public class StockKeeperCategoryScreen extends AbstractSimiContainerScreen<Stock
                     mx,
                     my
                 );
-                if (click == 0) {
+                if (click == InputConstants.MOUSE_BUTTON_LEFT) {
                     if (!entry.isEmpty()) {
                         minecraft.player.connection.send(new StockKeeperCategoryRefundPacket(
                             menu.contentHolder.getBlockPos(),
@@ -362,7 +362,7 @@ public class StockKeeperCategoryScreen extends AbstractSimiContainerScreen<Stock
                                 .style(ChatFormatting.ITALIC).component()
                         ), mx, my
                     );
-                    if (click == 0) {
+                    if (click == InputConstants.MOUSE_BUTTON_LEFT) {
                         entries.remove(entry);
                         entries.add(
                             (input != null ? input.hasShiftDown() : minecraft.hasShiftDown()) ? 0 : i - 1,
@@ -381,7 +381,7 @@ public class StockKeeperCategoryScreen extends AbstractSimiContainerScreen<Stock
                                 .style(ChatFormatting.ITALIC).component()
                         ), mx, my
                     );
-                    if (click == 0) {
+                    if (click == InputConstants.MOUSE_BUTTON_LEFT) {
                         entries.remove(entry);
                         entries.add(
                             (input != null ? input.hasShiftDown() : minecraft.hasShiftDown()) ? entries.size() : i + 1,
@@ -409,7 +409,7 @@ public class StockKeeperCategoryScreen extends AbstractSimiContainerScreen<Stock
                 mx,
                 my
             );
-            if (click == 0) {
+            if (click == InputConstants.MOUSE_BUTTON_LEFT) {
                 playUiSound(SoundEvents.UI_BUTTON_CLICK.value(), 1.0f, 1.0f);
                 startEditing(-1);
             }

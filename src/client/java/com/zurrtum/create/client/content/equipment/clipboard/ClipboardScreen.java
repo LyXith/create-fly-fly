@@ -1,5 +1,6 @@
 package com.zurrtum.create.client.content.equipment.clipboard;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.platform.Window;
 import com.zurrtum.create.AllBlocks;
@@ -596,7 +597,7 @@ public class ClipboardScreen extends AbstractSimiScreen {
         if (super.mouseClicked(click, doubled)) {
             return true;
         }
-        if (click.button() != 0) {
+        if (click.button() != InputConstants.MOUSE_BUTTON_LEFT) {
             return true;
         }
 
@@ -685,7 +686,7 @@ public class ClipboardScreen extends AbstractSimiScreen {
         if (super.mouseDragged(click, pDragX, pDragY)) {
             return true;
         }
-        if (click.button() != 0) {
+        if (click.button() != InputConstants.MOUSE_BUTTON_LEFT) {
             return true;
         }
         if (editingIndex == -1) {

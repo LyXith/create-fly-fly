@@ -1,5 +1,6 @@
 package com.zurrtum.create.client.ponder.foundation.ui;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import com.google.common.graph.ElementOrder;
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
@@ -951,7 +952,7 @@ public class PonderUI extends AbstractPonderScreen {
     public boolean mouseClicked(MouseButtonEvent click, boolean doubled) {
         if (identifyMode && hoveredBlockPos != null && PonderIndex.editingModeActive()) {
             Window window = minecraft.getWindow();
-            if (copiedBlockPos != null && click.button() == 1) {
+            if (copiedBlockPos != null && click.button() == InputConstants.MOUSE_BUTTON_RIGHT) {
                 clipboardHelper.setClipboard("util.select().fromTo(" + copiedBlockPos.getX() + ", " + copiedBlockPos.getY() + ", " + copiedBlockPos.getZ() + ", " + hoveredBlockPos.getX() + ", " + hoveredBlockPos.getY() + ", " + hoveredBlockPos.getZ() + ")"
                 );
                 copiedBlockPos = hoveredBlockPos;

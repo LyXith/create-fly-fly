@@ -127,7 +127,7 @@ public class ElevatorContactScreen extends AbstractSimiScreen {
         editBox.setBordered(false);
         editBox.setMaxLength(chars);
         editBox.setFocused(false);
-        editBox.mouseClicked(new MouseButtonEvent(0, 0, new MouseButtonInfo(0, 0)), false);
+        editBox.mouseClicked(new MouseButtonEvent(0, 0, new MouseButtonInfo(InputConstants.MOUSE_BUTTON_LEFT, 0)), false);
         addRenderableWidget(editBox);
         return editBox;
     }
@@ -163,7 +163,7 @@ public class ElevatorContactScreen extends AbstractSimiScreen {
         }
 
         if (shortNameInput.isHoveredOrFocused()) {
-            longNameInput.mouseClicked(new MouseButtonEvent(0, 0, new MouseButtonInfo(0, 0)), false);
+            longNameInput.mouseClicked(new MouseButtonEvent(0, 0, new MouseButtonInfo(InputConstants.MOUSE_BUTTON_LEFT, 0)), false);
         }
 
         if (!consumed && click.x() > guiLeft + 22 && click.y() > guiTop + 24 && click.x() < guiLeft + 50 && click.y() < guiTop + 40) {

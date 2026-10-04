@@ -98,7 +98,7 @@ public class SchematicAndQuillHandler {
     }
 
     public boolean onMouseInput(Minecraft mc, int button) {
-        if (button != 1) {
+        if (button != InputConstants.MOUSE_BUTTON_RIGHT) {
             return false;
         }
         if (!isActive(mc)) {

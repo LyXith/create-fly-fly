@@ -57,7 +57,7 @@ public class AddressEditBox extends EditBox {
         setResponder(mainResponder);
         setBordered(false);
         setFocused(false);
-        mouseClicked(new MouseButtonEvent(0, 0, new MouseButtonInfo(0, 0)), false);
+        mouseClicked(new MouseButtonEvent(0, 0, new MouseButtonInfo(InputConstants.MOUSE_BUTTON_LEFT, 0)), false);
         setMaxLength(25);
     }
 
@@ -69,7 +69,7 @@ public class AddressEditBox extends EditBox {
         if (isFocused() && input.key() == InputConstants.KEY_RETURN) {
             setFocused(false);
             moveCursorToEnd(false);
-            mouseClicked(new MouseButtonEvent(0, 0, new MouseButtonInfo(0, 0)), false);
+            mouseClicked(new MouseButtonEvent(0, 0, new MouseButtonInfo(InputConstants.MOUSE_BUTTON_LEFT, 0)), false);
             return true;
         }
         return super.keyPressed(input);
