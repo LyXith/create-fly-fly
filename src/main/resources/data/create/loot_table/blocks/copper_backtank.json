@@ -2,28 +2,23 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "bonus_rolls": 0.0,
-      "conditions": [
-        {
-          "condition": "minecraft:survives_explosion"
-        }
-      ],
       "entries": [
         {
           "type": "minecraft:item",
-          "functions": [
-            {
-              "function": "minecraft:copy_components",
-              "include": [
-                "create:banktank_air"
-              ],
-              "source": "block_entity"
-            }
-          ],
-          "name": "create:copper_backtank"
+          "name": "create:copper_backtank",
+          "modifier": {
+            "type": "minecraft:copy_components",
+            "include": [
+              "create:banktank_air"
+            ],
+            "source": "block_entity"
+          }
         }
       ],
-      "rolls": 1.0
+      "rolls": 1,
+      "condition": {
+        "type": "minecraft:survives_explosion"
+      }
     }
   ],
   "random_sequence": "create:blocks/copper_backtank"

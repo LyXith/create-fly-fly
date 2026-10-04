@@ -2,28 +2,23 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "bonus_rolls": 0.0,
-      "conditions": [
-        {
-          "condition": "minecraft:survives_explosion"
-        }
-      ],
       "entries": [
         {
           "type": "minecraft:item",
-          "functions": [
-            {
-              "function": "minecraft:copy_components",
-              "include": [
-                "create:schematicannon_options"
-              ],
-              "source": "block_entity"
-            }
-          ],
-          "name": "create:schematicannon"
+          "name": "create:schematicannon",
+          "modifier": {
+            "type": "minecraft:copy_components",
+            "include": [
+              "create:schematicannon_options"
+            ],
+            "source": "block_entity"
+          }
         }
       ],
-      "rolls": 1.0
+      "rolls": 1,
+      "condition": {
+        "type": "minecraft:survives_explosion"
+      }
     }
   ],
   "random_sequence": "create:blocks/schematicannon"

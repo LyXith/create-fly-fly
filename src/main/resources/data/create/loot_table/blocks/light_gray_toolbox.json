@@ -2,33 +2,33 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "bonus_rolls": 0.0,
-      "conditions": [
-        {
-          "condition": "minecraft:survives_explosion"
-        }
-      ],
       "entries": [
         {
           "type": "minecraft:item",
-          "functions": [
+          "name": "create:light_gray_toolbox",
+          "modifier": [
             {
-              "function": "minecraft:copy_name",
+              "type": "minecraft:copy_components",
+              "include": [
+                "minecraft:custom_name"
+              ],
               "source": "block_entity"
             },
             {
-              "function": "minecraft:copy_components",
+              "type": "minecraft:copy_components",
               "include": [
                 "create:toolbox_uuid",
                 "create:toolbox_inventory"
               ],
               "source": "block_entity"
             }
-          ],
-          "name": "create:light_gray_toolbox"
+          ]
         }
       ],
-      "rolls": 1.0
+      "rolls": 1,
+      "condition": {
+        "type": "minecraft:survives_explosion"
+      }
     }
   ],
   "random_sequence": "create:blocks/light_gray_toolbox"
