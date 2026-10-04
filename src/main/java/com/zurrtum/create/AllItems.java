@@ -635,6 +635,7 @@ public class AllItems {
     public static final BlockItem CARDBOARD_BLOCK = (BlockItem) registerBlock(
         AllBlockItemIds.CARDBOARD_BLOCK,
         AllBlocks.CARDBOARD_BLOCK,
+        BlockItem::new,
         new Properties().cookingFuel(AllFuelTimes.CARDBOARD_BLOCK)
     );
     public static final LogisticallyLinkedBlockItem STOCK_LINK = (LogisticallyLinkedBlockItem) registerBlock(AllBlockItemIds.STOCK_LINK,
@@ -769,6 +770,7 @@ public class AllItems {
     public static final BlockItem BOUND_CARDBOARD_BLOCK = (BlockItem) registerBlock(
         AllBlockItemIds.BOUND_CARDBOARD_BLOCK,
         AllBlocks.BOUND_CARDBOARD_BLOCK,
+        BlockItem::new,
         new Properties().cookingFuel(AllFuelTimes.CARDBOARD_BLOCK)
     );
     public static final BlockItem EXPERIENCE_BLOCK = (BlockItem) registerBlock(
