@@ -124,7 +124,7 @@ public class MechanicalCrafterRenderer implements BlockEntityRenderer<Mechanical
             matrices.translate(state.offset);
             matrices.scale(0.5f, 0.5f, 0.5f);
             if (state.yRot != null) {
-                matrices.mulPose(state.yRot);
+                matrices.rotate(state.yRot);
             }
             state.item.submit(queue, matrices, state.lightCoords);
             matrices.popPose();
@@ -269,7 +269,7 @@ public class MechanicalCrafterRenderer implements BlockEntityRenderer<Mechanical
         public void submit(SubmitNodeCollector queue, PoseStack ms, int light) {
             ms.pushPose();
             ms.translate(0, 0, offset);
-            ms.mulPose(yRot);
+            ms.rotate(yRot);
             state.submit(ms, queue, light, OverlayTexture.NO_OVERLAY, 0);
             ms.popPose();
         }
@@ -365,11 +365,11 @@ public class MechanicalCrafterRenderer implements BlockEntityRenderer<Mechanical
             }
             if (states != null) {
                 if (zRot != null) {
-                    ms.mulPose(zRot);
+                    ms.rotate(zRot);
                 }
                 ms.scale(upScaling, upScaling, upScaling);
                 ms.scale(downScaling, downScaling, downScaling);
-                ms.mulPose(Y_ROT);
+                ms.rotate(Y_ROT);
                 for (ItemStackRenderState state : states) {
                     state.submit(ms, queue, light, OverlayTexture.NO_OVERLAY, 0);
                 }
@@ -464,7 +464,7 @@ public class MechanicalCrafterRenderer implements BlockEntityRenderer<Mechanical
         public void submit(SubmitNodeCollector queue, PoseStack ms, Quaternionf yRot, int light) {
             ms.pushPose();
             ms.translate(offsetX, offsetY, 0);
-            ms.mulPose(yRot);
+            ms.rotate(yRot);
             ms.translate(0, 0, offsetZ);
             state.submit(ms, queue, light, OverlayTexture.NO_OVERLAY, 0);
             ms.popPose();

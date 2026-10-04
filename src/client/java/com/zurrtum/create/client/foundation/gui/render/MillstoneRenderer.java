@@ -16,15 +16,15 @@ public class MillstoneRenderer extends GuiBlockRenderer<MillstoneRenderState> {
         matrices.scale(1, -1, -1);
         matrices.pushPose();
         matrices.translate(0.5f, 0.5f, 0.5f);
-        matrices.mulPose(Axis.XP.rotationDegrees(22.5f));
-        matrices.mulPose(Axis.YP.rotationDegrees(getCurrentAngle()));
+        matrices.rotate(Axis.XP.rotationDegrees(22.5f));
+        matrices.rotate(Axis.YP.rotationDegrees(getCurrentAngle()));
         matrices.translate(-0.5f, -0.5f, -0.5f);
         CachedBuffers.partial(AllPartialModels.MILLSTONE_COG, Blocks.AIR.defaultBlockState()).submit(matrices, queue);
         matrices.popPose();
 
         matrices.translate(0.5f, 0.5f, 0.5f);
-        matrices.mulPose(Axis.XP.rotationDegrees(22.5f));
-        matrices.mulPose(Axis.YP.rotationDegrees(22.5f));
+        matrices.rotate(Axis.XP.rotationDegrees(22.5f));
+        matrices.rotate(Axis.YP.rotationDegrees(22.5f));
         matrices.translate(-0.5f, -0.5f, -0.5f);
         CachedBuffers.block(AllBlocks.MILLSTONE.defaultBlockState()).submit(matrices, queue);
     }

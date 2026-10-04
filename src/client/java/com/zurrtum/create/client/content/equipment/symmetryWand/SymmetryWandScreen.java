@@ -179,7 +179,7 @@ public class SymmetryWandScreen extends AbstractSimiScreen {
 
     private void transformBlock(PoseStack ms, float p) {
         ms.translate(0.1875F, 0.9375f, 0);
-        ms.mulPose(Axis.of(new Vector3f(0.3f, 1.0f, 0.0f)).rotationDegrees(-22.5f));
+        ms.rotate(Axis.of(new Vector3f(0.3f, 1.0f, 0.0f)).rotationDegrees(-22.5f));
         ms.scale(1, -1, 1);
         SymmetryHandlerClient.applyModelTransform(currentElement, ms);
     }

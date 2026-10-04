@@ -63,8 +63,7 @@ public class PonderTooltipHandler {
 
         float value = holdKeyProgress.getValue();
 
-        if (RenderSystem.isOnRenderThread() && !subject && !PonderKeybinds.PONDER.isUnbound() && InputConstants.isKeyDown(instance.getWindow(),
-            PonderKeybinds.PONDER.key.getValue()
+        if (RenderSystem.isOnRenderThread() && !subject && !PonderKeybinds.PONDER.isUnbound() && InputConstants.isKeyDown(PonderKeybinds.PONDER.key.getValue()
         ) && currentScreen != null) {
             if (value >= 1) {
                 if (currentScreen instanceof NavigatableSimiScreen) {

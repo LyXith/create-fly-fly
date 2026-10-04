@@ -171,12 +171,12 @@ public class StationRenderer implements BlockEntityRenderer<StationBlockEntity, 
             matrices.pushPose();
             matrices.translate(0.5f, 0.5f, 0.5f);
             if (state.flagYRot != null) {
-                matrices.mulPose(state.flagYRot);
+                matrices.rotate(state.flagYRot);
             }
             matrices.translate(0.001953125f, 0.59375f, state.flagOffsetZ);
             matrices.translate(-0.5f, -0.5f, -0.5f);
             if (state.flagXRot != null) {
-                matrices.mulPose(state.flagXRot);
+                matrices.rotate(state.flagXRot);
             }
             if (state.flagYRot2 != null) {
                 matrices.rotateAround(state.flagYRot2, 0.03125f, 0, 0);

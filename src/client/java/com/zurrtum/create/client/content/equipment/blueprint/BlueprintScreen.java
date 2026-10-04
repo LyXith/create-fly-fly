@@ -104,9 +104,9 @@ public class BlueprintScreen extends AbstractSimiContainerScreen<BlueprintMenu> 
     private void transform(PoseStack ms, float p) {
         ms.translate(0.48F, 0.04F, 0);
         ms.scale(1, -1, 1);
-        ms.mulPose(Axis.ZP.rotationDegrees(22.5F));
-        ms.mulPose(Axis.XP.rotationDegrees(45.0F));
-        ms.mulPose(Axis.YP.rotationDegrees(-45.0F));
+        ms.rotate(Axis.ZP.rotationDegrees(22.5F));
+        ms.rotate(Axis.XP.rotationDegrees(45.0F));
+        ms.rotate(Axis.YP.rotationDegrees(-45.0F));
     }
 
     @Override

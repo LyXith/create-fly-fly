@@ -120,8 +120,8 @@ public class ChuteRenderer implements BlockEntityRenderer<ChuteBlockEntity, Chut
                 matrices.scale(1.5f, 1.5f, 1.5f);
             } else {
                 matrices.scale(0.5f, 0.5f, 0.5f);
-                matrices.mulPose(xRot);
-                matrices.mulPose(yRot);
+                matrices.rotate(xRot);
+                matrices.rotate(yRot);
             }
             item.submit(matrices, queue, light, OverlayTexture.NO_OVERLAY, 0);
             matrices.popPose();

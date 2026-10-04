@@ -275,8 +275,8 @@ public class WorldshaperModel implements ItemModel {
         ) {
             matrices.translate(0.258f, 0.222f, 0.5f);
             matrices.scale(0.25f, 0.25f, 0.25f);
-            matrices.mulPose(Axis.XP.rotationDegrees(30));
-            matrices.mulPose(Axis.YP.rotationDegrees(45));
+            matrices.rotate(Axis.XP.rotationDegrees(30));
+            matrices.rotate(Axis.YP.rotationDegrees(45));
             state.submit(matrices, queue, lightCoords, overlayCoords, outlineColor);
         }
 
@@ -330,8 +330,8 @@ public class WorldshaperModel implements ItemModel {
         ) {
             matrices.translate(0.08f, 0.115f, 0.5f);
             matrices.scale(0.25f, 0.25f, 0.25f);
-            matrices.mulPose(Axis.XP.rotationDegrees(30));
-            matrices.mulPose(Axis.YP.rotationDegrees(45));
+            matrices.rotate(Axis.XP.rotationDegrees(30));
+            matrices.rotate(Axis.YP.rotationDegrees(45));
             model.submit(matrices, queue, lightCoords, overlayCoords, outlineColor);
         }
     }

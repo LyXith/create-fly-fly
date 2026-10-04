@@ -110,10 +110,10 @@ public class RollerRenderer implements BlockEntityRenderer<RollerBlockEntity, Ro
                 matrices.rotateAround(state.wheelAngle, 0.5f, 0.5f, 0.5f);
             }
             if (state.rotate != null) {
-                matrices.mulPose(state.rotate);
+                matrices.rotate(state.rotate);
             }
             matrices.translate(0, -0.5, 0.5);
-            matrices.mulPose(state.yRot);
+            matrices.rotate(state.yRot);
             state.wheel.submit(matrices, queue);
             matrices.popPose();
             if (state.frameAngle != null) {

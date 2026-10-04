@@ -12,7 +12,7 @@ public class CrushWheelRenderer extends GuiBlockRenderer<CrushWheelRenderState> 
     @Override
     protected void renderToTexture(CrushWheelRenderState state, PoseStack matrices, SubmitNodeCollector queue) {
         matrices.scale(1, 1, -1);
-        matrices.mulPose(com.mojang.math.Axis.YP.rotationDegrees(-22.5f));
+        matrices.rotate(com.mojang.math.Axis.YP.rotationDegrees(-22.5f));
         matrices.translate(-1.5f, -0.6f, -0.5f);
         matrices.scale(1, -1, 1);
         SuperByteBuffer model = CachedBuffers.partial(AllPartialModels.CRUSHING_WHEEL, Blocks.AIR.defaultBlockState());
@@ -20,16 +20,16 @@ public class CrushWheelRenderer extends GuiBlockRenderer<CrushWheelRenderState> 
         float angle = getCurrentAngle();
         matrices.pushPose();
         matrices.translate(0.5f, 0.5f, 0.5f);
-        matrices.mulPose(com.mojang.math.Axis.XP.rotationDegrees(-90));
-        matrices.mulPose(com.mojang.math.Axis.YP.rotationDegrees(angle));
+        matrices.rotate(com.mojang.math.Axis.XP.rotationDegrees(-90));
+        matrices.rotate(com.mojang.math.Axis.YP.rotationDegrees(angle));
         matrices.translate(-0.5f, -0.5f, -0.5f);
         model.submit(matrices, queue);
         matrices.popPose();
 
         matrices.translate(0.5f, 0.5f, 0.5f);
         matrices.translate(2, 0, 0);
-        matrices.mulPose(com.mojang.math.Axis.XP.rotationDegrees(-90));
-        matrices.mulPose(com.mojang.math.Axis.YP.rotationDegrees(-angle));
+        matrices.rotate(com.mojang.math.Axis.XP.rotationDegrees(-90));
+        matrices.rotate(com.mojang.math.Axis.YP.rotationDegrees(-angle));
         matrices.translate(-0.5f, -0.5f, -0.5f);
         model.submit(matrices, queue);
     }

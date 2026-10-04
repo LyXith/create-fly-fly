@@ -19,9 +19,10 @@ public class MixinPlugin implements IMixinConfigPlugin {
         if (loader.isModLoaded("sodium")) {
             mixins.add("QuadRenderHelperMixin");
         }
-        if (loader.isModLoaded("iris")) {
-            mixins.add("IrisPipelinesMixin");
-        }
+        // Not compiled on 26.3 (no Iris build for the renderpearl pipeline classes yet), see build.gradle
+        //        if (loader.isModLoaded("iris")) {
+        //            mixins.add("IrisPipelinesMixin");
+        //        }
         //        if (loader.isModLoaded("eiv")) {
         //            mixins.add("ItemSlotMixin");
         //            mixins.add("FabricEIVMixin");

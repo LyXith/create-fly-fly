@@ -220,12 +220,12 @@ public class DepotRenderer implements BlockEntityRenderer<DepotBlockEntity, Depo
         boolean renderUpright = upright || alwaysUpright && !blockItem;
 
         ms.pushPose();
-        ms.mulPose(Axis.YP.rotation(Mth.DEG_TO_RAD * angle));
+        ms.rotate(Axis.YP.rotation(Mth.DEG_TO_RAD * angle));
 
         if (renderUpright) {
             Vec3 diff = itemPosition.subtract(cameraPos);
             float yRot = (float) (Mth.atan2(diff.x, diff.z) + Math.PI);
-            ms.mulPose(Axis.YP.rotation(yRot));
+            ms.rotate(Axis.YP.rotation(yRot));
             ms.translate(0, 0.09375f, -0.0625f);
         }
 
@@ -247,14 +247,14 @@ public class DepotRenderer implements BlockEntityRenderer<DepotBlockEntity, Depo
 
             if (!blockItem && !renderUpright) {
                 ms.translate(0, -0.1875f, 0);
-                ms.mulPose(Axis.XP.rotation(RAD_90));
+                ms.rotate(Axis.XP.rotation(RAD_90));
             }
             state.submit(ms, queue, light, OverlayTexture.NO_OVERLAY, 0);
             ms.popPose();
 
             if (!renderUpright) {
                 if (!blockItem) {
-                    ms.mulPose(Axis.YP.rotation(Mth.DEG_TO_RAD * 10));
+                    ms.rotate(Axis.YP.rotation(Mth.DEG_TO_RAD * 10));
                 }
                 ms.translate(0, blockItem ? 0.015625f : 0.0625f, 0);
             } else {

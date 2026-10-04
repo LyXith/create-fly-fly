@@ -233,7 +233,7 @@ public class SawRenderer implements BlockEntityRenderer<SawBlockEntity, SawRende
         int outputs = state.outputs;
         ms.pushPose();
         if (state.yRot != null) {
-            ms.mulPose(state.yRot);
+            ms.rotate(state.yRot);
             ms.translate(outputs <= 1 ? 0.5f : 0.25f, 0, state.itemOffset);
             ms.translate(-1, 0, 0);
         } else {
@@ -259,7 +259,7 @@ public class SawRenderer implements BlockEntityRenderer<SawBlockEntity, SawRende
                 ms.scale(1.5f, 1.5f, 1.5f);
             } else {
                 ms.scale(0.5f, 0.5f, 0.5f);
-                ms.mulPose(com.mojang.math.Axis.XP.rotationDegrees(90));
+                ms.rotate(com.mojang.math.Axis.XP.rotationDegrees(90));
             }
             renderState.submit(ms, queue, light, OverlayTexture.NO_OVERLAY, 0);
             renderedI++;

@@ -51,7 +51,7 @@ public class ZapperRenderHandler extends ShootableGadgetRenderHandler {
     @Override
     protected void transformTool(PoseStack ms, float flip, float equipProgress, float recoil, float pt) {
         ms.translate(flip * -0.1f, 0.1f, -0.4f);
-        ms.mulPose(Axis.YP.rotationDegrees(flip * 5.0F));
+        ms.rotate(Axis.YP.rotationDegrees(flip * 5.0F));
     }
 
     @Override

@@ -187,25 +187,25 @@ public class SlidingDoorRenderer implements BlockEntityRenderer<SlidingDoorBlock
             if (flip) {
                 if (yRot != null) {
                     matrices.translate(0, 0, 1);
-                    matrices.mulPose(yRot);
+                    matrices.rotate(yRot);
                     matrices.translate(0, 0, -0.5f);
                 } else {
                     matrices.translate(0, 0, 0.5f);
                 }
                 left.submit(matrices, queue);
                 if (rightYRot != null) {
-                    matrices.mulPose(rightYRot);
+                    matrices.rotate(rightYRot);
                 }
                 matrices.translate(0, 0, -0.5f);
                 right.submit(matrices, queue);
             } else {
                 if (yRot != null) {
-                    matrices.mulPose(yRot);
+                    matrices.rotate(yRot);
                 }
                 left.submit(matrices, queue);
                 matrices.translate(0, 0, 0.5f);
                 if (rightYRot != null) {
-                    matrices.mulPose(rightYRot);
+                    matrices.rotate(rightYRot);
                 }
                 right.submit(matrices, queue);
             }

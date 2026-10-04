@@ -75,7 +75,7 @@ public class HatFeatureRenderer<S extends LivingEntityRenderState, M extends Ent
 
         ms.scale(1, -1, -1);
         ms.translate(0, -2.25F / 16.0F, 0);
-        ms.mulPose(Axis.XP.rotationDegrees(-8.5F));
+        ms.rotate(Axis.XP.rotationDegrees(-8.5F));
         BlockState air = Blocks.AIR.defaultBlockState();
         CachedBuffers.partial(hat, air).light(light).submit(ms, queue);
         ms.popPose();

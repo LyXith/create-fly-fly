@@ -140,7 +140,7 @@ public class ContraptionControlsMovementRender implements MovementRenderBehaviou
                 transform(matrices, pose, pos);
                 matrices.rotateAround(new Quaternionf().setAngleAxis(upAngle, 0, 1, 0), 0.5f, 0.5f, 0.5f);
                 matrices.translate(0.4f, 1.125f, 0.5f);
-                matrices.mulPose(new Quaternionf().setAngleAxis(westAngle, -1, 0, 0));
+                matrices.rotate(new Quaternionf().setAngleAxis(westAngle, -1, 0, 0));
                 if (text != null) {
                     matrices.pushPose();
                     matrices.translate(0, 0.15f, offsetZ);

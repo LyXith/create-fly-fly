@@ -213,19 +213,19 @@ public class CarriageContraptionEntityRenderer extends OrientedContraptionEntity
         public void submit(PoseStack matrices, SubmitNodeCollector queue) {
             matrices.pushPose();
             if (offsetZ != 0) {
-                matrices.mulPose(Axis.YP.rotation(viewYRot));
-                matrices.mulPose(Axis.XP.rotation(-viewXRot));
-                matrices.mulPose(Axis.YP.rotation(yRot));
+                matrices.rotate(Axis.YP.rotation(viewYRot));
+                matrices.rotate(Axis.XP.rotation(-viewXRot));
+                matrices.rotate(Axis.YP.rotation(yRot));
                 matrices.translate(0, 0, offsetZ);
-                matrices.mulPose(Axis.YP.rotation(-yRot));
-                matrices.mulPose(Axis.XP.rotation(viewXRot));
-                matrices.mulPose(Axis.YP.rotation(-viewYRot));
+                matrices.rotate(Axis.YP.rotation(-yRot));
+                matrices.rotate(Axis.XP.rotation(viewXRot));
+                matrices.rotate(Axis.YP.rotation(-viewYRot));
             }
-            matrices.mulPose(Axis.YP.rotation(yaw));
-            matrices.mulPose(Axis.XP.rotation(pitch));
+            matrices.rotate(Axis.YP.rotation(yaw));
+            matrices.rotate(Axis.XP.rotation(pitch));
             matrices.translate(0, 0.5f, 0);
             if (zRot != 0) {
-                matrices.mulPose(Axis.ZP.rotation(zRot));
+                matrices.rotate(Axis.ZP.rotation(zRot));
             }
             matrices.translate(0, offsetY, 0);
             data.submit(matrices, queue);

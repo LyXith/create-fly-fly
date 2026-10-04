@@ -259,10 +259,10 @@ public class StandardTrackBlockRenderer implements TrackBlockRenderer {
             if (yRot != null || xRot != null) {
                 matrices.translate(0.5f, 0.5f, 0.5f);
                 if (yRot != null) {
-                    matrices.mulPose(yRot);
+                    matrices.rotate(yRot);
                 }
                 if (xRot != null) {
-                    matrices.mulPose(xRot);
+                    matrices.rotate(xRot);
                 }
                 matrices.translate(-0.5f, -0.5f, -0.5f);
             }

@@ -285,10 +285,10 @@ public class SchematicannonRenderer implements BlockEntityRenderer<Schematicanno
             matrices.pushPose();
             matrices.translate(0.5f, 0.9375f, 0.5f);
             if (yaw != null) {
-                matrices.mulPose(yaw);
+                matrices.rotate(yaw);
             }
             if (pitch != null) {
-                matrices.mulPose(pitch);
+                matrices.rotate(pitch);
             }
             matrices.translate(-0.5f, offset - 0.9375f, -0.5f);
             pipe.submit(matrices, queue);
@@ -320,8 +320,8 @@ public class SchematicannonRenderer implements BlockEntityRenderer<Schematicanno
             matrices.translate(offset);
             if (yRot != null) {
                 matrices.translate(0.125f, 0.125f, 0.125f);
-                matrices.mulPose(yRot);
-                matrices.mulPose(XRot);
+                matrices.rotate(yRot);
+                matrices.rotate(XRot);
                 matrices.translate(-0.125f, -0.125f, -0.125f);
             }
             matrices.scale(scale, scale, scale);

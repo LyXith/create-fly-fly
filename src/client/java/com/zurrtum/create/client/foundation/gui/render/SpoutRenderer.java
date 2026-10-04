@@ -56,8 +56,8 @@ public class SpoutRenderer extends GuiBlockRenderer<SpoutRenderState> {
         float scale = 20 * windowScaleFactor;
         matrices.scale(scale, scale, scale);
 
-        matrices.mulPose(Axis.XP.rotationDegrees(-15.5f));
-        matrices.mulPose(Axis.YP.rotationDegrees(22.5f));
+        matrices.rotate(Axis.XP.rotationDegrees(-15.5f));
+        matrices.rotate(Axis.YP.rotationDegrees(22.5f));
         matrices.translate(-0.5f, -0.5f, -0.5f);
         matrices.scale(1, -1, 1);
 
@@ -87,8 +87,8 @@ public class SpoutRenderer extends GuiBlockRenderer<SpoutRenderState> {
         if (fluid != Fluids.EMPTY) {
             DataComponentPatch components = item.components();
             matrices.pushPose();
-            matrices.mulPose(Axis.XP.rotationDegrees(-15.5f));
-            matrices.mulPose(Axis.YP.rotationDegrees(22.5f));
+            matrices.rotate(Axis.XP.rotationDegrees(-15.5f));
+            matrices.rotate(Axis.YP.rotationDegrees(22.5f));
             float fluidScale = 16 * windowScaleFactor;
             matrices.scale(fluidScale, -fluidScale, fluidScale);
             matrices.translate(0, -1.4f, 0);
@@ -114,8 +114,8 @@ public class SpoutRenderer extends GuiBlockRenderer<SpoutRenderState> {
             matrices.popPose();
 
             matrices.pushPose();
-            matrices.mulPose(Axis.XP.rotationDegrees(-15.5f));
-            matrices.mulPose(Axis.YP.rotationDegrees(22.5f));
+            matrices.rotate(Axis.XP.rotationDegrees(-15.5f));
+            matrices.rotate(Axis.YP.rotationDegrees(22.5f));
             matrices.translate(scale / 2.0f, scale * 1.5f, scale / 2.0f);
             matrices.scale(fluidScale, -fluidScale, fluidScale);
             matrices.translate(-0.5f, -1.0f, -0.5f);

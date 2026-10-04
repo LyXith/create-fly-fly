@@ -95,13 +95,13 @@ public class SteamEngineRenderer implements BlockEntityRenderer<SteamEngineBlock
     ) {
         matrices.translate(0.5f, 0.5f, 0.5f);
         if (state.yRot != null) {
-            matrices.mulPose(state.yRot);
+            matrices.rotate(state.yRot);
         }
         if (state.xRot != null) {
-            matrices.mulPose(state.xRot);
+            matrices.rotate(state.xRot);
         }
         if (state.rollAngle != null) {
-            matrices.mulPose(state.rollAngle);
+            matrices.rotate(state.rollAngle);
         }
         matrices.pushPose();
         matrices.translate(-0.5f, state.pistonTranslate, -0.5f);

@@ -65,6 +65,8 @@ sourceSets {
             exclude 'com/zurrtum/create/client/mixin/ItemFeatureRendererMixin.java'
             exclude 'com/zurrtum/create/client/mixin/ModelMixin.java'
             exclude 'com/zurrtum/create/client/mixin/ModelPartMixin.java'
+            // Iris has no 26.3 build; its 26.1 API still takes the old com.mojang.blaze3d pipeline classes
+            exclude 'com/zurrtum/create/client/mixin/IrisPipelinesMixin.java'
         }
     }
 }

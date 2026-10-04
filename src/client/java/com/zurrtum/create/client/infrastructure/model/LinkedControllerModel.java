@@ -252,8 +252,8 @@ public class LinkedControllerModel implements ItemModel, SpecialModelRenderer<Re
             int handModifier = displayContext == ItemDisplayContext.FIRST_PERSON_LEFT_HAND ? -1 : 1;
             matrices.translate(0, progress / 4, progress / 4 * handModifier);
             matrices.translate(0.5f, 0.5f, 0.5f);
-            matrices.mulPose(Axis.YP.rotationDegrees(progress * -30 * handModifier));
-            matrices.mulPose(Axis.ZP.rotationDegrees(progress * -30));
+            matrices.rotate(Axis.YP.rotationDegrees(progress * -30 * handModifier));
+            matrices.rotate(Axis.ZP.rotationDegrees(progress * -30));
             matrices.translate(-0.5f, -0.5f, -0.5f);
         }
 

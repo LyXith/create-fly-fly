@@ -76,8 +76,8 @@ public class CarriageCouplingRenderer {
                 ms.pushPose();
                 ms.translate(anchor.x - camera.x, anchor.y - camera.y, anchor.z - camera.z);
                 ms.pushPose();
-                ms.mulPose(Axis.YP.rotation(Mth.DEG_TO_RAD * -yRot));
-                ms.mulPose(Axis.XP.rotation(Mth.DEG_TO_RAD * xRot));
+                ms.rotate(Axis.YP.rotation(Mth.DEG_TO_RAD * -yRot));
+                ms.rotate(Axis.XP.rotation(Mth.DEG_TO_RAD * xRot));
                 head.submit(ms, queue);
                 ms.popPose();
 
@@ -88,8 +88,8 @@ public class CarriageCouplingRenderer {
                 Quaternionf xRot2 = Axis.XP.rotation(Mth.DEG_TO_RAD * -xRot);
                 if (couplingSegments > 0) {
                     double stretch = (anchor2.distanceTo(anchor) - 0.375f) * 4 / couplingSegments;
-                    ms.mulPose(yRot2);
-                    ms.mulPose(xRot2);
+                    ms.rotate(yRot2);
+                    ms.rotate(xRot2);
                     ms.translate(0, 0, 0.3125f);
                     ms.scale(1, 1, (float) stretch);
                     SuperByteBufferRenderState cable = render.createCableRenderState();
@@ -104,8 +104,8 @@ public class CarriageCouplingRenderer {
                 ms.pushPose();
                 Vec3 translation = anchor2.subtract(camera);
                 ms.translate(translation.x, translation.y, translation.z);
-                ms.mulPose(yRot2);
-                ms.mulPose(xRot2);
+                ms.rotate(yRot2);
+                ms.rotate(xRot2);
                 head.submit(ms, queue);
                 ms.popPose();
             }

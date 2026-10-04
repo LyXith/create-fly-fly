@@ -92,16 +92,16 @@ public class EjectorItemEntityRenderer extends ItemEntityRenderer {
                     matrixStack.scale(3.0f, 3.0f, 3.0f);
                 }
                 if (state.rotateY != null) {
-                    matrixStack.mulPose(state.rotateY);
+                    matrixStack.rotate(state.rotateY);
                 }
                 if (state.rotateX != null) {
-                    matrixStack.mulPose(state.rotateX);
+                    matrixStack.rotate(state.rotateX);
                 }
                 matrixStack.translate(0, -0.25f, 0);
             } else if (state.ageInTicks > 0) {
                 float g = Mth.sin(state.ageInTicks) * 0.1F + 0.1F;
                 matrixStack.translate(0, g, 0);
-                matrixStack.mulPose(Axis.YP.rotation(state.ageInTicks / 2.0F));
+                matrixStack.rotate(Axis.YP.rotation(state.ageInTicks / 2.0F));
             }
             submitMultipleFromCount(matrixStack, queue, state.lightCoords, state, random, box);
             matrixStack.popPose();

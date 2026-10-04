@@ -20,14 +20,14 @@ public class FanRenderer extends GuiBlockRenderer<FanRenderState> {
     @Override
     protected void renderToTexture(FanRenderState state, PoseStack matrices, SubmitNodeCollector queue) {
         matrices.scale(1, 1, -1);
-        matrices.mulPose(Axis.XP.rotationDegrees(-15.5f));
-        matrices.mulPose(Axis.YP.rotationDegrees(22.5f));
+        matrices.rotate(Axis.XP.rotationDegrees(-15.5f));
+        matrices.rotate(Axis.YP.rotationDegrees(22.5f));
         matrices.translate(-0.92f, -0.75f, -0.5f);
         matrices.scale(1, -1, 1);
         matrices.pushPose();
         matrices.translate(0.5f, 0.5f, 0.5f);
-        matrices.mulPose(Axis.ZP.rotationDegrees(getCurrentAngle() * 16));
-        matrices.mulPose(Axis.XP.rotationDegrees(180));
+        matrices.rotate(Axis.ZP.rotationDegrees(getCurrentAngle() * 16));
+        matrices.rotate(Axis.XP.rotationDegrees(180));
         matrices.translate(-0.5f, -0.5f, -0.5f);
         CachedBuffers.partial(AllPartialModels.ENCASED_FAN_INNER, Blocks.AIR.defaultBlockState())
             .submit(matrices, queue);

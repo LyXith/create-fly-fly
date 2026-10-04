@@ -111,7 +111,7 @@ public class ItemVisual extends AbstractEntityVisual<ItemEntity> implements Simp
             pPoseStack.translate(0.0F, f, 0.0F);
         }
         float h = ItemEntity.getSpin(age, entity.bobOffs);
-        pPoseStack.mulPose(Axis.YP.rotation(h));
+        pPoseStack.rotate(Axis.YP.rotation(h));
 
         int i = getRenderAmount(itemstack);
         int seed = itemstack.isEmpty() ? 187 : Item.getId(itemstack.getItem()) + itemstack.getDamageValue();

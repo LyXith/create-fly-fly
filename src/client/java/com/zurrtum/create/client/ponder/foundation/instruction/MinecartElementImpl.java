@@ -122,7 +122,7 @@ public class MinecartElementImpl extends AnimatedSceneElementBase implements Min
             Mth.lerp(pt, entity.zo, entity.getZ())
         );
 
-        poseStack.mulPose(Axis.YP.rotationDegrees(rotation.getValue(pt)));
+        poseStack.rotate(Axis.YP.rotationDegrees(rotation.getValue(pt)));
 
         EntityRenderState state = entityRenderManager.extractEntity(entity, pt);
         entityRenderManager.submit(state, cameraRenderState, 0, 0, 0, poseStack, queue);

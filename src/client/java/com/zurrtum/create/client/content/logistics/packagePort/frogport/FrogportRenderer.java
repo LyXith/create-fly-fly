@@ -204,7 +204,7 @@ public class FrogportRenderer implements BlockEntityRenderer<FrogportBlockEntity
             matrices.pushPose();
             matrices.translate(0.5f, 0.625f, 0.6875f);
             if (tonguePitch != null) {
-                matrices.mulPose(tonguePitch);
+                matrices.rotate(tonguePitch);
             }
             matrices.scale(1, 1, tongueScale);
             matrices.translate(-0.5f, -0.625f, -0.6875f);

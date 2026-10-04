@@ -42,10 +42,10 @@ public class GoggleTrinketRenderer implements TrinketRenderer {
             entityModel.root().translateAndRotate(matrices);
             entityModel.getHead().translateAndRotate(matrices);
             matrices.translate(0.0F, -0.25F, 0.0F);
-            matrices.mulPose(Axis.YP.rotationDegrees(180.0F));
+            matrices.rotate(Axis.YP.rotationDegrees(180.0F));
             matrices.scale(0.625F, -0.625F, -0.625F);
             if (!((AvatarRenderState) state).headEquipment.isEmpty()) {
-                matrices.mulPose(Axis.ZP.rotationDegrees(180.0F));
+                matrices.rotate(Axis.ZP.rotationDegrees(180.0F));
                 matrices.translate(0.0F, -0.25F, 0.0F);
             }
             ItemStackRenderState item = new ItemStackRenderState();

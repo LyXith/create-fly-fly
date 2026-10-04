@@ -26,7 +26,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.util.FormattedCharSequence;
-import org.lwjgl.glfw.GLFW;
+import com.mojang.blaze3d.platform.InputConstants;
 
 public class ElevatorContactScreen extends AbstractSimiScreen {
 
@@ -181,7 +181,7 @@ public class ElevatorContactScreen extends AbstractSimiScreen {
             return true;
         }
         int keyCode = input.key();
-        if (keyCode == GLFW.GLFW_KEY_ENTER) {
+        if (keyCode == InputConstants.KEY_RETURN) {
             confirm();
             return true;
         }

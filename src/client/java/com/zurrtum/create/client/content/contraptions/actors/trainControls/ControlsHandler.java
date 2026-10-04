@@ -10,7 +10,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import org.jspecify.annotations.Nullable;
-import org.lwjgl.glfw.GLFW;
 
 import java.lang.ref.WeakReference;
 import java.util.Collection;
@@ -80,9 +79,7 @@ public class ControlsHandler {
             packetCooldown--;
         }
 
-        if (controlsPos != null && (entity.isRemoved() || InputConstants.isKeyDown(
-            mc.getWindow(),
-            GLFW.GLFW_KEY_ESCAPE
+        if (controlsPos != null && (entity.isRemoved() || InputConstants.isKeyDown(InputConstants.KEY_ESCAPE
         ))) {
             BlockPos pos = controlsPos;
             stopControlling(mc);

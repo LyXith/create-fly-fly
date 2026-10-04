@@ -109,15 +109,15 @@ public abstract class ShootableGadgetRenderHandler {
 
         ms.pushPose();
         ms.translate(flip * (f2 + 0.64F - 0.1f), f3 + -0.4F + equipProgress * -0.6F, f4 + -0.72F + 0.3f + recoil);
-        ms.mulPose(Axis.YP.rotationDegrees(flip * 75.0F));
-        ms.mulPose(Axis.YP.rotationDegrees(flip * f6 * 70.0F));
-        ms.mulPose(Axis.ZP.rotationDegrees(flip * f5 * -20.0F));
+        ms.rotate(Axis.YP.rotationDegrees(flip * 75.0F));
+        ms.rotate(Axis.YP.rotationDegrees(flip * f6 * 70.0F));
+        ms.rotate(Axis.ZP.rotationDegrees(flip * f5 * -20.0F));
         ms.translate(flip * -1.0F, 3.6F, 3.5F);
-        ms.mulPose(Axis.ZP.rotationDegrees(flip * 120.0F));
-        ms.mulPose(Axis.XP.rotationDegrees(200.0F));
-        ms.mulPose(Axis.YP.rotationDegrees(flip * -135.0F));
+        ms.rotate(Axis.ZP.rotationDegrees(flip * 120.0F));
+        ms.rotate(Axis.XP.rotationDegrees(200.0F));
+        ms.rotate(Axis.YP.rotationDegrees(flip * -135.0F));
         ms.translate(flip * 5.6F, 0.0F, 0.0F);
-        ms.mulPose(Axis.YP.rotationDegrees(flip * 40.0F));
+        ms.rotate(Axis.YP.rotationDegrees(flip * 40.0F));
         transformHand(ms, flip, equipProgress, recoil, pt);
         Identifier texture = player.getSkin().body().texturePath();
         if (rightHand) {
@@ -142,8 +142,8 @@ public abstract class ShootableGadgetRenderHandler {
         // Render gadget
         ms.pushPose();
         ms.translate(flip * (f2 + 0.64F - 0.1f), f3 + -0.4F + equipProgress * -0.6F, f4 + -0.72F - 0.1f + recoil);
-        ms.mulPose(Axis.YP.rotationDegrees(flip * f6 * 70.0F));
-        ms.mulPose(Axis.ZP.rotationDegrees(flip * f5 * -20.0F));
+        ms.rotate(Axis.YP.rotationDegrees(flip * f6 * 70.0F));
+        ms.rotate(Axis.ZP.rotationDegrees(flip * f5 * -20.0F));
         transformTool(ms, flip, equipProgress, recoil, pt);
         firstPersonRenderer.renderItem(
             player,

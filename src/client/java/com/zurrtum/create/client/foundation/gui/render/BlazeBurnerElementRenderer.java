@@ -17,8 +17,8 @@ public class BlazeBurnerElementRenderer extends GuiBlockRenderer<BlazeBurnerRend
     @Override
     protected void renderToTexture(BlazeBurnerRenderState state, PoseStack matrices, SubmitNodeCollector queue) {
         matrices.scale(1, 1, -1);
-        matrices.mulPose(Axis.XP.rotationDegrees(-22.5f));
-        matrices.mulPose(Axis.YP.rotationDegrees(-45));
+        matrices.rotate(Axis.XP.rotationDegrees(-22.5f));
+        matrices.rotate(Axis.YP.rotationDegrees(-45));
         matrices.scale(1, -1, 1);
         float horizontalAngle = AngleHelper.rad(270);
         boolean canDrawFlame = state.heatLevel().isAtLeast(HeatLevel.FADING);

@@ -234,7 +234,7 @@ public class DeployerRenderer implements BlockEntityRenderer<DeployerBlockEntity
             matrices.pushPose();
             matrices.translate(offset);
             if (yRot != null) {
-                matrices.mulPose(yRot);
+                matrices.rotate(yRot);
             }
             transform(matrices);
             item.submit(matrices, queue, light, OverlayTexture.NO_OVERLAY, 0);
@@ -274,7 +274,7 @@ public class DeployerRenderer implements BlockEntityRenderer<DeployerBlockEntity
         @Override
         protected void transform(PoseStack matrices) {
             if (xRot != null) {
-                matrices.mulPose(xRot);
+                matrices.rotate(xRot);
             }
             matrices.translate(0, 0, -0.6875f);
             if (isBlockItem) {
@@ -323,7 +323,7 @@ public class DeployerRenderer implements BlockEntityRenderer<DeployerBlockEntity
         @Override
         protected void transform(PoseStack matrices) {
             if (xRot != null) {
-                matrices.mulPose(xRot);
+                matrices.rotate(xRot);
             }
             matrices.translate(0, 0.125f, -0.75f);
             if (isSpears) {
@@ -362,7 +362,7 @@ public class DeployerRenderer implements BlockEntityRenderer<DeployerBlockEntity
             } else {
                 matrices.translate(0, 0.6875f, 0);
             }
-            matrices.mulPose(yRot2);
+            matrices.rotate(yRot2);
         }
     }
 

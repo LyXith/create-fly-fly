@@ -251,7 +251,7 @@ public class FrogAndConveyorScenes {
             poseStack.pushPose();
             poseStack.translate(location.x, location.y, location.z);
             poseStack.translate(lx, ly, lz);
-            poseStack.mulPose(Axis.YP.rotationDegrees(angle));
+            poseStack.rotate(Axis.YP.rotationDegrees(angle));
 
             poseStack.rotateAround(
                 Axis.ZP.rotationDegrees(Mth.sin((world.scene.getCurrentTime() + pt) * 0.2f) * 10),
@@ -261,9 +261,9 @@ public class FrogAndConveyorScenes {
             );
 
             poseStack.pushPose();
-            poseStack.mulPose(Axis.YP.rotationDegrees(90));
-            poseStack.mulPose(Axis.XP.rotationDegrees(90));
-            poseStack.mulPose(Axis.ZP.rotationDegrees(90));
+            poseStack.rotate(Axis.YP.rotationDegrees(90));
+            poseStack.rotate(Axis.XP.rotationDegrees(90));
+            poseStack.rotate(Axis.ZP.rotationDegrees(90));
             poseStack.scale(1.5f, 1.5f, 1.5f);
             poseStack.translate(-0.1, 0.2, -0.6);
             ItemStackRenderState itemRenderState = new ItemStackRenderState();

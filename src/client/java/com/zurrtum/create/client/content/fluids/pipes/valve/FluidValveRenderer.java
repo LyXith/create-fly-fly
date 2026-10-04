@@ -83,13 +83,13 @@ public class FluidValveRenderer implements BlockEntityRenderer<FluidValveBlockEn
         }
         matrices.translate(0.5f, 0.5f, 0.5f);
         if (state.yRot != null) {
-            matrices.mulPose(state.yRot);
+            matrices.rotate(state.yRot);
         }
         if (state.xRot != null) {
-            matrices.mulPose(state.xRot);
+            matrices.rotate(state.xRot);
         }
         if (state.yRot2 != null) {
-            matrices.mulPose(state.yRot2);
+            matrices.rotate(state.yRot2);
         }
         matrices.translate(-0.5f, -0.5f, -0.5f);
         state.pointer.submit(matrices, queue);

@@ -131,10 +131,10 @@ public class BlueprintRenderer extends EntityRenderer<BlueprintEntity, Blueprint
     ) {
         matrices.pushPose();
         if (state.yRot != null) {
-            matrices.mulPose(state.yRot);
+            matrices.rotate(state.yRot);
         }
         if (state.xRot != null) {
-            matrices.mulPose(state.xRot);
+            matrices.rotate(state.xRot);
         }
         matrices.translate(state.offset);
         state.model.submit(matrices, queue);

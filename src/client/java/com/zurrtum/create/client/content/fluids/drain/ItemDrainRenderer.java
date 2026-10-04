@@ -219,10 +219,10 @@ public class ItemDrainRenderer implements BlockEntityRenderer<ItemDrainBlockEnti
                 matrices.translate(0, 0.09375f, 0);
             }
             if (axis != Direction.Axis.X) {
-                matrices.mulPose(Axis.XP.rotation(Mth.DEG_TO_RAD * verticalAngle));
+                matrices.rotate(Axis.XP.rotation(Mth.DEG_TO_RAD * verticalAngle));
             }
             if (axis != Direction.Axis.Z) {
-                matrices.mulPose(Axis.ZP.rotation(Mth.DEG_TO_RAD * -verticalAngle));
+                matrices.rotate(Axis.ZP.rotation(Mth.DEG_TO_RAD * -verticalAngle));
             }
             if (renderUpright) {
                 Vec3 vectorForOffset = itemPosition.add(offsetVec);
@@ -234,7 +234,7 @@ public class ItemDrainRenderer implements BlockEntityRenderer<ItemDrainBlockEnti
                     diff = VecHelper.rotate(diff, -verticalAngle, Direction.Axis.Z);
                 }
                 float yRot = (float) Mth.atan2(diff.z, -diff.x);
-                matrices.mulPose(Axis.YP.rotation((float) (yRot - Math.PI / 2)));
+                matrices.rotate(Axis.YP.rotation((float) (yRot - Math.PI / 2)));
                 matrices.translate(0, 0, -0.0625f);
             }
             Random r = new Random(0);
@@ -246,13 +246,13 @@ public class ItemDrainRenderer implements BlockEntityRenderer<ItemDrainBlockEnti
                 }
                 matrices.scale(0.5f, 0.5f, 0.5f);
                 if (!blockItem && !renderUpright) {
-                    matrices.mulPose(Axis.XP.rotation(RAD_90));
+                    matrices.rotate(Axis.XP.rotation(RAD_90));
                 }
                 state.submit(matrices, queue, light, OverlayTexture.NO_OVERLAY, 0);
                 matrices.popPose();
                 if (!renderUpright) {
                     if (!blockItem) {
-                        matrices.mulPose(Axis.YP.rotation(Mth.DEG_TO_RAD * 10));
+                        matrices.rotate(Axis.YP.rotation(Mth.DEG_TO_RAD * 10));
                     }
                     matrices.translate(0, blockItem ? 0.015625f : 0.0625f, 0);
                 } else {
@@ -265,7 +265,7 @@ public class ItemDrainRenderer implements BlockEntityRenderer<ItemDrainBlockEnti
             }
             matrices.scale(0.5f, 0.5f, 0.5f);
             if (!blockItem && !renderUpright) {
-                matrices.mulPose(Axis.XP.rotation(RAD_90));
+                matrices.rotate(Axis.XP.rotation(RAD_90));
             }
             state.submit(matrices, queue, light, OverlayTexture.NO_OVERLAY, 0);
             matrices.popPose();

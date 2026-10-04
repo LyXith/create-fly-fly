@@ -90,7 +90,7 @@ public class CouplingRenderer {
             ms.pushPose();
             cartTransform.apply(ms, camera);
             attachment.light(lightValues.get(isFirst)).submit(ms, queue);
-            ms.mulPose(Axis.YP.rotation((float) (Mth.DEG_TO_RAD * (connectorYaw - cartTransform.yaw))));
+            ms.rotate(Axis.YP.rotation((float) (Mth.DEG_TO_RAD * (connectorYaw - cartTransform.yaw))));
             ring.light(lightValues.get(isFirst)).submit(ms, queue);
             ms.popPose();
         });
@@ -102,8 +102,8 @@ public class CouplingRenderer {
 
         ms.pushPose();
         ms.translate(firstEndpoint.subtract(camera));
-        ms.mulPose(Axis.YP.rotation((float) (Mth.DEG_TO_RAD * connectorYaw)));
-        ms.mulPose(Axis.ZP.rotation((float) (Mth.DEG_TO_RAD * connectorPitch)));
+        ms.rotate(Axis.YP.rotation((float) (Mth.DEG_TO_RAD * connectorYaw)));
+        ms.rotate(Axis.ZP.rotation((float) (Mth.DEG_TO_RAD * connectorPitch)));
         ms.scale((float) endPointDiff.length(), 1, 1);
 
         connector.light(meanSkyLight << 20 | meanBlockLight << 4).submit(ms, queue);

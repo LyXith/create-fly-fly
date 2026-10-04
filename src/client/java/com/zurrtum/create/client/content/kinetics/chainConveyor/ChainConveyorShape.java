@@ -81,10 +81,10 @@ public abstract class ChainConveyorShape {
         public void submitOutline(BlockPos anchor, PoseStack ms, SubmitNodeCollector queue, float width) {
             ms.translate(pivot.x, pivot.y, pivot.z);
             if (yaw != 0) {
-                ms.mulPose(new Quaternionf().rotationY(Mth.DEG_TO_RAD * (float) yaw));
+                ms.rotate(new Quaternionf().rotationY(Mth.DEG_TO_RAD * (float) yaw));
             }
             if (pitch != 0) {
-                ms.mulPose(new Quaternionf().rotationX(Mth.DEG_TO_RAD * (float) pitch));
+                ms.rotate(new Quaternionf().rotationX(Mth.DEG_TO_RAD * (float) pitch));
             }
             ms.translate(-pivot.x, -pivot.y, -pivot.z);
             queue.submitShapeOutline(ms, voxelShape, RenderTypes.lines(), 0x66000000, width, true);

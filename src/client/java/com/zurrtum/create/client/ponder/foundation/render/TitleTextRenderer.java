@@ -20,7 +20,7 @@ public class TitleTextRenderer extends PictureInPictureRenderer<TitleTextRenderS
         float angle = indexDiff * -90;
         matrices.translate(0, 6, 0);
         matrices.pushPose();
-        matrices.mulPose(Axis.XN.rotationDegrees(angle + Math.signum(indexDiff) * 90));
+        matrices.rotate(Axis.XN.rotationDegrees(angle + Math.signum(indexDiff) * 90));
         matrices.translate(0, -6, 5);
         ClientFontHelper.submitSplitString(
             queue,
@@ -34,7 +34,7 @@ public class TitleTextRenderer extends PictureInPictureRenderer<TitleTextRenderS
         );
         matrices.popPose();
 
-        matrices.mulPose(Axis.XN.rotationDegrees(angle));
+        matrices.rotate(Axis.XN.rotationDegrees(angle));
         matrices.translate(0, -6, 5);
         ClientFontHelper.submitSplitString(
             queue,

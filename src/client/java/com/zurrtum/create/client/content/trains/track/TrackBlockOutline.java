@@ -161,8 +161,8 @@ public class TrackBlockOutline {
         Vec3 angles = result.angles();
         ms.pushPose();
         ms.translate(vec.x, vec.y + 0.125f, vec.z);
-        ms.mulPose(new Quaternionf().rotationY((float) angles.y));
-        ms.mulPose(new Quaternionf().rotationX((float) angles.x));
+        ms.rotate(new Quaternionf().rotationY((float) angles.y));
+        ms.rotate(new Quaternionf().rotationX((float) angles.x));
         ms.translate(-0.5, -0.125f, -0.5);
         int color = mc.player.getMainHandItem().is(AllItemTags.TRACKS) ? RED_COLOR : BLACK_COLOR;
         submitShape(AllShapes.TRACK_ORTHO.get(Direction.SOUTH), ms, queue, color, lineWidth);
@@ -239,7 +239,7 @@ public class TrackBlockOutline {
     ) {
         ms.translate(0, 1, 0);
         ms.rotateAround(new Quaternionf().setAngleAxis(angle, 0, 1, 0), 0.5f, 0.5f, 0.5f);
-        ms.mulPose(new Quaternionf().rotationX(ANGLE_45));
+        ms.rotate(new Quaternionf().rotationX(ANGLE_45));
         ms.translate(0, -0.1875f, 0.0625f);
         submitShape(LONG_ORTHO, ms, queue, color, width);
     }
@@ -252,7 +252,7 @@ public class TrackBlockOutline {
             case ND -> submitShape(LONG_ORTHO, -ANGLE_45, ms, queue, color, width);
             case AN -> {
                 ms.translate(0, 1, 0);
-                ms.mulPose(new Quaternionf().rotationX(ANGLE_45));
+                ms.rotate(new Quaternionf().rotationX(ANGLE_45));
                 ms.translate(0, -0.1875f, 0.0625f);
                 submitShape(LONG_ORTHO, ms, queue, color, width);
             }

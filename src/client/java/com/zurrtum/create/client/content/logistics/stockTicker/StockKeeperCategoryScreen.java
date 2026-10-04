@@ -40,7 +40,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import org.joml.Matrix3x2fStack;
 import org.jspecify.annotations.Nullable;
-import org.lwjgl.glfw.GLFW;
+import com.mojang.blaze3d.platform.InputConstants;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -470,7 +470,7 @@ public class StockKeeperCategoryScreen extends AbstractSimiContainerScreen<Stock
         }
 
         int pKeyCode = input.key();
-        boolean hitEscape = pKeyCode == GLFW.GLFW_KEY_ESCAPE;
+        boolean hitEscape = pKeyCode == InputConstants.KEY_ESCAPE;
         boolean hitEnter = getFocused() instanceof EditBox && (pKeyCode == 257 || pKeyCode == 335);
         boolean hitE = getFocused() == null && minecraft.options.keyInventory.matches(input);
         if (hitE || hitEnter || hitEscape) {

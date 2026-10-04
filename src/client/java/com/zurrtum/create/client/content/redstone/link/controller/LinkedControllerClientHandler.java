@@ -30,7 +30,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.joml.Matrix3x2fStack;
 import org.jspecify.annotations.Nullable;
-import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -162,7 +161,7 @@ public class LinkedControllerClientHandler {
             }
         }
 
-        if (mc.gui.screen() != null || InputConstants.isKeyDown(mc.getWindow(), GLFW.GLFW_KEY_ESCAPE)) {
+        if (mc.gui.screen() != null || InputConstants.isKeyDown(InputConstants.KEY_ESCAPE)) {
             MODE = Mode.IDLE;
             onReset(mc, player);
             return;

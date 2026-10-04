@@ -19,8 +19,8 @@ public class BasinBlazeBurnerRenderer extends GuiBlockRenderer<BasinBlazeBurnerR
     protected void renderToTexture(BasinBlazeBurnerRenderState state, PoseStack matrices, SubmitNodeCollector queue) {
         Minecraft mc = Minecraft.getInstance();
         matrices.scale(1, 1, -1);
-        matrices.mulPose(Axis.XP.rotationDegrees(-15.5f));
-        matrices.mulPose(Axis.YP.rotationDegrees(22.5f));
+        matrices.rotate(Axis.XP.rotationDegrees(-15.5f));
+        matrices.rotate(Axis.YP.rotationDegrees(22.5f));
         matrices.translate(-0.5f, -0.5f, -0.5f);
         matrices.scale(1, -1, 1);
         float offset = -(Mth.sin(AnimationTickHolder.getRenderTime() / 16.0f) + 0.5f) / 16.0f;

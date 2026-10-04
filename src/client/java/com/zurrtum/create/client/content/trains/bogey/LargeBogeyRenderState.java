@@ -53,10 +53,10 @@ public class LargeBogeyRenderState extends StandardBogeyRenderState {
         matrices.pushPose();
         matrices.translate(0, 1, 0);
         if (wheelAngle != null) {
-            matrices.mulPose(wheelAngle);
+            matrices.rotate(wheelAngle);
             wheels.submit(matrices, queue);
             matrices.translate(0, 0.25f, 0);
-            matrices.mulPose(wheelAngleInvert);
+            matrices.rotate(wheelAngleInvert);
         } else {
             wheels.submit(matrices, queue);
             matrices.translate(0, 0.25f, 0);

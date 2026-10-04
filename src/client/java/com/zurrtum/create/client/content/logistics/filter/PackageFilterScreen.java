@@ -17,7 +17,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import org.jspecify.annotations.Nullable;
-import org.lwjgl.glfw.GLFW;
+import com.mojang.blaze3d.platform.InputConstants;
 
 public class PackageFilterScreen extends AbstractFilterScreen<PackageFilterMenu> {
 
@@ -88,7 +88,7 @@ public class PackageFilterScreen extends AbstractFilterScreen<PackageFilterMenu>
 
     @Override
     public boolean keyPressed(KeyEvent input) {
-        if (input.key() == GLFW.GLFW_KEY_ENTER) {
+        if (input.key() == InputConstants.KEY_RETURN) {
             setFocused(null);
         }
         return super.keyPressed(input);

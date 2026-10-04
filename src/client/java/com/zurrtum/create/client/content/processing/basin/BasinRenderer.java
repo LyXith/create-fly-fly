@@ -110,13 +110,13 @@ public class BasinRenderer implements BlockEntityRenderer<BasinBlockEntity, Basi
             matrices.pushPose();
             matrices.translate(0.5, 0.2f, 0.5);
             if (state.ingredientYRot != null) {
-                matrices.mulPose(state.ingredientYRot);
+                matrices.rotate(state.ingredientYRot);
             }
             for (IngredientRenderData ingredient : state.ingredients) {
                 matrices.pushPose();
                 matrices.translate(ingredient.itemPosition);
-                matrices.mulPose(ingredient.yRot);
-                matrices.mulPose(state.ingredientXRot);
+                matrices.rotate(ingredient.yRot);
+                matrices.rotate(state.ingredientXRot);
                 for (Vec3 offset : ingredient.offsets) {
                     matrices.pushPose();
                     matrices.translate(offset);
@@ -132,10 +132,10 @@ public class BasinRenderer implements BlockEntityRenderer<BasinBlockEntity, Basi
                 matrices.pushPose();
                 matrices.translate(item.offset);
                 if (state.outputYRot != null) {
-                    matrices.mulPose(state.outputYRot);
+                    matrices.rotate(state.outputYRot);
                 }
                 if (item.xRot != null) {
-                    matrices.mulPose(item.xRot);
+                    matrices.rotate(item.xRot);
                 }
                 item.renderState.submit(matrices, queue, state.lightCoords, OverlayTexture.NO_OVERLAY, 0);
                 matrices.popPose();

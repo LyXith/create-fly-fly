@@ -212,7 +212,7 @@ public class FluidTankRenderer implements BlockEntityRenderer<FluidTankBlockEnti
 
         public void submit(PoseStack poseStack, SubmitNodeCollector queue, Quaternionf yRot) {
             poseStack.pushPose();
-            poseStack.mulPose(yRot);
+            poseStack.rotate(yRot);
             poseStack.translate(translateX, -0.5f, -0.5f);
             gauge.submit(poseStack, queue);
             if (xRot != null) {

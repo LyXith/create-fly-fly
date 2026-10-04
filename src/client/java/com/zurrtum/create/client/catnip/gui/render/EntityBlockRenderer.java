@@ -69,13 +69,13 @@ public class EntityBlockRenderer extends PictureInPictureRenderer<EntityBlockRen
         gameRenderer.useUiLightmap = false;
         gameRenderer.lighting().setupFor(Entry.ENTITY_IN_UI);
         if (block.zRot() != 0) {
-            matrices.mulPose(Axis.ZP.rotation(block.zRot()));
+            matrices.rotate(Axis.ZP.rotation(block.zRot()));
         }
         if (block.xRot() != 0) {
-            matrices.mulPose(Axis.XP.rotation(block.xRot()));
+            matrices.rotate(Axis.XP.rotation(block.xRot()));
         }
         if (block.yRot() != 0) {
-            matrices.mulPose(Axis.YP.rotation(block.yRot()));
+            matrices.rotate(Axis.YP.rotation(block.yRot()));
         }
         matrices.translate(-0.5F, -0.5F, -0.5F);
         Level world = block.world();

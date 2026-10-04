@@ -480,10 +480,10 @@ public class ChainConveyorRenderer implements BlockEntityRenderer<ChainConveyorB
             matrices.pushPose();
             matrices.translate(startOffset);
             if (yaw != null) {
-                matrices.mulPose(yaw);
+                matrices.rotate(yaw);
             }
-            matrices.mulPose(pitch);
-            matrices.mulPose(yRot);
+            matrices.rotate(pitch);
+            matrices.rotate(yRot);
             queue.submitCustomGeometry(matrices, layer, this);
             matrices.popPose();
         }
@@ -553,13 +553,13 @@ public class ChainConveyorRenderer implements BlockEntityRenderer<ChainConveyorB
             matrices.pushPose();
             matrices.translate(offset);
             if (yaw != null) {
-                matrices.mulPose(yaw);
+                matrices.rotate(yaw);
             }
-            matrices.mulPose(zRot);
-            matrices.mulPose(xRot);
+            matrices.rotate(zRot);
+            matrices.rotate(xRot);
             if (yRot != null) {
                 matrices.pushPose();
-                matrices.mulPose(yRot);
+                matrices.rotate(yRot);
                 matrices.translate(-0.5f, offsetY, -0.5f);
                 rig.submit(matrices, queue);
                 matrices.popPose();

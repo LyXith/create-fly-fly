@@ -65,10 +65,10 @@ public class LecternControllerRenderer implements BlockEntityRenderer<LecternCon
     ) {
         matrices.translate(0.5f, 1.45f, 0.5f);
         if (state.yRot != null) {
-            matrices.mulPose(state.yRot);
+            matrices.rotate(state.yRot);
         }
         matrices.translate(0.28f, 0, 0);
-        matrices.mulPose(state.zRot);
+        matrices.rotate(state.zRot);
         matrices.translate(-0.5f, -0.5f, -0.5f);
         model.renderInLectern(
             ItemDisplayContext.NONE,

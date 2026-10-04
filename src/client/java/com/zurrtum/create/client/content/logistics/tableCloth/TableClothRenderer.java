@@ -116,7 +116,7 @@ public class TableClothRenderer implements BlockEntityRenderer<TableClothBlockEn
                 DepotOutputItemState item = items[0];
                 ItemStackRenderState renderState = item.state();
                 if (!renderState.usesBlockLight()) {
-                    matrices.mulPose(state.rotate);
+                    matrices.rotate(state.rotate);
                 }
                 DepotRenderer.renderItem(
                     queue,
@@ -137,13 +137,13 @@ public class TableClothRenderer implements BlockEntityRenderer<TableClothBlockEn
             for (int i = 0; i < size; i++) {
                 matrices.pushPose();
                 matrices.translate(0.5f, 0.1875f, 0.5f);
-                matrices.mulPose(Axis.YP.rotationDegrees(i * (360.0f / size) + 45.0f));
+                matrices.rotate(Axis.YP.rotationDegrees(i * (360.0f / size) + 45.0f));
                 matrices.translate(0, i % 2 == 0 ? -0.005f : 0, 0.3125f);
-                matrices.mulPose(Axis.YP.rotationDegrees(-i * (360.0f / size) - 45.0f));
+                matrices.rotate(Axis.YP.rotationDegrees(-i * (360.0f / size) - 45.0f));
                 DepotOutputItemState item = items[i];
                 ItemStackRenderState renderState = item.state();
                 if (!renderState.usesBlockLight()) {
-                    matrices.mulPose(state.rotate);
+                    matrices.rotate(state.rotate);
                 }
                 DepotRenderer.renderItem(
                     queue,

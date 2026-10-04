@@ -73,18 +73,18 @@ public class DeskBellRenderer implements BlockEntityRenderer<DeskBellBlockEntity
     ) {
         matrices.translate(0.5f, 0.5f, 0.5f);
         if (state.yRot != null) {
-            matrices.mulPose(state.yRot);
+            matrices.rotate(state.yRot);
         }
         if (state.xRot != null) {
-            matrices.mulPose(state.xRot);
+            matrices.rotate(state.xRot);
         }
         matrices.pushPose();
         matrices.translate(-0.5f, state.plungerOffset - 0.5f, -0.5f);
         state.plunger.submit(matrices, queue);
         matrices.popPose();
         matrices.translate(0, state.bellOffset, 0);
-        matrices.mulPose(state.bellXRot);
-        matrices.mulPose(state.bellZRot);
+        matrices.rotate(state.bellXRot);
+        matrices.rotate(state.bellZRot);
         matrices.translate(-0.5f, -state.bellOffset - 0.5f, -0.5f);
         state.bell.submit(matrices, queue);
     }

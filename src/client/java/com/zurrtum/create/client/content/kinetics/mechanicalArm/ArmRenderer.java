@@ -174,23 +174,23 @@ public class ArmRenderer implements BlockEntityRenderer<ArmBlockEntity, ArmRende
         if (state.cog == null) {
             matrices.translate(0.5f, 0.5f, 0.5f);
             if (state.rotate != null) {
-                matrices.mulPose(state.rotate);
+                matrices.rotate(state.rotate);
             }
             matrices.translate(0, 0.25f, 0);
             if (state.baseAngle != null) {
-                matrices.mulPose(state.baseAngle);
+                matrices.rotate(state.baseAngle);
             }
             matrices.translate(0, 0.125f, 0);
             if (state.lowerArmAngle != null) {
-                matrices.mulPose(state.lowerArmAngle);
+                matrices.rotate(state.lowerArmAngle);
             }
             matrices.translate(0, 0, -0.875f);
             if (state.upperArmAngle != null) {
-                matrices.mulPose(state.upperArmAngle);
+                matrices.rotate(state.upperArmAngle);
             }
             matrices.translate(0, 0, -0.9375f);
             if (state.headAngle != null) {
-                matrices.mulPose(state.headAngle);
+                matrices.rotate(state.headAngle);
             }
             state.item.render(matrices, queue, state.lightCoords);
             return;
@@ -205,32 +205,32 @@ public class ArmRenderer implements BlockEntityRenderer<ArmBlockEntity, ArmRende
         }
         matrices.translate(0.5f, 0.5f, 0.5f);
         if (state.rotate != null) {
-            matrices.mulPose(state.rotate);
+            matrices.rotate(state.rotate);
         }
         matrices.translate(0, 0.25f, 0);
         if (state.baseAngle != null) {
-            matrices.mulPose(state.baseAngle);
+            matrices.rotate(state.baseAngle);
         }
         ArmRenderData arm = state.arm;
         arm.base.submit(matrices, queue);
         matrices.translate(0, 0.125f, 0);
         if (state.lowerArmAngle != null) {
-            matrices.mulPose(state.lowerArmAngle);
+            matrices.rotate(state.lowerArmAngle);
         }
         arm.lower.submit(matrices, queue);
         matrices.translate(0, 0, -0.875f);
         if (state.upperArmAngle != null) {
-            matrices.mulPose(state.upperArmAngle);
+            matrices.rotate(state.upperArmAngle);
         }
         arm.upper.submit(matrices, queue);
         matrices.translate(0, 0, -0.9375f);
         if (state.headAngle != null) {
-            matrices.mulPose(state.headAngle);
+            matrices.rotate(state.headAngle);
         }
         if (arm.inverted != null) {
-            matrices.mulPose(arm.inverted);
+            matrices.rotate(arm.inverted);
             arm.claw.submit(matrices, queue);
-            matrices.mulPose(arm.inverted);
+            matrices.rotate(arm.inverted);
         } else {
             arm.claw.submit(matrices, queue);
         }
@@ -271,7 +271,7 @@ public class ArmRenderer implements BlockEntityRenderer<ArmBlockEntity, ArmRende
         public float scale;
 
         public void render(PoseStack matrices, SubmitNodeCollector queue, int light) {
-            matrices.mulPose(xRot);
+            matrices.rotate(xRot);
             matrices.translate(0, offset, 0);
             matrices.scale(scale, scale, scale);
             state.submit(matrices, queue, light, OverlayTexture.NO_OVERLAY, 0);

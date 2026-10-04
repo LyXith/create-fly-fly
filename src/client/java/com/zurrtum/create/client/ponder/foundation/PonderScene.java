@@ -581,13 +581,13 @@ public class PonderScene {
         public PoseStack apply(PoseStack ms, float pt) {
             ms.translate(width / 2, height / 2, 200 + offset);
 
-            ms.mulPose(Axis.XP.rotationDegrees(-35));
-            ms.mulPose(Axis.YP.rotationDegrees(55));
+            ms.rotate(Axis.XP.rotationDegrees(-35));
+            ms.rotate(Axis.YP.rotationDegrees(55));
             ms.translate(offset, 0, 0);
-            ms.mulPose(Axis.YP.rotationDegrees(-55));
-            ms.mulPose(Axis.XP.rotationDegrees(35));
-            ms.mulPose(Axis.XP.rotationDegrees(xRotation.getValue(pt)));
-            ms.mulPose(Axis.YP.rotationDegrees(yRotation.getValue(pt)));
+            ms.rotate(Axis.YP.rotationDegrees(-55));
+            ms.rotate(Axis.XP.rotationDegrees(35));
+            ms.rotate(Axis.XP.rotationDegrees(xRotation.getValue(pt)));
+            ms.rotate(Axis.YP.rotationDegrees(yRotation.getValue(pt)));
 
             float f = 30 * scaleFactor;
             ms.scale(f, -f, f);

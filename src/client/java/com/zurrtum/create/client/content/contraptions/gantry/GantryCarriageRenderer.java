@@ -107,13 +107,13 @@ public class GantryCarriageRenderer implements BlockEntityRenderer<GantryCarriag
         }
         matrices.translate(0.5f, 0.5f, 0.5f);
         if (state.yRot != null) {
-            matrices.mulPose(state.yRot);
+            matrices.rotate(state.yRot);
         }
         if (state.xRot != null) {
-            matrices.mulPose(state.xRot);
+            matrices.rotate(state.xRot);
         }
         if (state.yRot2 != null) {
-            matrices.mulPose(state.yRot2);
+            matrices.rotate(state.yRot2);
         }
         if (state.xRot2 != null) {
             matrices.rotateAround(state.xRot2, 0, -0.5625f, 0);

@@ -14,7 +14,7 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
-import org.lwjgl.glfw.GLFW;
+import com.mojang.blaze3d.platform.InputConstants;
 
 public class SchematicPromptScreen extends AbstractSimiScreen {
 
@@ -100,7 +100,7 @@ public class SchematicPromptScreen extends AbstractSimiScreen {
     @Override
     public boolean keyPressed(KeyEvent input) {
         int keyCode = input.key();
-        if (keyCode == GLFW.GLFW_KEY_ENTER) {
+        if (keyCode == InputConstants.KEY_RETURN) {
             confirm(false);
             return true;
         }

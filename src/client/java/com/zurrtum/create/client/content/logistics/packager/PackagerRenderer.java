@@ -125,7 +125,7 @@ public class PackagerRenderer implements BlockEntityRenderer<PackagerBlockEntity
             matrices.translate(state.trayOffset);
             matrices.translate(0.5f, 0.5f, 0.5f);
             if (state.trayYRot != null) {
-                matrices.mulPose(state.trayYRot);
+                matrices.rotate(state.trayYRot);
             }
             matrices.translate(0, 0.125f, 0);
             matrices.scale(1.49f, 1.49f, 1.49f);

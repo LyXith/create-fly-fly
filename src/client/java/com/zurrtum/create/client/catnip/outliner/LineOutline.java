@@ -71,11 +71,11 @@ public class LineOutline extends Outline {
         ms.translate((float) (start.x - camera.x), (float) (start.y - camera.y), (float) (start.z - camera.z));
         double yRot = Mth.atan2(diff.x(), diff.z());
         if (yRot != 0) {
-            ms.mulPose(Axis.YP.rotation((float) yRot));
+            ms.rotate(Axis.YP.rotation((float) yRot));
         }
         double xRot = Mth.atan2(Mth.sqrt(diff.x() * diff.x() + diff.z() * diff.z()), diff.y()) - Mth.HALF_PI;
         if (xRot != 0) {
-            ms.mulPose(Axis.XP.rotation((float) xRot));
+            ms.rotate(Axis.XP.rotation((float) xRot));
         }
         float length = Mth.sqrt(diff.x() * diff.x() + diff.y() * diff.y() + diff.z() * diff.z());
         LineRenderState state = new LineRenderState(this, length, width, color, lightmap, disableNormals);

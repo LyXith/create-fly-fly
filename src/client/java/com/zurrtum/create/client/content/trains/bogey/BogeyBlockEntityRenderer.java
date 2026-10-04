@@ -71,7 +71,7 @@ public class BogeyBlockEntityRenderer<T extends AbstractBogeyBlockEntity> implem
         matrices.pushPose();
         matrices.translate(0.5f, 0.5f, 0.5f);
         if (state.yRot != null) {
-            matrices.mulPose(state.yRot);
+            matrices.rotate(state.yRot);
         }
         state.data.submit(matrices, queue);
         matrices.popPose();

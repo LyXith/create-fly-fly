@@ -81,10 +81,10 @@ public class PlacardRenderer implements BlockEntityRenderer<PlacardBlockEntity, 
     ) {
         matrices.translate(0.5f, 0.5f, 0.5f);
         if (state.upAngle != null) {
-            matrices.mulPose(state.upAngle);
+            matrices.rotate(state.upAngle);
         }
         if (state.eastAngle != null) {
-            matrices.mulPose(state.eastAngle);
+            matrices.rotate(state.eastAngle);
         }
         matrices.translate(0, 0, 0.28125f);
         float scale = state.scale;

@@ -355,14 +355,14 @@ public class NixieTubeRenderer implements BlockEntityRenderer<NixieTubeBlockEnti
             matrices.pushPose();
             matrices.translate(0.5f, 0.5f, 0.5f);
             if (yRot != null) {
-                matrices.mulPose(yRot);
+                matrices.rotate(yRot);
             }
             if (zRot != null) {
-                matrices.mulPose(zRot);
+                matrices.rotate(zRot);
             }
             if (zRot2 != null) {
                 matrices.pushPose();
-                matrices.mulPose(zRot2);
+                matrices.rotate(zRot2);
                 tube.submit(matrices, queue.order(1));
                 matrices.popPose();
             } else {
@@ -415,10 +415,10 @@ public class NixieTubeRenderer implements BlockEntityRenderer<NixieTubeBlockEnti
             if (yRot != null || zRot != null) {
                 matrices.translate(0.5f, 0.5f, 0.5f);
                 if (yRot != null) {
-                    matrices.mulPose(yRot);
+                    matrices.rotate(yRot);
                 }
                 if (zRot != null) {
-                    matrices.mulPose(zRot);
+                    matrices.rotate(zRot);
                 }
                 matrices.translate(-0.5f, -0.5f, -0.5f);
             }

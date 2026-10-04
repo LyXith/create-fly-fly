@@ -50,8 +50,8 @@ public class ManualBlockRenderer extends GuiBlockRenderer<ManualBlockRenderState
         matrices.translate(size / 2.0F, size, 0.0F);
         float scale = 20 * windowScaleFactor;
         matrices.scale(scale, scale, scale);
-        matrices.mulPose(Axis.XP.rotationDegrees(-15.5f));
-        matrices.mulPose(Axis.YP.rotationDegrees(22.5f));
+        matrices.rotate(Axis.XP.rotationDegrees(-15.5f));
+        matrices.rotate(Axis.YP.rotationDegrees(22.5f));
         matrices.translate(-0.5f, -0.2f, -0.5f);
         matrices.scale(1, -1, 1);
         CachedBuffers.block(block.state()).submit(matrices, submitNodeStorage);
