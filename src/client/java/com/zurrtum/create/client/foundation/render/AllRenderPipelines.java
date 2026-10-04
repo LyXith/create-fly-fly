@@ -19,7 +19,8 @@ public class AllRenderPipelines {
     public static final RenderPipeline.Snippet GLOWING_SNIPPET = RenderPipeline.builder(RenderPipelines.MATRICES_FOG_SNIPPET)
         .withVertexShader(GLOWING_ID).withFragmentShader(GLOWING_ID)
         .withBindGroupLayout(BindGroupLayouts.SAMPLER0_SAMPLER2).withVertexBinding(0, DefaultVertexFormat.ENTITY)
-        .withPrimitiveTopology(PrimitiveTopology.QUADS).withDepthStencilState(DepthStencilState.DEFAULT).buildSnippet();
+        .withPrimitiveTopology(PrimitiveTopology.QUADS).withDepthStencilState(DepthStencilState.DEFAULT)
+        .withColorTargetState(ColorTargetState.DEFAULT).buildSnippet();
     public static final RenderPipeline ADDITIVE = register(
         "additive",
         RenderPipeline.builder(RenderPipelines.BLOCK_SNIPPET)

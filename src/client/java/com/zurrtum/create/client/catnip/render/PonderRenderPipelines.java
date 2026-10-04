@@ -26,11 +26,13 @@ public class PonderRenderPipelines {
     public static final Snippet ENTITY_BLOCK_SNIPPET = RenderPipeline.builder(RenderPipelines.MATRICES_FOG_SNIPPET)
         .withVertexShader(ENTITY_BLOCK_ID).withFragmentShader(ENTITY_BLOCK_ID)
         .withBindGroupLayout(BindGroupLayouts.SAMPLER0_SAMPLER2).withVertexBinding(0, DefaultVertexFormat.ENTITY)
-        .withPrimitiveTopology(PrimitiveTopology.QUADS).withDepthStencilState(DepthStencilState.DEFAULT).buildSnippet();
+        .withPrimitiveTopology(PrimitiveTopology.QUADS).withDepthStencilState(DepthStencilState.DEFAULT)
+        .withColorTargetState(ColorTargetState.DEFAULT).buildSnippet();
     public static final Snippet ENTITY_BLOCK_LIGHT_SNIPPET = RenderPipeline.builder(RenderPipelines.MATRICES_FOG_SNIPPET)
         .withVertexShader(ENTITY_BLOCK_ID).withFragmentShader(ENTITY_BLOCK_ID)
         .withBindGroupLayout(BindGroupLayouts.SAMPLER0_SAMPLER2).withVertexBinding(0, DefaultVertexFormat.BLOCK)
-        .withPrimitiveTopology(PrimitiveTopology.QUADS).withDepthStencilState(DepthStencilState.DEFAULT).buildSnippet();
+        .withPrimitiveTopology(PrimitiveTopology.QUADS).withDepthStencilState(DepthStencilState.DEFAULT)
+        .withColorTargetState(ColorTargetState.DEFAULT).buildSnippet();
     public static final RenderPipeline ENTITY_BLOCK_SOLID = register(
         "entity_block_solid",
         RenderPipeline.builder(ENTITY_BLOCK_SNIPPET).withShaderDefine("OVERWORLD")
