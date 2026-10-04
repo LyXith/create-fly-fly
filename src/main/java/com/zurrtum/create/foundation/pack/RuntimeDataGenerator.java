@@ -193,7 +193,7 @@ public class RuntimeDataGenerator {
 
     private static void simpleWoodRecipe(Identifier typeId, TagKey<Item> inputTag, Identifier outputId, int amount) {
         if (BuiltInRegistries.ITEM.containsKey(outputId)) {
-            Recipe.CODEC.encodeStart(
+            Recipe.DIRECT_CODEC.encodeStart(
                 EmptyJsonOps.INSTANCE, new CuttingRecipe(
                     50,
                     List.of(new ProcessingOutput(BuiltInRegistries.ITEM.get(outputId).orElseThrow(), amount)),
@@ -225,7 +225,7 @@ public class RuntimeDataGenerator {
     }
 
     private static void addRecipe(Identifier typeId, String modid, String from, String to, Recipe<?> recipe) {
-        Recipe.CODEC.encodeStart(JsonOps.INSTANCE, recipe).ifSuccess(json -> {
+        Recipe.DIRECT_CODEC.encodeStart(JsonOps.INSTANCE, recipe).ifSuccess(json -> {
             Identifier path = Identifier.fromNamespaceAndPath(
                 typeId.getNamespace(),
                 "recipe/" + typeId.getPath() + "/runtime_generated/compat/" + modid + "/" + from + "_to_" + to

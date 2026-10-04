@@ -1,5 +1,6 @@
 package com.zurrtum.create.infrastructure.player;
 
+import net.minecraft.world.level.block.entity.SignTextSlot;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ClientInformation;
@@ -52,8 +53,9 @@ public class FakePlayerEntity extends ServerPlayer {
     }
 
     @Override
-    public void startSleeping(BlockPos pos) {
+    public boolean startSleeping(BlockPos pos) {
         // Don't lock bed forever.
+        return false;
     }
 
     @Override
@@ -62,7 +64,7 @@ public class FakePlayerEntity extends ServerPlayer {
     }
 
     @Override
-    public void openTextEdit(SignBlockEntity sign, boolean front) {
+    public void openTextEdit(SignBlockEntity sign, SignTextSlot slot) {
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.zurrtum.create.content.equipment;
 
+import net.minecraft.world.level.block.BonemealSource;
 import com.zurrtum.create.AllBlockTags;
 import com.zurrtum.create.catnip.levelWrappers.PlacementSimulationServerLevel;
 import net.minecraft.core.BlockPos;
@@ -51,7 +52,8 @@ public class TreeFertilizerItem extends Item {
                 treesDreamWorld,
                 treesDreamWorld.getRandom(),
                 BlockPos.ZERO.above(10),
-                withStage(state, 1)
+                withStage(state, 1),
+                BonemealSource.INTERACTION
             );
 
             for (BlockPos pos : treesDreamWorld.blocksAdded.keySet()) {

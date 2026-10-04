@@ -145,8 +145,8 @@ public class FluidStack implements DataComponentHolder {
             if (stackComponents == otherStackComponents) {
                 return true;
             }
-            Reference2ObjectMap<DataComponentType<?>, Optional<?>> stackComponentMap = stackComponents.patch;
-            Reference2ObjectMap<DataComponentType<?>, Optional<?>> otherStackComponentMap = otherStackComponents.patch;
+            Reference2ObjectMap<DataComponentType<?>, Object> stackComponentMap = stackComponents.patch;
+            Reference2ObjectMap<DataComponentType<?>, Object> otherStackComponentMap = otherStackComponents.patch;
             if (stackComponentMap == otherStackComponentMap) {
                 return true;
             }
@@ -164,8 +164,8 @@ public class FluidStack implements DataComponentHolder {
                 return false;
             }
             if (hasMaxCapacityComponent) {
-                ObjectSet<Reference2ObjectMap.Entry<DataComponentType<?>, Optional<?>>> stackComponentSet = stackComponentMap.reference2ObjectEntrySet();
-                for (Reference2ObjectMap.Entry<DataComponentType<?>, Optional<?>> componentEntry : otherStackComponentMap.reference2ObjectEntrySet()) {
+                ObjectSet<Reference2ObjectMap.Entry<DataComponentType<?>, Object>> stackComponentSet = stackComponentMap.reference2ObjectEntrySet();
+                for (Reference2ObjectMap.Entry<DataComponentType<?>, Object> componentEntry : otherStackComponentMap.reference2ObjectEntrySet()) {
                     if (!stackComponentSet.contains(componentEntry) && componentEntry.getKey() != AllDataComponents.FLUID_MAX_CAPACITY) {
                         return false;
                     }

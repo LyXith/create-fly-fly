@@ -1,23 +1,25 @@
 package com.zurrtum.create;
 
-import net.minecraft.world.level.ItemLike;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.storage.loot.providers.number.ints.ContextIntProvider;
 
-import java.util.IdentityHashMap;
-import java.util.Map;
+import static com.zurrtum.create.Create.MOD_ID;
 
+/**
+ * Burn times live in data/create/context_int_provider/cooking and are attached to the items as cooking fuel components.
+ */
 public class AllFuelTimes {
-    public static final Map<ItemLike, Integer> ALL = new IdentityHashMap<>();
+    public static final ResourceKey<ContextIntProvider> BLAZE_CAKE = key("time_blaze_cake");
+    public static final ResourceKey<ContextIntProvider> CREATIVE_BLAZE_CAKE = key("time_creative_blaze_cake");
+    public static final ResourceKey<ContextIntProvider> CARDBOARD = key("time_cardboard");
+    public static final ResourceKey<ContextIntProvider> CARDBOARD_BLOCK = key("time_cardboard_block");
+
+    private static ResourceKey<ContextIntProvider> key(String name) {
+        return ResourceKey.create(Registries.CONTEXT_INT_PROVIDER, Identifier.fromNamespaceAndPath(MOD_ID, "cooking/" + name));
+    }
 
     public static void register() {
-        ALL.put(AllItems.BLAZE_CAKE, 6400);
-        ALL.put(AllItems.CREATIVE_BLAZE_CAKE, Integer.MAX_VALUE);
-        ALL.put(AllItems.CARDBOARD, 1000);
-        ALL.put(AllItems.CARDBOARD_BLOCK, 4000);
-        ALL.put(AllItems.CARDBOARD_SWORD, 1000);
-        ALL.put(AllItems.CARDBOARD_HELMET, 1000);
-        ALL.put(AllItems.CARDBOARD_CHESTPLATE, 1000);
-        ALL.put(AllItems.CARDBOARD_LEGGINGS, 1000);
-        ALL.put(AllItems.CARDBOARD_BOOTS, 1000);
-        ALL.put(AllItems.BOUND_CARDBOARD_BLOCK, 4000);
     }
 }

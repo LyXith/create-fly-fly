@@ -1,6 +1,6 @@
 package com.zurrtum.create.client.flywheel.backend.gl.shader;
 
-import com.mojang.blaze3d.opengl.GlStateManager;
+import com.mojang.renderpearl.backend.opengl.GlStateManager;
 import com.mojang.logging.LogUtils;
 import com.zurrtum.create.client.flywheel.backend.gl.GlObject;
 import com.zurrtum.create.client.flywheel.backend.gl.GlTextureUnit;

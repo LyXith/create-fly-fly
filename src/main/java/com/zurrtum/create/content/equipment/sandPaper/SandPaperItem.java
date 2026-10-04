@@ -1,5 +1,9 @@
 package com.zurrtum.create.content.equipment.sandPaper;
 
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.item.component.BlockTransformers;
+import net.minecraft.core.component.BlockTransformer;
+import net.minecraft.core.registries.Registries;
 import com.zurrtum.create.AllDataComponents;
 import com.zurrtum.create.AllRecipeSets;
 import com.zurrtum.create.AllRecipeTypes;
@@ -197,7 +201,7 @@ public class SandPaperItem extends Item {
         BlockPos pos = context.getClickedPos();
         BlockState state = level.getBlockState(pos);
 
-        Optional<BlockState> newState = ((AxeItem) Items.DIAMOND_AXE).getStripped(state);
+        Optional<BlockState> newState = getStripped(level, pos);
         if (newState.isPresent()) {
             AllSoundEvents.SANDING_LONG.play(
                 level,
@@ -232,6 +236,25 @@ public class SandPaperItem extends Item {
         }
 
         return InteractionResult.PASS;
+    }
+
+    /**
+     * The log-stripping part of the axe's block transformer (the entries that play the strip sound).
+     */
+    private static Optional<BlockState> getStripped(Level level, BlockPos pos) {
+        return level.registryAccess().lookup(Registries.BLOCK_TRANSFORMER).flatMap(registry -> registry.get(BlockTransformers.AXE))
+            .flatMap(transformer -> {
+                for (BlockTransformer.BlockTransformData data : transformer.value().transforms()) {
+                    if (data.sound().value() != SoundEvents.AXE_STRIP.value()) {
+                        continue;
+                    }
+                    BlockState stripped = data.blockStateProvider().value().getOptionalState(level, level.getRandom(), pos);
+                    if (stripped != null) {
+                        return Optional.of(stripped);
+                    }
+                }
+                return Optional.<BlockState>empty();
+            });
     }
 
     @Override

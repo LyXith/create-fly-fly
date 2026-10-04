@@ -1,5 +1,6 @@
 package com.zurrtum.create.content.logistics.packager;
 
+import net.minecraft.world.level.block.entity.SignTextSlot;
 import com.mojang.serialization.Codec;
 import com.zurrtum.create.*;
 import com.zurrtum.create.api.behaviour.BlockEntityBehaviour;
@@ -645,7 +646,7 @@ public class PackagerBlockEntity extends SmartBlockEntity implements Clearable {
             return null;
         }
         for (boolean front : Iterate.trueAndFalse) {
-            SignText text = sign.getText(front);
+            SignText text = sign.getText(front ? SignTextSlot.FRONT : SignTextSlot.BACK);
             String address = "";
             for (Component component : text.getMessages(false)) {
                 String string = component.getString();

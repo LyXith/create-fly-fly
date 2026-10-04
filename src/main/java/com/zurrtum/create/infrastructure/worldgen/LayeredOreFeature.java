@@ -236,7 +236,7 @@ public class LayeredOreFeature implements Feature {
         BlockReplacement pTargetState,
         BlockPos.MutableBlockPos pMatablePos
     ) {
-        if (!pTargetState.target().test(pState, pRandom)) {
+        if (!pTargetState.target().test(pState, pMatablePos, pRandom)) {
             return false;
         }
         if (shouldSkipAirCheck(pRandom, pConfig.discardChanceOnAirExposure)) {

@@ -1,5 +1,6 @@
 package com.zurrtum.create.mixin;
 
+import java.util.stream.Stream;
 import com.zurrtum.create.foundation.pack.DynamicPack;
 import com.zurrtum.create.foundation.pack.RuntimeDataGenerator;
 import net.fabricmc.loader.api.FabricLoader;
@@ -64,7 +65,19 @@ public class BuiltInPackSourceMixin {
             );
             RuntimeDataGenerator.insertIntoPack(dynamicPack);
             if (!dynamicPack.isEmpty()) {
-                addDataPack(result, false, dynamicPack);
+                addDataPack(result, false, dynamicPack.location(), new Pack.ResourcesSupplier() {
+                    @Override
+                    @NonNull
+                    public PackMetadataResources openMetadata(@Nullable PackLocationInfo info) {
+                        return dynamicPack;
+                    }
+
+                    @Override
+                    @NonNull
+                    public Stream<PackResources> openResources(@NonNull PackLocationInfo info, @NonNull Metadata metadata) {
+                        return Stream.of(dynamicPack);
+                    }
+                });
             }
         }
     }
@@ -100,25 +113,17 @@ public class BuiltInPackSourceMixin {
         for (Path path : paths) {
             builder.pushAssetPath(PackType.SERVER_DATA, path.resolve(directory));
         }
-        addDataPack(consumer, true, builder.build(info));
+        addDataPack(consumer, true, info, builder.build(info).asResourcesSupplier());
     }
 
     @Unique
-    private static void addDataPack(Consumer<Pack> consumer, boolean required, PackResources pack) {
-        Pack.ResourcesSupplier packFactory = new Pack.ResourcesSupplier() {
-            @Override
-            @NonNull
-            public PackResources openPrimary(@Nullable PackLocationInfo info) {
-                return pack;
-            }
-
-            @Override
-            @NonNull
-            public PackResources openFull(@NonNull PackLocationInfo info, @NonNull Metadata metadata) {
-                return pack;
-            }
-        };
+    private static void addDataPack(
+        Consumer<Pack> consumer,
+        boolean required,
+        PackLocationInfo info,
+        Pack.ResourcesSupplier packFactory
+    ) {
         PackSelectionConfig position = new PackSelectionConfig(required, Pack.Position.BOTTOM, false);
-        consumer.accept(Pack.readMetaAndCreate(pack.location(), packFactory, PackType.SERVER_DATA, position));
+        consumer.accept(Pack.readMetaAndCreate(info, packFactory, PackType.SERVER_DATA, position));
     }
 }
