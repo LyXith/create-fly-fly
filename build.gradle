@@ -1,5 +1,8 @@
 plugins {
     id "net.fabricmc.fabric-loom" version "${loom_version}"
+    // JitPack 需要 publishToMavenLocal 才能抓取构件（sable 端以
+    // com.github.LyXith:create-fly-fly:<tag> 的坐标依赖本项目）。
+    id "maven-publish"
 }
 
 repositories {
@@ -23,6 +26,17 @@ repositories {
     addGroup("https://maven.nucleoid.xyz/releases", "eu.pb4")
     addGroup("https://api.modrinth.com/maven", "maven.modrinth")
 }
+
+// --- JitPack 发布坐标 ------------------------------------------------------
+// JitPack 构建时会传 -Pgroup / -Pversion 表示“对外要提供的坐标”，
+// 必须在下面的默认赋值覆盖 project.group / project.version 之前取出来，
+// 否则发布出去的坐标会是 com.zurrtum:create-fly-26.3:6.0.9-1，JitPack 找不到构件。
+def jitpackGroup = project.findProperty("group")?.toString()?.trim() ?: ""
+def jitpackVersion = project.findProperty("version")?.toString()?.trim() ?: ""
+if (jitpackVersion == "unspecified") {
+    jitpackVersion = ""
+}
+def jitpackBuild = jitpackGroup.startsWith("com.github.") && !jitpackVersion.isEmpty()
 
 version = "$project.mod_version-$project.mod_id"
 group = project.maven_group
@@ -154,5 +168,36 @@ jar {
     from("LICENSE")
     from("licenses") {
         into "licenses"
+    }
+}
+
+// --- maven-publish（JitPack 用）---------------------------------------------
+// JitPack 执行 publishToMavenLocal，再按请求坐标把 ~/.m2 里的构件对外提供。
+// 发布 jar（build/libs 下的正式 mod jar，含 client 类，与 sable 本地编译用的是同一个）
+// + sourcesJar；不能用 components.java —— splitEnvironmentSourceSets 下它对应的
+// 是不含 client 的那个 jar。本项目没有 remapJar 任务（26.3 无混淆，Loom 不做重映射）。
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId = jitpackBuild ? jitpackGroup : project.group
+            // JitPack 要求 artifactId == 仓库名
+            artifactId = jitpackBuild ? "create-fly-fly" : project.base.archivesName.get()
+            version = jitpackBuild ? jitpackVersion : project.version
+
+            artifact(tasks.named("jar")) {
+                classifier = ""
+                extension = "jar"
+            }
+            artifact(tasks.named("sourcesJar")) {
+                classifier = "sources"
+                extension = "jar"
+            }
+
+            pom {
+                name = "Create-Fly"
+                description = "Create backport for Fabric 26.3."
+                url = "https://github.com/LyXith/create-fly-fly"
+            }
+        }
     }
 }
