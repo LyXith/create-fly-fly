@@ -107,6 +107,32 @@ public class PonderRenderPipelines {
             .withColorTargetState(new ColorTargetState(BlendFunction.TRANSLUCENT)).withCull(false)
             .withDepthStencilState(DEFAULT_TEST_NOT_WRITE)
     );
+    // Outline pass 专用管线（供 OutlineProperty.IS_OUTLINE 的 RenderType 使用）。
+    // outline render pass 没有 depth attachment，VulkanRenderPass.setPipeline 在 hasDepth=false 时
+    // 会绑定 withoutDepthPipeline；该变体只在 depthStencilState 为空时才会被编译，否则是 0，
+    // 绑下去就是 vkCmdBindPipeline(cmd, 0, 0)，Vulkan(RADV) 直接崩。
+    // 这里显式清空 depth；vertex format / shader / blend 与被替换的管线完全一致，视觉无变化。
+    public static final RenderPipeline OUTLINE_ENTITY_SOLID = register(
+        "outline_entity_solid",
+        RenderPipeline.builder(RenderPipelines.ENTITY_SNIPPET)
+            .withBindGroupLayout(BindGroupLayouts.SAMPLER1)
+            .withColorTargetState(ColorTargetState.DEFAULT)
+            .withDepthStencilState(Optional.empty())
+    );
+    public static final RenderPipeline OUTLINE_ENTITY_TRANSLUCENT_CULL = register(
+        "outline_entity_translucent_cull",
+        RenderPipeline.builder(RenderPipelines.ENTITY_SNIPPET).withShaderDefine("ALPHA_CUTOUT", 0.1F)
+            .withBindGroupLayout(BindGroupLayouts.SAMPLER1)
+            .withColorTargetState(new ColorTargetState(BlendFunction.TRANSLUCENT))
+            .withDepthStencilState(Optional.empty())
+    );
+    public static final RenderPipeline OUTLINE_ENTITY_TRANSLUCENT = register(
+        "outline_entity_translucent",
+        RenderPipeline.builder(RenderPipelines.ENTITY_SNIPPET).withShaderDefine("ALPHA_CUTOUT", 0.1F)
+            .withBindGroupLayout(BindGroupLayouts.SAMPLER1)
+            .withColorTargetState(new ColorTargetState(BlendFunction.TRANSLUCENT)).withCull(false)
+            .withDepthStencilState(Optional.empty())
+    );
     public static final RenderPipeline TRIANGLE_FAN = register(
         "triangle_fan",
         RenderPipeline.builder(RenderPipelines.DEBUG_FILLED_SNIPPET)

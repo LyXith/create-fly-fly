@@ -106,9 +106,15 @@ public class SuperGlueSelectionHandler {
 
             for (SuperGlueEntity glueEntity : glueNearby) {
                 boolean h = clusterCooldown == 0 && glueEntity == selected;
-                AllSpecialTextures faceTex = h ? AllSpecialTextures.GLUE : null;
+                // The face texture used to be passed only while the crosshair was on the glue
+                // (`h ? GLUE : null`), so a placed glue box rendered as a bare line box at all
+                // times except the moment it was highlighted. The selection box below always
+                // passes GLUE, so match it: the texture is constant, highlight only drives
+                // colour and line width.
                 Outliner.getInstance().showAABB(glueEntity, glueEntity.getBoundingBox())
-                    .colored(h ? HIGHLIGHT : PASSIVE).withFaceTextures(faceTex, faceTex).disableLineNormals()
+                    .colored(h ? HIGHLIGHT : PASSIVE)
+                    .withFaceTextures(AllSpecialTextures.GLUE, AllSpecialTextures.GLUE)
+                    .disableLineNormals()
                     .lineWidth(h ? 1 / 16.0f : 1 / 64.0f);
             }
         }

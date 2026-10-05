@@ -128,6 +128,11 @@ tasks.withType(JavaCompile).configureEach {
 }
 
 java {
+    // 编译/运行需要 JDK 25（options.release = 25），而构建 daemon 可能跑在更低版本的 JVM 上。
+    // 用 toolchain 让 Gradle 自行探测 JDK 25，避免硬编码 JAVA_HOME。
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
     withSourcesJar()
     tasks.named("sourcesJar", Jar) {
         from("LICENSE")
@@ -137,6 +142,7 @@ java {
         exclude '_data'
         exclude 'assets'
         exclude 'data'
+        exclude '**/*.bak'
     }
     sourceCompatibility = JavaVersion.VERSION_25
     targetCompatibility = JavaVersion.VERSION_25

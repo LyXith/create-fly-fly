@@ -2,7 +2,6 @@ package com.zurrtum.create.client.catnip.render;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.zurrtum.create.client.ponder.enums.PonderSpecialTextures;
-import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.rendertype.LayeringTransform;
 import net.minecraft.client.renderer.rendertype.RenderSetup;
 import net.minecraft.client.renderer.rendertype.RenderSetup.OutlineProperty;
@@ -113,14 +112,14 @@ public class PonderRenderTypes {
     );
     private static final RenderType OUTLINE_SOLID = RenderType.create(
         createLayerName("outline_solid"),
-        RenderSetup.builder(RenderPipelines.ENTITY_SOLID)
+        RenderSetup.builder(PonderRenderPipelines.OUTLINE_ENTITY_SOLID)
             .withTexture("Sampler0", PonderSpecialTextures.BLANK.getLocation()).useLightmap().useOverlay()
             .setOutline(OutlineProperty.IS_OUTLINE).createRenderSetup()
     );
     private static final BiFunction<Identifier, Boolean, RenderType> OUTLINE_TRANSLUCENT = Util.memoize((texture, cull) -> RenderType.create(
         createLayerName("outline_translucent" + (cull ? "_cull" : "")),
         RenderSetup.builder(
-                cull ? PonderRenderPipelines.ENTITY_TRANSLUCENT_CULL : PonderRenderPipelines.ENTITY_TRANSLUCENT)
+                cull ? PonderRenderPipelines.OUTLINE_ENTITY_TRANSLUCENT_CULL : PonderRenderPipelines.OUTLINE_ENTITY_TRANSLUCENT)
             .sortOnUpload().withTexture("Sampler0", texture).useLightmap().useOverlay()
             .setOutline(OutlineProperty.IS_OUTLINE).createRenderSetup()
     ));
