@@ -3,8 +3,5 @@ jdk:
 before_install:
   - sdk install java 25.0.1-open
   - sdk use java 25.0.1-open
-  - echo "=== JitPack 环境诊断 ==="
-  - ls -la gradle/wrapper/gradle-wrapper.jar
-  - stat gradle/wrapper/gradle-wrapper.jar
-  - head -c 20 gradle/wrapper/gradle-wrapper.jar | od -c
-  - echo "=== 诊断结束 ==="
+install:
+  - ./gradlew build publishToMavenLocal --no-daemon
