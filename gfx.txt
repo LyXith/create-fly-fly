@@ -1,0 +1,81 @@
+name of display: :99
+display: :99  screen: 0
+direct rendering: Yes
+Extended renderer info (GLX_MESA_query_renderer):
+    Vendor: Mesa (0xffffffff)
+    Device: llvmpipe (LLVM 20.1.2, 256 bits) (0xffffffff)
+    Version: 25.2.8
+    Accelerated: no
+    Video memory: 15989MB
+    Unified memory: yes
+    Preferred profile: core (0x1)
+    Max core profile version: 4.5
+    Max compat profile version: 4.5
+    Max GLES1 profile version: 1.1
+    Max GLES[23] profile version: 3.2
+Memory info (GL_ATI_meminfo):
+    VBO free memory - total: 0 MB, largest block: 0 MB
+    VBO free aux. memory - total: 13718 MB, largest block: 13718 MB
+    Texture free memory - total: 0 MB, largest block: 0 MB
+    Texture free aux. memory - total: 13718 MB, largest block: 13718 MB
+    Renderbuffer free memory - total: 0 MB, largest block: 0 MB
+    Renderbuffer free aux. memory - total: 13718 MB, largest block: 13718 MB
+Memory info (GL_NVX_gpu_memory_info):
+    Dedicated video memory: 0 MB
+    Total available memory: 15989 MB
+    Currently available dedicated video memory: 0 MB
+OpenGL vendor string: Mesa
+OpenGL renderer string: llvmpipe (LLVM 20.1.2, 256 bits)
+OpenGL core profile version string: 4.5 (Core Profile) Mesa 25.2.8-0ubuntu0.24.04.4
+OpenGL core profile shading language version string: 4.50
+OpenGL core profile context flags: (none)
+OpenGL core profile profile mask: core profile
+
+OpenGL version string: 4.5 (Compatibility Profile) Mesa 25.2.8-0ubuntu0.24.04.4
+OpenGL shading language version string: 4.50
+OpenGL context flags: (none)
+OpenGL profile mask: compatibility profile
+
+OpenGL ES profile version string: OpenGL ES 3.2 Mesa 25.2.8-0ubuntu0.24.04.4
+OpenGL ES profile shading language version string: OpenGL ES GLSL ES 3.20
+
+GBM platform:
+eglinfo: eglInitialize failed
+
+Wayland platform:
+eglinfo: eglInitialize failed
+
+X11 platform:
+EGL API version: 1.5
+EGL vendor string: Mesa Project
+EGL version string: 1.5
+EGL client APIs: OpenGL OpenGL_ES 
+OpenGL core profile vendor: Mesa
+OpenGL core profile renderer: llvmpipe (LLVM 20.1.2, 256 bits)
+OpenGL core profile version: 4.5 (Core Profile) Mesa 25.2.8-0ubuntu0.24.04.4
+OpenGL core profile shading language version: 4.50
+OpenGL compatibility profile vendor: Mesa
+OpenGL compatibility profile renderer: llvmpipe (LLVM 20.1.2, 256 bits)
+OpenGL compatibility profile version: 4.5 (Compatibility Profile) Mesa 25.2.8-0ubuntu0.24.04.4
+OpenGL compatibility profile shading language version: 4.50
+OpenGL ES profile vendor: Mesa
+OpenGL ES profile renderer: llvmpipe (LLVM 20.1.2, 256 bits)
+OpenGL ES profile version: OpenGL ES 3.2 Mesa 25.2.8-0ubuntu0.24.04.4
+OpenGL ES profile shading language version: OpenGL ES GLSL ES 3.20
+
+Surfaceless platform:
+EGL API version: 1.5
+EGL vendor string: Mesa Project
+EGL version string: 1.5
+EGL client APIs: OpenGL OpenGL_ES 
+OpenGL core profile vendor: Mesa
+OpenGL core profile renderer: llvmpipe (LLVM 20.1.2, 256 bits)
+OpenGL core profile version: 4.5 (Core Profile) Mesa 25.2.8-0ubuntu0.24.04.4
+OpenGL core profile shading language version: 4.50
+OpenGL compatibility profile vendor: Mesa
+OpenGL compatibility profile renderer: llvmpipe (LLVM 20.1.2, 256 bits)
+OpenGL compatibility profile version: 4.5 (Compatibility Profile) Mesa 25.2.8-0ubuntu0.24.04.4
+OpenGL compatibility profile shading language version: 4.50
+OpenGL ES profile vendor: Mesa
+OpenGL ES profile renderer: llvmpipe (LLVM 20.1.2, 256 bits)
+OpenGL ES profile version: OpenGL ES 3.2 Mesa 25.2.8-0ubuntu0.24.04.4
