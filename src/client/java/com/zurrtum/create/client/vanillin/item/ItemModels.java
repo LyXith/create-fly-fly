@@ -42,7 +42,24 @@ public class ItemModels {
     private static final ThreadLocal<ThreadLocalObjects> THREAD_LOCAL_OBJECTS = ThreadLocal.withInitial(
         ThreadLocalObjects::new);
 
+    /**
+     * Whether Create's Flywheel item-instancing visuals (ItemFrameVisual, ItemDisplayVisual) may take
+     * over rendering of items.
+     * <p>
+     * Disabled for now: BakedItemModelBufferer.bufferItemStack() was gutted (its body commented out)
+     * during the MC 26.3 "SubmitNodeCollector" migration — it captures no vertices, so bakeModel()
+     * returns an empty model and items would render as nothing. Keeping instancing off makes
+     * shouldVisualize() false, so these entities fall back to vanilla rendering (which draws items
+     * correctly) instead of the broken empty-model visual.
+     * <p>
+     * Flip back to true once bufferItemStack() is reimplemented on the new SubmitNodeCollector API.
+     */
+    public static final boolean ITEM_INSTANCING_ENABLED = false;
+
     public static boolean isSupported(ItemStack stack, ItemDisplayContext context) {
+        if (!ITEM_INSTANCING_ENABLED) {
+            return false;
+        }
         if (stack.is(NO_INSTANCING)) {
             return false;
         }
