@@ -230,10 +230,7 @@ public class ItemHelper {
     }
 
     public static void fillItemStackHandler(ItemContainerContents contents, ItemStackHandler inv) {
-        Iterator<ItemStack> iterator = contents.nonEmptyItemCopyStream().iterator();
-        for (int i = 0, size = inv.getContainerSize(); i < size && iterator.hasNext(); i++) {
-            inv.setItem(i, iterator.next());
-        }
+        contents.copyInto(inv.getStacks());
     }
 
     public static ItemContainerContents containerContentsFromHandler(ItemStackHandler handler) {
