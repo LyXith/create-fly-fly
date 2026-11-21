@@ -29,7 +29,8 @@ public class ItemChunkLayerSortedListBuilder<T> {
     public void add(RenderType renderType, T obj) {
         Integer layerIndex = BakedItemModelBufferer.getChunkLayers().get(renderType);
         if (layerIndex == null) {
-            throw new IllegalArgumentException("RenderType '" + renderType + "' is not a chunk layer");
+            layerIndex = BakedItemModelBufferer.getChunkLayers().size();
+            BakedItemModelBufferer.getChunkLayers().put(renderType, layerIndex);
         }
         int size = lists.size();
         if (size > layerIndex) {

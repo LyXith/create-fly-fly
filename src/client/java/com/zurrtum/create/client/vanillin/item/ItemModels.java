@@ -46,15 +46,11 @@ public class ItemModels {
      * Whether Create's Flywheel item-instancing visuals (ItemFrameVisual, ItemDisplayVisual) may take
      * over rendering of items.
      * <p>
-     * Disabled for now: BakedItemModelBufferer.bufferItemStack() was gutted (its body commented out)
-     * during the MC 26.3 "SubmitNodeCollector" migration — it captures no vertices, so bakeModel()
-     * returns an empty model and items would render as nothing. Keeping instancing off makes
-     * shouldVisualize() false, so these entities fall back to vanilla rendering (which draws items
-     * correctly) instead of the broken empty-model visual.
-     * <p>
-     * Flip back to true once bufferItemStack() is reimplemented on the new SubmitNodeCollector API.
+     * Items baked through special model renderers (custom geometry, block models, entity models) are
+     * not supported by the baker yet. {@link #isSupported(ItemStack, ItemDisplayContext)} detects them
+     * through an empty bake and keeps vanilla rendering for those items.
      */
-    public static final boolean ITEM_INSTANCING_ENABLED = false;
+    public static final boolean ITEM_INSTANCING_ENABLED = true;
 
     public static boolean isSupported(ItemStack stack, ItemDisplayContext context) {
         if (!ITEM_INSTANCING_ENABLED) {
@@ -71,7 +67,7 @@ public class ItemModels {
         Minecraft mc = Minecraft.getInstance();
         ItemStackRenderState state = objects.state;
         mc.getItemModelResolver().updateForTopItem(state, stack, context, mc.level, null, 0);
-        boolean support = !state.isAnimated();
+        boolean support = !state.isAnimated() && !get(mc.level, stack, context).meshes().isEmpty();
         objects.cache.put(stack.copy(), support);
         return support;
     }
@@ -90,7 +86,7 @@ public class ItemModels {
 
     public static Model bakeModel(ClientLevel world, ItemStack itemStack, ItemDisplayContext displayContext) {
         var builder = ItemChunkLayerSortedListBuilder.<Model.ConfiguredMesh>getThreadLocal();
-        BakedItemModelBufferer.bufferItemStack(
+        boolean supported = BakedItemModelBufferer.bufferItemStack(
             itemStack, world, displayContext, (renderType, shaded, data) -> {
                 var material = ModelUtil.getItemMaterial(renderType);
                 if (material == null) {
@@ -111,6 +107,12 @@ public class ItemModels {
                 builder.add(renderType, new Model.ConfiguredMesh(material, mesh));
             }
         );
+        if (!supported) {
+            // Drain anything the collector already produced, so stale meshes do not leak into
+            // the next bake of this thread.
+            builder.build();
+            return EMPTY_MODEL;
+        }
         return new SimpleModel(builder.build());
     }
 
