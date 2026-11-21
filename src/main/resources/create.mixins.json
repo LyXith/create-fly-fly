@@ -7,6 +7,7 @@
     "AbstractMinecartMixin",
     "BlockItemMixin",
     "BlockPlaceContextMixin",
+    "BlockTransformerMixin",
     "BlocksMixin",
     "BuiltInPackSourceMixin",
     "BuiltInRegistriesMixin",
