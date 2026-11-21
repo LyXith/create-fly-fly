@@ -91,7 +91,7 @@ public class RedstoneLinkBlockEntity extends SmartBlockEntity {
     public void tick() {
         super.tick();
 
-        if (isTransmitterBlock() != transmitter) {
+        if (link == null || isTransmitterBlock() != transmitter) {
             transmitter = isTransmitterBlock();
             ServerLinkBehaviour prevlink = link;
             removeBehaviour(ServerLinkBehaviour.TYPE);
