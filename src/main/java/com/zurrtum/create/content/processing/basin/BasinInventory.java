@@ -1,12 +1,11 @@
 package com.zurrtum.create.content.processing.basin;
 
+import com.zurrtum.create.foundation.item.ItemHelper;
 import com.zurrtum.create.infrastructure.items.ItemInventory;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
-
-import java.util.List;
 
 public class BasinInventory implements ItemInventory {
     private final BasinBlockEntity blockEntity;
@@ -70,43 +69,15 @@ public class BasinInventory implements ItemInventory {
 
     public void write(ValueOutput view) {
         ValueOutput inventory = view.child("Inventory");
-        ValueOutput.TypedOutputList<ItemStack> input = inventory.list("Input", ItemStack.CODEC);
-        for (int i = 0; i < 9; i++) {
-            ItemStack stack = stacks.get(i);
-            if (stack.isEmpty()) {
-                continue;
-            }
-            input.add(stack);
-        }
-        ValueOutput.TypedOutputList<ItemStack> output = inventory.list("Output", ItemStack.CODEC);
-        for (int i = 9; i < 18; i++) {
-            ItemStack stack = stacks.get(i);
-            if (stack.isEmpty()) {
-                continue;
-            }
-            output.add(stack);
-        }
+        ItemHelper.writeStacks(inventory, "Input", stacks.subList(0, 9));
+        ItemHelper.writeStacks(inventory, "Output", stacks.subList(9, 18));
     }
 
     public void read(ValueInput view) {
         view.child("Inventory").ifPresentOrElse(
             inventory -> {
-                List<ItemStack> list = inventory.listOrEmpty("Input", ItemStack.CODEC).stream().toList();
-                int stop = list.size();
-                for (int i = 0; i < stop; i++) {
-                    stacks.set(i, list.get(i));
-                }
-                for (int i = stop; i < 9; i++) {
-                    stacks.set(i, ItemStack.EMPTY);
-                }
-                list = inventory.listOrEmpty("Output", ItemStack.CODEC).stream().toList();
-                stop = 9 + list.size();
-                for (int i = 9; i < stop; i++) {
-                    stacks.set(i, list.get(i - 9));
-                }
-                for (int i = stop; i < 18; i++) {
-                    stacks.set(i, ItemStack.EMPTY);
-                }
+                ItemHelper.readStacks(inventory, "Input", stacks.subList(0, 9));
+                ItemHelper.readStacks(inventory, "Output", stacks.subList(9, 18));
             }, stacks::clear
         );
     }

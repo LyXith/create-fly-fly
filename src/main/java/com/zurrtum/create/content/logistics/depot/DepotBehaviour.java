@@ -509,24 +509,11 @@ public class DepotBehaviour extends BlockEntityBehaviour<SmartBlockEntity> imple
         }
 
         public void write(ValueOutput view) {
-            ValueOutput.TypedOutputList<ItemStack> list = view.list("Inventory", ItemStack.CODEC);
-            for (ItemStack stack : stacks) {
-                if (stack.isEmpty()) {
-                    continue;
-                }
-                list.add(stack);
-            }
+            ItemHelper.writeStacks(view, "Inventory", stacks);
         }
 
         public void read(ValueInput view) {
-            ValueInput.TypedInputList<ItemStack> list = view.listOrEmpty("Inventory", ItemStack.CODEC);
-            int i = 0;
-            for (ItemStack itemStack : list) {
-                stacks.set(i++, itemStack);
-            }
-            for (int size = stacks.size(); i < size; i++) {
-                stacks.set(i, ItemStack.EMPTY);
-            }
+            ItemHelper.readStacks(view, "Inventory", stacks);
         }
     }
 }

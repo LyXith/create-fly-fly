@@ -27,6 +27,8 @@ import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import org.jspecify.annotations.Nullable;
 
 import java.util.*;
@@ -235,6 +237,31 @@ public class ItemHelper {
 
     public static ItemContainerContents containerContentsFromHandler(ItemStackHandler handler) {
         return ItemContainerContents.fromItems(handler.getStacks());
+    }
+
+    public static void writeStacks(ValueOutput view, String key, List<ItemStack> stacks) {
+        int last = stacks.size();
+        while (last > 0 && stacks.get(last - 1).isEmpty()) {
+            last--;
+        }
+        ValueOutput.TypedOutputList<ItemStack> list = view.list(key, ItemStack.OPTIONAL_CODEC);
+        for (int i = 0; i < last; i++) {
+            list.add(stacks.get(i));
+        }
+    }
+
+    public static void readStacks(ValueInput view, String key, List<ItemStack> stacks) {
+        int i = 0;
+        int size = stacks.size();
+        for (ItemStack stack : view.listOrEmpty(key, ItemStack.OPTIONAL_CODEC)) {
+            if (i >= size) {
+                break;
+            }
+            stacks.set(i++, stack);
+        }
+        while (i < size) {
+            stacks.set(i++, ItemStack.EMPTY);
+        }
     }
 
     public static ItemStack limitCountToMaxStackSize(ItemStack stack, boolean simulate) {

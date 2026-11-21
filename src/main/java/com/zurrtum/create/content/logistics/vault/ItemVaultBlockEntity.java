@@ -8,6 +8,7 @@ import com.zurrtum.create.foundation.block.NeighborChangeListeningBlock;
 import com.zurrtum.create.foundation.blockEntity.IMultiBlockEntityContainer;
 import com.zurrtum.create.foundation.blockEntity.SmartBlockEntity;
 import com.zurrtum.create.foundation.blockEntity.behaviour.inventory.VersionedInventory;
+import com.zurrtum.create.foundation.item.ItemHelper;
 import com.zurrtum.create.infrastructure.config.AllConfigs;
 import com.zurrtum.create.infrastructure.items.ItemInventory;
 import com.zurrtum.create.infrastructure.items.ItemStackHandler;
@@ -509,24 +510,11 @@ public class ItemVaultBlockEntity extends SmartBlockEntity implements IMultiBloc
         }
 
         public void write(ValueOutput view) {
-            ValueOutput.TypedOutputList<ItemStack> list = view.list("Inventory", ItemStack.CODEC);
-            for (ItemStack stack : stacks) {
-                if (stack.isEmpty()) {
-                    continue;
-                }
-                list.add(stack);
-            }
+            ItemHelper.writeStacks(view, "Inventory", stacks);
         }
 
         public void read(ValueInput view) {
-            ValueInput.TypedInputList<ItemStack> list = view.listOrEmpty("Inventory", ItemStack.CODEC);
-            int i = 0;
-            for (ItemStack itemStack : list) {
-                stacks.set(i++, itemStack);
-            }
-            for (int size = stacks.size(); i < size; i++) {
-                stacks.set(i, ItemStack.EMPTY);
-            }
+            ItemHelper.readStacks(view, "Inventory", stacks);
         }
     }
 

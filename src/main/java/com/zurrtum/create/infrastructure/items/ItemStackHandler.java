@@ -3,6 +3,7 @@ package com.zurrtum.create.infrastructure.items;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.*;
 import com.zurrtum.create.foundation.codec.CreateCodecs;
+import com.zurrtum.create.foundation.item.ItemHelper;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.ValueInput;
@@ -62,35 +63,23 @@ public class ItemStackHandler implements ItemInventory {
     }
 
     public void write(ValueOutput view) {
-        ValueOutput.TypedOutputList<ItemStack> list = view.list("Inventory", ItemStack.CODEC);
-        for (ItemStack stack : stacks) {
-            if (stack.isEmpty()) {
-                continue;
-            }
-            list.add(stack);
-        }
+        ItemHelper.writeStacks(view, "Inventory", stacks);
     }
 
     public void read(ValueInput view) {
-        ValueInput.TypedInputList<ItemStack> list = view.listOrEmpty("Inventory", ItemStack.CODEC);
-        int i = 0;
-        for (ItemStack itemStack : list) {
-            stacks.set(i++, itemStack);
-        }
-        for (int size = stacks.size(); i < size; i++) {
-            stacks.set(i, ItemStack.EMPTY);
-        }
+        ItemHelper.readStacks(view, "Inventory", stacks);
     }
 
     private static <T> DataResult<T> encode(ItemStackHandler input, DynamicOps<T> ops, T prefix) {
         RecordBuilder<T> map = ops.mapBuilder();
         map.add("Size", ops.createInt(input.stacks.size()));
         ListBuilder<T> list = ops.listBuilder();
-        for (ItemStack stack : input.stacks) {
-            if (stack.isEmpty()) {
-                continue;
-            }
-            list.add(ItemStack.CODEC.encodeStart(ops, stack));
+        int last = input.stacks.size();
+        while (last > 0 && input.stacks.get(last - 1).isEmpty()) {
+            last--;
+        }
+        for (int i = 0; i < last; i++) {
+            list.add(ItemStack.OPTIONAL_CODEC.encodeStart(ops, input.stacks.get(i)));
         }
         map.add("Stacks", list.build(ops.empty()));
         return map.build(prefix);
@@ -102,7 +91,13 @@ public class ItemStackHandler implements ItemInventory {
         ItemStackHandler handler = new ItemStackHandler(size);
         MutableInt i = new MutableInt();
         ops.getList(map.get("Stacks")).getOrThrow().accept(item -> {
-            handler.stacks.set(i.getAndIncrement(), ItemStack.CODEC.parse(ops, item).result().orElse(ItemStack.EMPTY));
+            int slot = i.getAndIncrement();
+            if (slot < size) {
+                handler.stacks.set(
+                    slot,
+                    ItemStack.OPTIONAL_CODEC.parse(ops, item).result().orElse(ItemStack.EMPTY)
+                );
+            }
         });
         return DataResult.success(Pair.of(handler, ops.empty()));
     }
